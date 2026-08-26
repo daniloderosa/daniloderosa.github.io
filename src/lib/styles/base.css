@@ -1,0 +1,48 @@
+/* =========================================================================
+   STILI DI BASE
+   Solo azzeramenti e impostazioni valide per tutto il sito.
+   Ogni valore arriva da tokens.css: qui non ci sono numeri o colori diretti.
+   ========================================================================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  /* Il salto verso un'ancora non deve finire sotto il bordo dello schermo. */
+  scroll-padding-top: var(--space-6);
+}
+
+body {
+  margin: 0;
+  background: var(--color-page);
+  color: var(--color-ink);
+  font-family: var(--font-text);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-line);
+  /* I caratteri sottili su fondo chiaro si leggono meglio senza il
+     bold sintetico del browser. */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Il contorno di messa a fuoco e visibile e spesso: chi naviga da tastiera
+   deve sempre sapere dove si trova. Non va tolto. */
+:where(a, button, [tabindex]):focus-visible {
+  outline: var(--border-strong);
+  outline-offset: var(--space-1);
+}
+
+/* I numeri usano sempre cifre di larghezza fissa, cosi le colonne
+   restano allineate. */
+:where(.mono) {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}
