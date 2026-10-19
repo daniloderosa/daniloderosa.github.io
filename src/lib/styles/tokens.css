@@ -239,15 +239,13 @@
      ----------------------------------------------------------------------- */
   --page-pad: 20px;            /* margini laterali su mobile */
   --page-pad-wide: 48px;       /* margini laterali da 700px in su */
-  --page-max: 1240px;          /* pagine di testo (Chi sono, Contatti) */
-  --page-max-wide: 1600px;     /* pagina Progetti, a griglia */
+  --page-max: 1240px;          /* larghezza delle pagine interne */
   --hero-cards: 369px;         /* colonna delle schede accanto al campo */
   --ticker-h: 34px;            /* altezza del nastro: riga 18px + 2 x 8px */
   --hero-min-h: 500px;         /* altezza minima della home su desktop:
                                   sotto, si scorre invece di schiacciare */
   --score-zone-min: 110px;     /* spazio minimo fra campo e nastro: il
                                   tabellone (78px) piu 16px sopra e sotto */
-  --card-min: 340px;           /* larghezza minima di una scheda progetto */
 
   --border: var(--line) solid var(--fg);     /* bordo delle immagini */
   --border-rule: var(--line) solid var(--rule);

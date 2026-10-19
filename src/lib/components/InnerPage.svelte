@@ -15,7 +15,6 @@
    * page        chiave della pagina corrente (vedi routes.js)
    * title       titolo della scheda del browser e dell'anteprima social
    * description descrizione per motori di ricerca e anteprima social
-   * wide        true = contenuto piu largo (la griglia di Progetti)
    * children    il contenuto della pagina
    *
    * @type {{
@@ -23,11 +22,10 @@
    *   page: 'projects' | 'about' | 'contact',
    *   title: string,
    *   description: string,
-   *   wide?: boolean,
    *   children: import('svelte').Snippet
    * }}
    */
-  let { lang, page, title, description, wide = false, children } = $props();
+  let { lang, page, title, description, children } = $props();
 
   const t = $derived(site[lang]);
 
@@ -66,7 +64,7 @@
 
   </header>
 
-  <main class="main" class:wide>
+  <main class="main">
     {@render children()}
   </main>
 
@@ -168,9 +166,6 @@
     padding: var(--space-6) var(--page-pad) var(--space-7);
   }
 
-  .main.wide {
-    max-width: var(--page-max-wide);
-  }
 
   @media (min-width: 700px) {
     .header {

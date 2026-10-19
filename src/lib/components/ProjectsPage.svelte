@@ -21,7 +21,7 @@
   const span = first === lastYear ? `${first}` : `${first} — ${lastYear}`;
 </script>
 
-<InnerPage {lang} page="projects" title={t.title} description={t.description} wide>
+<InnerPage {lang} page="projects" title={t.title} description={t.description}>
   <div class="intro">
     <div>
       <h1 class="display">{t.heading}</h1>
@@ -124,11 +124,18 @@
     }
 
     .grid {
-      grid-template-columns: repeat(auto-fill, minmax(var(--card-min), 1fr));
+      grid-template-columns: repeat(2, 1fr);
     }
 
     .pitch {
       padding: var(--space-6);
+    }
+  }
+
+  /* Tre anteprime per riga, nella stessa larghezza di Chi sono e Contatti. */
+  @media (min-width: 1024px) {
+    .grid {
+      grid-template-columns: repeat(3, 1fr);
     }
   }
 </style>
