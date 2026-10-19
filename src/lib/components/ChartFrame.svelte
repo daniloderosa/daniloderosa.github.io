@@ -30,7 +30,7 @@
   <div class="plot" aria-hidden="true">
     {@render children()}
   </div>
-  <p class="summary">{summary}</p>
+  <p class="sr-only">{summary}</p>
 
   <figcaption class="foot">
     <span class="source">{source}</span>
@@ -44,7 +44,7 @@
   .frame {
     margin: var(--space-6) 0;
     background: var(--color-white);
-    border: var(--border-strong);
+    border: var(--chart-border);
     padding: var(--space-4);
   }
 
@@ -53,8 +53,8 @@
     font-family: var(--font-display);
     font-weight: var(--weight-bold);
     letter-spacing: var(--tracking-tight);
-    font-size: var(--type-card-size-mobile);
-    line-height: var(--type-card-line-mobile);
+    font-size: var(--type-chart-title-m);
+    line-height: var(--type-chart-title-line-m);
     color: var(--color-ink);
   }
 
@@ -71,21 +71,13 @@
     margin-top: var(--space-3);
   }
 
-  /* Il riassunto sta nel flusso ma non a schermo: e per chi non vede il
-     grafico. Non usare display:none, verrebbe ignorato anche da loro. */
-  .summary {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-  }
+  /* Il riassunto usa la classe .sr-only di base.css: sta nel flusso ma non
+     a schermo, ed e cio che leggono i lettori di schermo al posto del grafico. */
 
   .foot {
     margin-top: var(--space-2);
     padding-top: var(--space-2);
-    border-top: var(--border-hairline);
+    border-top: var(--chart-hairline);
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
@@ -102,8 +94,8 @@
     }
 
     .title {
-      font-size: var(--type-section-size);
-      line-height: var(--type-section-line);
+      font-size: var(--type-chart-title);
+      line-height: var(--type-chart-title-line);
     }
   }
 </style>

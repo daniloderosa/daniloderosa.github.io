@@ -11,19 +11,16 @@
 }
 
 html {
-  /* Il salto verso un'ancora non deve finire sotto il bordo dello schermo. */
   scroll-padding-top: var(--space-6);
 }
 
 body {
   margin: 0;
-  background: var(--color-page);
-  color: var(--color-ink);
+  background: var(--bg);
+  color: var(--fg);
   font-family: var(--font-text);
-  font-size: var(--type-body-size);
-  line-height: var(--type-body-line);
-  /* I caratteri sottili su fondo chiaro si leggono meglio senza il
-     bold sintetico del browser. */
+  font-size: var(--type-body-m);
+  line-height: var(--type-body-line-m);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -34,15 +31,146 @@ img {
 }
 
 /* Il contorno di messa a fuoco e visibile e spesso: chi naviga da tastiera
-   deve sempre sapere dove si trova. Non va tolto. */
+   deve sempre sapere dove si trova. Non va tolto. Il colore segue la
+   palette, cosi si vede sia su Terra sia su Chiara. */
 :where(a, button, [tabindex]):focus-visible {
-  outline: var(--border-strong);
-  outline-offset: var(--space-1);
+  outline: var(--nudge) solid var(--acc);
+  outline-offset: var(--nudge);
 }
 
-/* I numeri usano sempre cifre di larghezza fissa, cosi le colonne
-   restano allineate. */
-:where(.mono) {
+/* Testo nascosto a schermo ma letto dai lettori di schermo. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Chi ha chiesto meno movimento nelle impostazioni del sistema non vede
+   animazioni ne transizioni, in nessuna pagina. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* =========================================================================
+   CLASSI COMUNI DELLE PAGINE INTERNE (Progetti, Chi sono, Contatti)
+   Scritte qui una volta sola, invece che ripetute in ogni pagina.
+   ========================================================================= */
+
+/* Titolo grande della pagina */
+.display {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: var(--weight-black);
+  font-size: var(--type-display-m);
+  line-height: var(--type-display-line-m);
+  letter-spacing: var(--tracking-display);
+  color: var(--fg);
+}
+
+/* Paragrafo introduttivo */
+.lead {
+  margin: var(--space-4) 0 0;
+  max-width: 34em;
+  font-family: var(--font-text);
+  font-size: var(--type-lead-m);
+  line-height: var(--type-lead-line-m);
+  color: var(--fg-2);
+  text-wrap: pretty;
+}
+
+/* Etichetta mono in lime sopra un blocco ("STRUMENTI", "DI COSA...") */
+.label {
+  margin: 0;
   font-family: var(--font-mono);
-  font-variant-numeric: tabular-nums;
+  font-size: var(--type-label-s);
+  letter-spacing: var(--tracking-label-wide);
+  color: var(--acc);
+}
+
+/* Elenco con il trattino in accento davanti a ogni voce */
+.dash-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.dash-list li {
+  display: flex;
+  gap: var(--space-2);
+  font-family: var(--font-text);
+  font-size: var(--type-small);
+  line-height: var(--type-small-line);
+  color: var(--fg-2);
+}
+
+.dash-list li::before {
+  content: '—';
+  color: var(--acc);
+  opacity: 0.8;
+}
+
+/* Pulsante pieno (lime) e pulsante a filo */
+.button,
+.button-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: var(--tap-min);
+  padding: 0 var(--space-5);
+  text-decoration: none;
+  font-family: var(--font-mono);
+  font-size: var(--type-label);
+  letter-spacing: var(--tracking-label-wide);
+  transition: opacity 0.2s, border-color 0.2s, color 0.2s;
+}
+
+.button {
+  background: var(--acc);
+  color: var(--on-acc);
+}
+
+.button:hover,
+.button:focus-visible {
+  opacity: 0.82;
+}
+
+.button-ghost {
+  color: var(--fg);
+  border: var(--border-thin);
+}
+
+.button-ghost:hover,
+.button-ghost:focus-visible {
+  border-color: var(--acc);
+  color: var(--acc);
+}
+
+/* Riquadro a righe per immagini non ancora disponibili */
+.hatch {
+  background: repeating-linear-gradient(45deg, var(--hatch-1) 0 var(--space-2), var(--hatch-2) var(--space-2) var(--space-4));
+}
+
+@media (min-width: 700px) {
+  .display {
+    font-size: var(--type-display);
+    line-height: var(--type-display-line);
+  }
+
+  .lead {
+    font-size: var(--type-lead);
+    line-height: var(--type-lead-line);
+  }
 }

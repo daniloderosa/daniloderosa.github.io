@@ -1,185 +1,230 @@
 /* =========================================================================
    TOKEN DEL DESIGN SYSTEM
    Unica fonte di verita per colori, tipografia e spaziature.
-   Tradotti dai widget del progetto Claude Design
-   "Visual identity for tennis analytics portfolio".
+   Tradotti dal progetto Claude Design
+   "Visual identity for tennis analytics portfolio":
+   - "Sito completo"  -> parte 1 (il sito: palette Terra per la home, Panna per le pagine interne)
+   - "Design system"  -> parte 2 (i grafici degli articoli)
 
    Regola: nei componenti non si scrive mai un valore diretto
-   (niente "#131313", niente "17px"): si usa sempre una var(--...) di qui.
+   (niente "#6f3418", niente "17px"): si usa sempre una var(--...) di qui.
    Per cambiare l'aspetto del sito si modifica questo file e basta.
    ========================================================================= */
 
+/* =========================================================================
+   PARTE 1 - IL SITO
+   ========================================================================= */
+
+/* -------------------------------------------------------------------------
+   1a. PALETTE "TERRA" - la home
+   Fondo terra rossa, testi chiari, accento lime.
+
+   I nomi descrivono il RUOLO del colore, non il colore stesso: cosi la
+   palette delle pagine interne puo ridefinirli tutti senza toccare i
+   componenti. Contrasti verificati: tutti i testi sopra 4.5:1.
+   ------------------------------------------------------------------------- */
+:root,
+[data-theme='terra'] {
+  --bg: #6f3418;                    /* fondo pagina: terra rossa */
+  --fg: #fdf8f2;                    /* testo principale - 9.1:1 */
+  --fg-2: #fbeee5;                  /* testo secondario - 8.5:1 */
+  --fg-3: #f7e9dd;                  /* etichette nei riquadri a righe */
+  --acc: #d9f24e;                   /* accento lime: link, etichette - 7.7:1 */
+  --on-acc: #131313;                /* testo sopra il lime - 14.8:1 */
+  --rule: rgba(253, 248, 242, 0.3); /* filetti e bordi leggeri */
+  --rule-2: rgba(253, 248, 242, 0.4);/* bordi dei pulsanti non attivi */
+  --hatch-1: rgba(36, 22, 6, 0.2);  /* riquadro a righe: riga scura */
+  --hatch-2: rgba(36, 22, 6, 0.07); /* riquadro a righe: riga chiara */
+  --foot-bg: #fdf8f2;               /* fondo del footer */
+  --foot-fg: #6f3418;               /* testo del footer */
+  --badge-bg: rgba(20, 10, 4, 0.85);/* etichetta secondaria sulle immagini */
+  --badge-fg: #fbeee5;
+}
+
+/* -------------------------------------------------------------------------
+   1b. PALETTE "PANNA" - le pagine interne (Progetti, Chi sono, Contatti)
+   Fondo panna come la parte bassa della home. I testi sono neri; la terra
+   rossa prende il posto del lime come accento: voce di menu attiva,
+   pulsanti, etichette, link d'azione, indirizzo email.
+   ------------------------------------------------------------------------- */
+[data-theme='panna'] {
+  --bg: #fdf8f2;
+  --fg: #131313;                    /* testo principale - 17.6:1 */
+  --fg-2: #3d3d3d;                  /* testo secondario - 10.3:1 */
+  --fg-3: #5c5c5c;                  /* etichette nei riquadri a righe - 6.3:1 */
+  --acc: #6f3418;                   /* accento terra rossa - 9.1:1 */
+  --on-acc: #fdf8f2;                /* testo sopra la terra - 9.1:1 */
+  --rule: rgba(19, 19, 19, 0.2);
+  --rule-2: rgba(19, 19, 19, 0.3);
+  --hatch-1: rgba(111, 52, 24, 0.12);
+  --hatch-2: rgba(111, 52, 24, 0.04);
+  --foot-bg: #fdf8f2;
+  --foot-fg: #6f3418;
+  --badge-bg: #131313;
+  --badge-fg: #fdf8f2;
+}
+
 :root {
-  /* ---------------------------------------------------------------------
-     1. CARATTERI  (widget F-01)
+  /* -----------------------------------------------------------------------
+     1c. COLORI FISSI DELLA HOME (il campo animato "Hawk-Eye")
+     Non cambiano con la palette: il campo e sempre in terra battuta.
+     ----------------------------------------------------------------------- */
+  --court: #a8502b;                    /* superficie del campo */
+  --court-line: #fdf8f2;               /* righe del campo - 5.2:1 sul campo */
+  --court-shade: rgba(36, 22, 6, 0.35);/* ombra interna ai bordi del campo */
+  --panel: rgba(20, 10, 4, 0.88);      /* schede scure sopra il campo */
+  --panel-border: rgba(217, 242, 78, 0.55);
+  --panel-fg-dim: rgba(253, 248, 242, 0.66); /* riga d'azione - 8.0:1 */
+  --score-dim: rgba(253, 248, 242, 0.55);    /* riga perdente - 5.7:1 */
+  --ticker-bg: #200f06;                /* nastro scorrevole */
+  --ball: #d9f24e;
+  --ball-light: #f2ff8a;               /* riflesso della pallina */
+  --ball-dark: #9db526;                /* ombra della pallina */
+  --ball-glow: rgba(217, 242, 78, 0.8);
+  --ball-trail: rgba(217, 242, 78, 0.5);
+  --call-halo: rgba(20, 10, 4, 0.85);  /* alone scuro dietro alla chiamata IN */
+  --text-shadow-dark: 0 1px 6px rgba(20, 10, 4, 0.95);
+
+  --court-line-w: 3px;                 /* spessore delle righe */
+  --court-net-w: 5px;                  /* spessore della rete */
+  --court-alley: 12.49%;               /* corridoio del doppio: 1.37 m su 10.97 */
+  --court-service: 23.08%;             /* linea del servizio: 5.49 m su 23.77 */
+  --court-mark: 12px;                  /* tacca centrale sulla linea di fondo */
+  --court-post: 13px;                  /* paletti della rete */
+  --court-overhang: 16px;              /* quanto la rete sporge oltre il campo */
+  --ball-size: 18px;
+  --bounce-size: 26px;                 /* cerchio del rimbalzo */
+  --bounce-size-m: 22px;
+  --call-box-w: 480px;                 /* alone della chiamata IN, desktop */
+  --call-box-h: 340px;
+
+  /* Tabellone del punteggio: larghezza delle colonne */
+  --score-name-w: 205px;
+  --score-num-w: 38px;
+  --score-pts-w: 54px;
+  --score-name-w-m: 122px;
+  --score-num-w-m: 24px;
+  --score-pts-w-m: 34px;
+
+  /* -----------------------------------------------------------------------
+     1d. CARATTERI
      Tre famiglie, tre ruoli distinti. Caricate in src/app.html.
-     --------------------------------------------------------------------- */
+     ----------------------------------------------------------------------- */
+  --font-display: 'Archivo', 'Helvetica Neue', Arial, sans-serif; /* titoli */
+  --font-text: 'Spectral', Georgia, 'Times New Roman', serif;      /* testo */
+  --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;   /* numeri, etichette */
 
-  /* Titoli e tutta la parte tecnica dei grafici (sottotitoli, fonti, legende).
-     Grottesco compatto ad alto impatto: e la voce del sito. */
-  --font-display: "Archivo", "Helvetica Neue", Arial, sans-serif;
-
-  /* Testo corrente degli articoli. Serif da schermo, per la lettura lunga. */
-  --font-text: "Spectral", Georgia, "Times New Roman", serif;
-
-  /* Solo numeri e codici, mai testo corrente. Cifre tabulari: allinea
-     assi, tabelle ed etichette numeriche. */
-  --font-mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
-
-  /* ---------------------------------------------------------------------
-     2. SCALA TIPOGRAFICA  (widget F-02)
-     Ogni voce e una coppia dimensione + interlinea gia accordata.
-     I valori "-mobile" sono quelli da usare sotto i 700px.
-     --------------------------------------------------------------------- */
-
-  /* Titolo di pagina - Archivo 800 */
-  --type-page-size: 52px;
-  --type-page-line: 54px;
-  --type-page-size-mobile: 31px;
-  --type-page-line-mobile: 34px;
-
-  /* Titolo di sezione - Archivo 700 */
-  --type-section-size: 26px;
-  --type-section-line: 31px;
-
-  /* Titolo di scheda / articolo in lista - Archivo 700 */
-  --type-card-size: 23px;
-  --type-card-line: 27px;
-  --type-card-size-mobile: 20px;
-  --type-card-line-mobile: 24px;
-
-  /* Sommario in testa alla pagina - Archivo 500 */
-  --type-tagline-size: 19px;
-  --type-tagline-line: 26px;
-  --type-tagline-size-mobile: 16px;
-  --type-tagline-line-mobile: 22px;
-
-  /* Testo corrente, per articoli e saggi - Spectral 400 */
-  --type-body-size: 17px;
-  --type-body-line: 28px;
-
-  /* Paragrafo introduttivo, leggermente piu grande - Spectral 400 */
-  --type-lead-size: 18px;
-  --type-lead-line: 30px;
-  --type-lead-size-mobile: 16px;
-  --type-lead-line-mobile: 26px;
-
-  /* Descrizione breve sotto un titolo di scheda - Spectral 400 */
-  --type-small-size: 14.5px;
-  --type-small-line: 22px;
-  --type-small-size-mobile: 14px;
-  --type-small-line-mobile: 21px;
-
-  /* Sottotitolo del grafico: spiega la lettura - Archivo 400 */
-  --type-chart-sub-size: 13.5px;
-  --type-chart-sub-line: 20px;
-
-  /* Fonte dei dati e nota di metodo - Archivo 400 */
-  --type-source-size: 11.5px;
-  --type-source-line: 17px;
-
-  /* Numeri, assi ed etichette numeriche - JetBrains Mono 400 */
-  --type-mono-size: 12px;
-  --type-mono-line: 18px;
-
-  /* Etichetta maiuscoletta sopra un blocco ("SELECTED WORK") - Mono */
-  --type-eyebrow-size: 11px;
-  --type-eyebrow-line: 16px;
-
-  /* Etichetta piccolissima: tag e data di una scheda - Mono */
-  --type-tag-size: 10.5px;
-  --type-tag-line: 15px;
-
-  /* Pesi */
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-bold: 700;
   --weight-black: 800;
 
+  /* -----------------------------------------------------------------------
+     1e. SCALA TIPOGRAFICA DEL SITO
+     Ogni voce e una coppia dimensione + interlinea. Le "-m" valgono sotto
+     i 700px (mobile), le altre da 700px in su.
+     ----------------------------------------------------------------------- */
+
+  /* Titolo delle pagine interne ("Progetti", "Chi sono") - Archivo 800 */
+  --type-display: 76px;
+  --type-display-line: 76px;
+  --type-display-m: 46px;
+  --type-display-line-m: 48px;
+
+  /* Nome in testa alla home - Archivo 800 */
+  --type-name: 52px;
+  --type-name-line: 54px;
+  --type-name-m: 34px;
+  --type-name-line-m: 37px;
+
+  /* Motto sotto il nome - Spectral corsivo */
+  --type-motto: 19px;
+  --type-motto-line: 27px;
+  --type-motto-m: 15px;
+  --type-motto-line-m: 21px;
+
+  /* Voci dell'indice "01 Progetti / 02 Chi sono" - Archivo 800 */
+  --type-index: 44px;
+  --type-index-line: 48px;
+  --type-index-m: 27px;
+  --type-index-line-m: 31px;
+
+  /* Indirizzo email grande nella pagina Contatti - Archivo 800 */
+  --type-email: 56px;
+  --type-email-line: 62px;
+  --type-email-m: 26px;
+  --type-email-line-m: 32px;
+
+  /* Titolo di un riquadro ("Hai un dataset...?") - Archivo 800 */
+  --type-box: 28px;
+  --type-box-line: 32px;
+
+  /* Titolo di una scheda progetto - Archivo 700 */
+  --type-card: 26px;
+  --type-card-line: 30px;
+  --type-card-m: 21px;
+  --type-card-line-m: 25px;
+
+  /* Titolo delle schede sopra il campo e dei canali di contatto */
+  --type-panel: 24px;
+  --type-panel-line: 29px;
+  --type-panel-s: 20px;         /* schede accanto al campo, campo medio */
+  --type-panel-line-s: 24px;
+  --type-panel-xs: 18px;        /* schede accanto al campo, schermi bassi */
+  --type-panel-line-xs: 22px;
+  --type-panel-m: 16px;
+  --type-panel-line-m: 20px;
+
+  /* Nome del sito nell'intestazione delle pagine interne */
+  --type-brand: 21px;
+
+  /* Frase d'apertura in corsivo di "Chi sono" - Spectral */
+  --type-quote: 24px;
+  --type-quote-line: 36px;
+  --type-quote-m: 20px;
+  --type-quote-line-m: 30px;
+
+  /* Paragrafo introduttivo delle pagine interne - Spectral */
+  --type-lead: 19px;
+  --type-lead-line: 31px;
+  --type-lead-m: 17px;
+  --type-lead-line-m: 28px;
+
+  /* Testo corrente - Spectral */
+  --type-body: 18px;
+  --type-body-line: 30px;
+  --type-body-m: 17px;
+  --type-body-line-m: 28px;
+
+  /* Descrizioni e voci di elenco - Spectral */
+  --type-small: 16.5px;
+  --type-small-line: 25px;
+
+  /* Etichette in maiuscoletto mono, dalla piu grande alla piu piccola */
+  --type-label: 12px;     /* pulsanti, nastro scorrevole */
+  --type-label-s: 11px;   /* etichette di sezione, navigazione */
+  --type-label-xs: 10px;  /* footer, didascalie */
+
+  /* Tabellone del punteggio */
+  --type-score-name: 18px;
+  --type-score-num: 16px;
+  --type-score-m: 12px;
+
+  /* Chiamata "IN" al centro del campo */
+  --type-call: 120px;
+  --type-call-m: 72px;
+
   /* Spaziatura fra le lettere */
-  --tracking-tight: -0.01em;   /* titoli Archivo, sempre */
-  --tracking-eyebrow: 0.12em;  /* etichette maiuscoletto */
-  --tracking-tag: 0.1em;       /* tag delle schede */
+  --tracking-display: -0.025em;  /* titoli grandi */
+  --tracking-tight: -0.015em;    /* titoli medi */
+  --tracking-label: 0.12em;      /* etichette mono maiuscole */
+  --tracking-wide: 0.3em;        /* sottotitolo della chiamata IN */
 
-  /* ---------------------------------------------------------------------
-     3. PALETTE  (widget F-03)
-     --------------------------------------------------------------------- */
-
-  /* 3a. Base neutra */
-  --color-white: #ffffff;         /* fondo delle schede */
-  --color-cream: #f5f4ef;         /* fondo del footer, blocchi in evidenza */
-  --color-page: #f0efea;          /* fondo della pagina */
-  --color-ink: #131313;           /* testo principale e bordi forti */
-  --color-muted: #5c5c5c;         /* testo secondario - contrasto 7:1 su bianco */
-  /* Fonti e note. Il design system dava #8a877c, che su bianco sta a 3.6:1
-     e non passa la soglia di 4.5:1 richiesta dal progetto: qui e scurito
-     alla stessa tinta, 5.2:1 su bianco e 4.6:1 sul riquadro a righe. */
-  --color-faint: #706d62;
-  --color-rule: #e3e1da;          /* filetto sottile dentro una scheda */
-  --color-divider: #c9c6bc;       /* divisore fra sezioni di pagina */
-  --color-grid: #edebe3;          /* griglia orizzontale dei grafici */
-  --color-inert: #b3b0a4;         /* barre e serie non evidenziate */
-
-  /* Riempimento a righe per le anteprime mancanti */
-  --pattern-placeholder: repeating-linear-gradient(
-    45deg,
-    #f0eee6 0 8px,
-    #f7f6f0 8px 16px
-  );
-
-  /* 3b. Accento attivo.
-     Il design system prevede cinque accenti intercambiabili. Per cambiarlo
-     basta riscrivere le quattro righe qui sotto con una delle alternative
-     elencate subito dopo: tutto il sito segue.
-
-       lime         dark #6b7f0e  mid #d9f24e  soft #f5fbd6
-       hard blue    dark #2a5fcc  mid #8face4  soft #e4ebfa
-       terracotta   dark #b04e12  mid #e29a6b  soft #f8e9dd
-       verde        dark #2b8a3e  mid #8ccb9a  soft #e2f2e6
-
-     Attivo: viola. */
-  --accent: #5f3dc4;        /* tinta piena: identifica l'accento */
-  --accent-dark: #5f3dc4;   /* linee, punti e testo in accento (contrasto 8:1) */
-  --accent-mid: #a78fe3;    /* evidenziatore dietro al testo, aree piene */
-  --accent-soft: #ece6f9;   /* fondo di una zona attiva, hover leggero */
-
-  /* 3c. Scala sequenziale, derivata dall'accento attivo.
-     Per heatmap e mappe di intensita: da chiaro (1) a scuro (5).
-     Da seq-4 in su il testo sopra va bianco. */
-  --seq-1: #f3f0fb;
-  --seq-2: #cbbcf0;
-  --seq-3: #a78fe3;
-  /* seq-4 era #8265d4: con il testo bianco sopra stava a 4.4:1, appena
-     sotto soglia. Scurito quel tanto che basta (4.9:1), la scala resta
-     regolare. */
-  --seq-4: #7a5cce;
-  --seq-5: #5f3dc4;
-
-  /* 3d. Scala divergente: accento su un lato, terracotta sull'altro,
-     neutro al centro. Per scarti e differenze rispetto a un riferimento. */
-  --div-1: #5f3dc4;
-  --div-2: #a78fe3;
-  --div-3: #f2f1ec;
-  --div-4: #e0a377;
-  --div-5: #c2540a;
-
-  /* 3e. Coppia semantica: confronto fra due giocatori. */
-  --player-a: #5f3dc4;
-  --player-b: #c2540a;
-
-  /* 3f. Superfici. Colori fissi, mai reinterpretati.
-     Vanno sempre accompagnati da un'etichetta testuale: il colore da solo
-     non deve mai essere l'unico portatore dell'informazione. */
-  --surface-hard: #2a5fcc;
-  --surface-clay: #c05a1e;
-  --surface-grass: #2b8a3e;
-  --surface-indoor: #862e9c;
-
-  /* ---------------------------------------------------------------------
-     4. SPAZIATURE  (widget F-04)
+  /* -----------------------------------------------------------------------
+     1f. SPAZIATURE
      Scala portante raddoppiata: 8 / 16 / 32 / 64.
-     I mezzi passi servono solo dentro un componente, mai fra blocchi.
-     --------------------------------------------------------------------- */
+     I mezzi passi servono solo dentro un componente.
+     ----------------------------------------------------------------------- */
   --space-1: 4px;
   --space-2: 8px;    /* passo base */
   --space-3: 12px;
@@ -189,34 +234,140 @@
   --space-7: 48px;
   --space-8: 64px;   /* passo base */
 
-  /* ---------------------------------------------------------------------
-     5. LAYOUT E BORDI
-     Il sistema e squadrato: nessun angolo arrotondato, nessuna ombra.
-     La gerarchia la fa il bordo nero spesso.
-     --------------------------------------------------------------------- */
-  --page-max: 1140px;             /* larghezza massima del contenuto */
-  --page-pad: var(--space-5);     /* margini laterali su mobile */
-  --page-pad-wide: var(--space-7);/* margini laterali da 700px in su */
+  /* -----------------------------------------------------------------------
+     1g. LAYOUT
+     ----------------------------------------------------------------------- */
+  --page-pad: 20px;            /* margini laterali su mobile */
+  --page-pad-wide: 48px;       /* margini laterali da 700px in su */
+  --page-max: 1240px;          /* pagine di testo (Chi sono, Contatti) */
+  --page-max-wide: 1600px;     /* pagina Progetti, a griglia */
+  --hero-cards: 369px;         /* colonna delle schede accanto al campo */
+  --ticker-h: 34px;            /* altezza del nastro: riga 18px + 2 x 8px */
+  --hero-min-h: 500px;         /* altezza minima della home su desktop:
+                                  sotto, si scorre invece di schiacciare */
+  --score-zone-min: 110px;     /* spazio minimo fra campo e nastro: il
+                                  tabellone (78px) piu 16px sopra e sotto */
+  --card-min: 340px;           /* larghezza minima di una scheda progetto */
 
-  --border-strong: 2px solid var(--color-ink);  /* schede, immagini, header */
-  --border-hairline: 1px solid var(--color-rule);
-  --border-divider: 1px solid var(--color-divider);
-  --radius: 0;
-
-  /* Griglia delle schede: una colonna su mobile, poi riempimento automatico */
-  --card-min: 320px;
-  --card-gap-row: var(--space-6);
-  --card-gap-col: 28px;
+  --border: var(--line) solid var(--fg);     /* bordo delle immagini */
+  --border-rule: var(--line) solid var(--rule);
+  --border-thin: var(--line-thin) solid var(--rule-2);
 
   /* Area tattile minima: nessun elemento cliccabile sotto questa misura */
   --tap-min: 44px;
 
-  /* ---------------------------------------------------------------------
-     6. GRAFICI - spessori ricorrenti
-     --------------------------------------------------------------------- */
-  --stroke-series: 2.4px;         /* serie principale, desktop */
-  --stroke-series-mobile: 1.8px;  /* serie principale, mobile */
-  --stroke-axis: 1px;             /* asse e griglia */
-  --stroke-annotation: 1.5px;     /* annotazioni e riferimenti */
-  --dot-radius: 3px;              /* punto terminale di una serie */
+  /* Misure minori ricorrenti */
+  --line-thin: 1px;                  /* bordo sottile di pulsanti e schede */
+  --line: 2px;                       /* filetto fra sezioni, bordo immagini */
+  --nudge: 3px;                      /* piccoli spostamenti in hover, scarti */
+  --underline-offset: 3px;           /* distanza della sottolineatura */
+  --flag-w: 20px;                    /* bandierine del selettore lingua */
+  --flag-h: 14px;
+  --dot-size: 14px;                  /* pallina del separatore in Chi sono */
+  --score-accent: 5px;               /* bordo lime del tabellone */
+  --score-accent-m: 4px;
+  --bounce-line-m: 2.5px;            /* cerchi dei rimbalzi su mobile */
+  --court-w-m: min(78vw, 350px);     /* larghezza del campo verticale */
+  --col-min-s: 240px;                /* colonne minime delle griglie */
+  --col-min: 260px;
+  --col-min-l: 280px;
+  --portrait-max: 420px;             /* larghezza massima della foto */
+
+  /* Corpi minori fuori scala */
+  --type-cta: 15px;                  /* "Open the project" */
+  --type-gsm: 14px;                  /* GAME · SET · MATCH su desktop */
+  --type-arrow: 28px;                /* freccia dell'indice in home */
+  --type-arrow-m: 20px;
+
+  /* Spaziatura fra le lettere, altre varianti */
+  --tracking-soft: 0.1em;            /* etichette lunghe, anteprime */
+  --tracking-label-wide: 0.14em;     /* pulsanti, GAME · SET · MATCH */
+  --tracking-wide-m: 0.22em;         /* sottotitolo della chiamata IN, mobile */
+
+  /* Bagliori della pallina e ombre del campo */
+  --glow-ball: 0 0 14px var(--ball-glow);
+  --glow-call: 0 0 44px var(--ball-glow);
+  --glow-call-m: 0 0 30px var(--ball-glow);
+  --court-inset: inset 0 0 90px var(--court-shade);
+  --court-inset-m: inset 0 0 60px var(--court-shade);
+
+  /* Durate delle animazioni brevi (hover, comparse) */
+  --ease-fast: 0.15s;
+  --ease-slow: 0.45s;
+}
+
+/* =========================================================================
+   PARTE 2 - I GRAFICI DEGLI ARTICOLI
+   Invariata rispetto al design system originale. I grafici stanno sempre
+   dentro un pannello bianco (componente ChartFrame), quindi questi colori
+   non dipendono dalle palette Terra e Panna del sito.
+   ========================================================================= */
+:root {
+  /* Scala tipografica dei grafici */
+  --type-chart-title: 26px;
+  --type-chart-title-line: 31px;
+  --type-chart-title-m: 20px;
+  --type-chart-title-line-m: 24px;
+  --type-chart-sub-size: 13.5px;     /* sottotitolo: come si legge */
+  --type-chart-sub-line: 20px;
+  --type-source-size: 11.5px;        /* fonte e nota di metodo */
+  --type-source-line: 17px;
+  --type-mono-size: 12px;            /* assi ed etichette numeriche */
+  --type-mono-line: 18px;
+
+  /* Neutri del pannello dei grafici */
+  --color-white: #ffffff;
+  --color-ink: #131313;              /* testo e assi - 18.6:1 */
+  --color-muted: #5c5c5c;            /* testo secondario - 6.7:1 */
+  /* Il design system dava #8a877c (3.6:1, sotto soglia): scurito alla
+     stessa tinta, 5.2:1 su bianco. */
+  --color-faint: #706d62;            /* fonti e note */
+  --color-rule: #e3e1da;             /* filetto sotto il grafico */
+  --color-grid: #edebe3;             /* griglia orizzontale */
+  --color-inert: #b3b0a4;            /* serie non evidenziate */
+
+  --chart-border: 2px solid var(--color-ink);
+  --chart-hairline: 1px solid var(--color-rule);
+
+  /* Accento dei grafici: viola. Alternative del design system:
+       lime         dark #6b7f0e  mid #d9f24e  soft #f5fbd6
+       hard blue    dark #2a5fcc  mid #8face4  soft #e4ebfa
+       terracotta   dark #b04e12  mid #e29a6b  soft #f8e9dd
+       verde        dark #2b8a3e  mid #8ccb9a  soft #e2f2e6 */
+  --accent: #5f3dc4;
+  --accent-dark: #5f3dc4;
+  --accent-mid: #a78fe3;
+  --accent-soft: #ece6f9;
+
+  /* Scala sequenziale, da chiaro (1) a scuro (5). Da seq-4 il testo sopra
+     va bianco. seq-4 era #8265d4 (4.4:1 col bianco), scurito a 4.9:1. */
+  --seq-1: #f3f0fb;
+  --seq-2: #cbbcf0;
+  --seq-3: #a78fe3;
+  --seq-4: #7a5cce;
+  --seq-5: #5f3dc4;
+
+  /* Scala divergente: accento <-> terracotta, neutro al centro */
+  --div-1: #5f3dc4;
+  --div-2: #a78fe3;
+  --div-3: #f2f1ec;
+  --div-4: #e0a377;
+  --div-5: #c2540a;
+
+  /* Confronto fra due giocatori */
+  --player-a: #5f3dc4;
+  --player-b: #c2540a;
+
+  /* Superfici: colori fissi, sempre accompagnati da un'etichetta scritta */
+  --surface-hard: #2a5fcc;
+  --surface-clay: #c05a1e;
+  --surface-grass: #2b8a3e;
+  --surface-indoor: #862e9c;
+
+  /* Spessori */
+  --stroke-series: 2.4px;
+  --stroke-series-mobile: 1.8px;
+  --stroke-axis: 1px;
+  --stroke-annotation: 1.5px;
+  --dot-radius: 3px;
 }

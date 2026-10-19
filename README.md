@@ -21,8 +21,11 @@ Il deploy e automatico: ogni push su `main` fa partire
 | Cosa vuoi cambiare | File |
 | --- | --- |
 | Colori, caratteri, spaziature | `src/lib/styles/tokens.css` |
-| Nome, sommario, presentazione, contatti, metadati social | `src/lib/data/site.js` |
-| Schede della home (articoli e progetti) | `src/lib/data/work.js` |
+| Nome, motto, schede della home, menu, profili, email | `src/lib/data/site.js` |
+| Pagina Progetti (testi ed elenco dei progetti) | `src/lib/data/projects.js` |
+| Pagina Chi sono | `src/lib/data/about.js` |
+| Pagina Contatti | `src/lib/data/contact.js` |
+| Indirizzi delle pagine nelle due lingue | `src/lib/data/routes.js` |
 | Anteprime delle schede | `static/previews/` |
 | Immagini di anteprima social | `static/og-en.png`, `static/og-it.png` |
 

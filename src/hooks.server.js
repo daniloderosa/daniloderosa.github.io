@@ -1,11 +1,18 @@
 /**
- * Sostituisce il segnaposto %lang% in app.html con la lingua della pagina:
- * "it" per tutto cio che sta sotto /it/, "en" per il resto.
- * Serve ai lettori di schermo e ai motori di ricerca.
+ * Completa src/app.html pagina per pagina, al momento della build:
+ * - %lang%  diventa "it" sotto /it/, "en" altrove (lettori di schermo,
+ *           motori di ricerca);
+ * - %theme% diventa "terra" per le due home e "panna" per tutte le altre
+ *           pagine. Decide il colore di fondo dell'intera pagina, anche
+ *           dello spazio che si vede quando si "tira" la pagina oltre i bordi.
  */
+const HOMES = ['/', '/it/'];
+
 export function handle({ event, resolve }) {
-  const lang = event.url.pathname.startsWith('/it') ? 'it' : 'en';
+  const { pathname } = event.url;
+  const lang = pathname.startsWith('/it') ? 'it' : 'en';
+  const theme = HOMES.includes(pathname) ? 'terra' : 'panna';
   return resolve(event, {
-    transformPageChunk: ({ html }) => html.replace('%lang%', lang)
+    transformPageChunk: ({ html }) => html.replace('%lang%', lang).replace('%theme%', theme)
   });
 }

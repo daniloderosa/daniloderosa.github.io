@@ -1,176 +1,145 @@
 <script>
   import SeoHead from './SeoHead.svelte';
-  import SiteHeader from './SiteHeader.svelte';
+  import HawkEye from './HawkEye.svelte';
+  import Ticker from './Ticker.svelte';
   import SiteFooter from './SiteFooter.svelte';
-  import WorkCard from './WorkCard.svelte';
   import { site } from '$lib/data/site.js';
-  import { work } from '$lib/data/work.js';
+  import { path } from '$lib/data/routes.js';
 
   /**
    * La home, una sola volta per tutte e due le lingue.
-   * Le pagine /  e  /it  richiamano questo componente passando solo `lang`:
-   * cosi le due versioni non possono divergere per sbaglio, e i testi
-   * restano tutti in src/lib/data/.
+   * Le pagine /  e  /it/  richiamano questo componente passando solo `lang`.
    *
-   * lang  'en' oppure 'it'
+   * La home e in palette Terra (data-theme="terra"); le pagine interne in
+   * palette Panna. I colori delle due palette sono in tokens.css.
    *
    * @type {{ lang: 'en' | 'it' }}
    */
   let { lang } = $props();
 
-  // Testi fissi della pagina nella lingua richiesta.
   const t = $derived(site[lang]);
 
-  // Percorso di questa pagina, per l'indirizzo canonico.
-  const path = $derived(lang === 'it' ? '/it/' : '/');
+  // Palette Terra anche sul fondo della pagina intera, quando si torna alla
+  // home da una pagina interna senza ricaricare.
+  $effect(() => {
+    document.documentElement.dataset.theme = 'terra';
+  });
 </script>
 
-<SeoHead
-  {lang}
-  {path}
-  title={t.title}
-  description={t.description}
-  image={t.ogImage}
-  imageAlt={t.ogAlt}
-  twin={t.twin}
-/>
+<SeoHead {lang} page="home" title={t.home.title} description={t.home.description} />
 
-<div class="page">
-  <div class="sheet">
-    <SiteHeader
-      {lang}
-      name={t.name}
-      tagline={t.tagline}
-      twin={t.twin}
-      label={t.langLabel}
-    />
+<div class="home" data-theme="terra">
+  <main>
+    <HawkEye {lang} />
+    <Ticker words={t.ticker} />
 
-    <main>
-      <div class="intro-wrap">
-        <p class="intro">{t.intro}</p>
-      </div>
+    <!-- Indice delle pagine: 01 Progetti, 02 Chi sono, 03 Contatti -->
+    <nav class="index" aria-labelledby="index-label">
+      <h2 class="sr-only" id="index-label">{t.home.indexLabel}</h2>
+      <ol>
+        {#each t.home.index as item, i (item.page)}
+          <li>
+            <a href={path(item.page, lang)}>
+              <span class="num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <span class="title">{item.title}</span>
+              <span class="chip">{item.chip}</span>
+              <span class="arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
+        {/each}
+      </ol>
+    </nav>
+  </main>
 
-      <section class="work" aria-labelledby="work-label">
-        <h2 class="work-label" id="work-label">
-          {t.workLabel} <span class="count">· {work.length}</span>
-        </h2>
-
-        {#if work.length > 0}
-          <div class="grid">
-            {#each work as entry (entry.id)}
-              <WorkCard
-                item={entry[lang]}
-                image={entry.image}
-                external={entry.external}
-              />
-            {/each}
-          </div>
-        {:else}
-          <p class="empty">{t.empty}</p>
-        {/if}
-      </section>
-    </main>
-
-    <SiteFooter social={site.social} email={site.email} socialLabel={t.socialLabel} />
-  </div>
+  <SiteFooter {lang} />
 </div>
 
 <style>
-  /* Il foglio bianco bordato al centro del fondo panna. */
-  .page {
-    display: flex;
-    justify-content: center;
+  .home {
+    background: var(--bg);
+    color: var(--fg);
+  }
+
+  .index ol {
+    margin: 0;
     padding: 0;
+    list-style: none;
   }
 
-  .sheet {
-    width: 100%;
-    max-width: var(--page-max);
-    background: var(--color-white);
-    border: var(--border-strong);
-    /* Il foglio occupa almeno tutto lo schermo: il footer non resta
-       a mezz'aria sulle pagine corte. */
-    min-height: 100vh;
+  /* Fondo panna e testo terra; al passaggio del mouse si invertono. */
+  .index a {
     display: flex;
-    flex-direction: column;
+    align-items: baseline;
+    gap: var(--space-3);
+    padding: var(--space-5) var(--page-pad);
+    border-bottom: var(--line) solid var(--bg);
+    background: var(--foot-bg);
+    color: var(--foot-fg);
+    text-decoration: none;
+    transition: background var(--ease-fast), color var(--ease-fast);
   }
 
-  main {
-    flex: 1;
+  .index a:hover,
+  .index a:focus-visible {
+    background: var(--foot-fg);
+    color: var(--foot-bg);
   }
 
-  .intro-wrap {
-    padding: var(--space-5) var(--page-pad) 0;
+  .index a:focus-visible {
+    outline-offset: calc(-2 * var(--nudge));
   }
 
-  .intro {
-    margin: 0;
-    /* Riga corta: il testo lungo si legge meglio sotto i 70 caratteri. */
-    max-width: 40em;
-    font-size: var(--type-lead-size-mobile);
-    line-height: var(--type-lead-line-mobile);
-  }
-
-  .work {
-    padding: var(--space-5) var(--page-pad) var(--space-6);
-  }
-
-  .work-label {
-    margin: 0;
+  .num {
     font-family: var(--font-mono);
-    font-weight: var(--weight-regular);
-    font-size: var(--type-eyebrow-size);
-    line-height: var(--type-eyebrow-line);
-    letter-spacing: var(--tracking-eyebrow);
-    color: var(--color-muted);
+    font-size: var(--type-label-s);
   }
 
-  .count {
-    font-variant-numeric: tabular-nums;
+  .title {
+    flex: 1;
+    font-family: var(--font-display);
+    font-weight: var(--weight-black);
+    font-size: var(--type-index-m);
+    line-height: var(--type-index-line-m);
+    letter-spacing: var(--tracking-tight);
   }
 
-  /* Una colonna su mobile. Da 700px in su le colonne si aggiungono da sole
-     quando c'e spazio per almeno 320px l'una: non serve toccare nulla
-     quando le schede aumentano.
-     auto-fit (non auto-fill): con poche schede occupano tutta la riga
-     invece di lasciare colonne vuote a destra. */
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--card-gap-row) var(--card-gap-col);
-    margin-top: var(--space-3);
+  /* L'etichetta in lime si vede solo da tablet in su: su mobile la riga
+     sarebbe troppo affollata. */
+  .chip {
+    display: none;
+    background: var(--ball);
+    color: var(--on-acc);
+    font-family: var(--font-mono);
+    font-size: var(--type-label-xs);
+    letter-spacing: var(--tracking-label);
+    padding: var(--space-1) var(--space-2);
   }
 
-  .empty {
-    margin: var(--space-4) 0 0;
-    color: var(--color-muted);
+  .arrow {
+    font-size: var(--type-arrow-m);
   }
 
   @media (min-width: 700px) {
-    .page {
-      padding: var(--space-7) var(--space-5);
+    .index a {
+      gap: var(--space-5);
+      padding: var(--space-6) var(--page-pad-wide);
     }
 
-    .sheet {
-      min-height: 0;
+    .num {
+      font-size: var(--type-label);
     }
 
-    .intro-wrap {
-      padding: var(--space-6) var(--page-pad-wide) 0;
+    .title {
+      font-size: var(--type-index);
+      line-height: var(--type-index-line);
     }
 
-    .intro {
-      font-size: var(--type-lead-size);
-      line-height: var(--type-lead-line);
+    .chip {
+      display: inline-block;
     }
 
-    .work {
-      padding: var(--space-6) var(--page-pad-wide) var(--space-7);
-    }
-
-    .grid {
-      grid-template-columns: repeat(auto-fit, minmax(var(--card-min), 1fr));
-      margin-top: var(--space-4);
+    .arrow {
+      font-size: var(--type-arrow);
     }
   }
 </style>
