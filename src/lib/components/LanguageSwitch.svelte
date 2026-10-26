@@ -28,6 +28,19 @@
   const t = $derived(site[lang]);
   const other = $derived(twin(page, lang));
 
+  /* Ricorda la lingua scelta a mano: lo script in app.html la rispetta e non
+     riporta piu il visitatore nella lingua del suo browser. E una preferenza
+     "funzionale", non un tracciamento: resta nel browser di chi visita e non
+     richiede banner. */
+  /** @param {'en' | 'it'} code */
+  function remember(code) {
+    try {
+      localStorage.setItem('ddr-lang', code);
+    } catch {
+      // Memoria bloccata (navigazione privata): la scelta vale solo per ora.
+    }
+  }
+
   let open = $state(false);
   /** @type {HTMLElement | undefined} */
   let root = $state();
@@ -79,7 +92,7 @@
     {#if lang === 'en'}
       <span class="item current">{@render usFlag()}<span>EN</span><span class="sr-only">{t.currentLang}</span></span>
     {:else}
-      <a class="item link" href={other} hreflang="en" aria-label={t.langLabel}>{@render usFlag()}<span>EN</span></a>
+      <a class="item link" href={other} hreflang="en" aria-label={t.langLabel} onclick={() => remember('en')}>{@render usFlag()}<span>EN</span></a>
     {/if}
 
     <span class="sep" aria-hidden="true">·</span>
@@ -87,7 +100,7 @@
     {#if lang === 'it'}
       <span class="item current">{@render itFlag()}<span>IT</span><span class="sr-only">{t.currentLang}</span></span>
     {:else}
-      <a class="item link" href={other} hreflang="it" aria-label={t.langLabel}>{@render itFlag()}<span>IT</span></a>
+      <a class="item link" href={other} hreflang="it" aria-label={t.langLabel} onclick={() => remember('it')}>{@render itFlag()}<span>IT</span></a>
     {/if}
   </div>
 
@@ -115,14 +128,14 @@
           {#if lang === 'en'}
             <span class="option current">{@render usFlag()}<span>EN</span><span class="sr-only">{t.currentLang}</span></span>
           {:else}
-            <a class="option" href={other} hreflang="en" aria-label={t.langLabel} onclick={() => (open = false)}>{@render usFlag()}<span>EN</span></a>
+            <a class="option" href={other} hreflang="en" aria-label={t.langLabel} onclick={() => { open = false; remember('en'); }}>{@render usFlag()}<span>EN</span></a>
           {/if}
         </li>
         <li>
           {#if lang === 'it'}
             <span class="option current">{@render itFlag()}<span>IT</span><span class="sr-only">{t.currentLang}</span></span>
           {:else}
-            <a class="option" href={other} hreflang="it" aria-label={t.langLabel} onclick={() => (open = false)}>{@render itFlag()}<span>IT</span></a>
+            <a class="option" href={other} hreflang="it" aria-label={t.langLabel} onclick={() => { open = false; remember('it'); }}>{@render itFlag()}<span>IT</span></a>
           {/if}
         </li>
       </ul>

@@ -3,6 +3,36 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- SCELTA AUTOMATICA DELLA LINGUA.
+         Sulle pagine inglesi, se il browser ha l'italiano come lingua
+         preferita, porta alla stessa pagina in italiano. In ogni altro caso
+         non fa nulla: si resta in inglese.
+         - Conta solo la PRIMA lingua della lista del browser.
+         - Se chi visita ha scelto una lingua a mano con il selettore (la
+           scelta e salvata nel browser con la chiave "ddr-lang"), vince
+           quella scelta.
+         - Sulle pagine italiane non fa nulla: un link in italiano resta
+           italiano per tutti.
+         Sta qui, prima di tutto il resto, perche cosi il cambio avviene prima
+         che la pagina si disegni e non si vede nessun lampo in inglese.
+         Il valore di "twin" lo scrive src/hooks.server.js: vuoto = nessun cambio.
+         (Qui sopra non va scritto il segnaposto con le percentuali: verrebbe
+         sostituito lui al posto di quello dello script.) -->
+    <script>
+      (function () {
+        var twin = '%twin%';
+        // Vuoto, o non un indirizzo del sito (segnaposto non sostituito): niente.
+        if (twin.charAt(0) !== '/') return;
+        var saved = null;
+        try {
+          saved = localStorage.getItem('ddr-lang');
+        } catch (e) {}
+        var first = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+        var wantsItalian = saved ? saved === 'it' : /^it(-|$)/i.test(first);
+        if (wantsItalian) location.replace(twin + location.search + location.hash);
+      })();
+    </script>
     <!-- Favicon: pallina da tennis. L'SVG e per Chrome e Firefox; il PNG per
          Safari, che non sempre legge gli SVG; l'ultima e l'icona che compare
          se si aggiunge il sito alla schermata Home dell'iPhone. -->
