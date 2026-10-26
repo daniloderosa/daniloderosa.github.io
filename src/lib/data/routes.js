@@ -8,16 +8,14 @@
  * Se aggiungi una pagina: crea le due cartelle in src/routes/ e aggiungi
  * qui la riga corrispondente. Gli indirizzi finiscono sempre con "/".
  *
- * Attenzione: /tennis_surface_speed/ e /tennis_top50/ sono di altre
- * repository e non vanno mai usati qui.
  */
 
 /** @type {Record<string, { en: string, it: string }>} */
 export const routes = {
-  home: { en: '/', it: '/it/' },
-  projects: { en: '/projects/', it: '/it/progetti/' },
-  about: { en: '/about/', it: '/it/chi-sono/' },
-  contact: { en: '/contact/', it: '/it/contatti/' }
+  home: { en: "/", it: "/it/" },
+  projects: { en: "/projects/", it: "/it/progetti/" },
+  about: { en: "/about/", it: "/it/chi-sono/" },
+  contact: { en: "/contact/", it: "/it/contatti/" },
 };
 
 /**
@@ -35,5 +33,5 @@ export function path(page, lang) {
  * @param {'en' | 'it'} lang
  */
 export function twin(page, lang) {
-  return routes[page][lang === 'en' ? 'it' : 'en'];
+  return routes[page][lang === "en" ? "it" : "en"];
 }

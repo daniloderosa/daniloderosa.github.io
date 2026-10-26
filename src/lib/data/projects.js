@@ -22,89 +22,89 @@
 
 export const projects = [
   {
-    id: 'surface-speed',
-    year: 2025,
-    category: 'tennis',
+    id: "surface-speed",
+    year: 2026,
+    category: "tennis",
     external: true,
     // Anteprima non ancora disponibile: metti il PNG in static/previews/
     // e sostituisci null con '/previews/tennis-surface-speed.png'.
     image: null,
     en: {
-      tag: 'SURFACES',
-      title: 'How fast is a tennis court, really?',
+      tag: "SURFACES",
+      title: "How fast is a tennis court, really?",
       description:
-        'Court speed is talked about constantly and measured almost never. An interactive look at how surfaces actually differ, tournament by tournament.',
-      href: 'https://daniloderosa.github.io/tennis_surface_speed/',
-      alt: 'Preview — line chart, speed by tournament',
-      cta: 'Open the project'
+        "Court speed is talked about constantly and measured almost never. An interactive look at how surfaces actually differ, tournament by tournament.",
+      href: "https://daniloderosa.github.io/tennis_surface_speed/",
+      alt: "Preview — line chart, speed by tournament",
+      cta: "Open the project",
     },
     it: {
-      tag: 'SUPERFICI',
-      title: 'Quanto è veloce davvero un campo da tennis?',
+      tag: "SUPERFICI",
+      title: "Il tennis è diventato tutto uguale?",
       description:
-        'Della velocità dei campi si parla sempre e si misura quasi mai. Uno sguardo interattivo a come le superfici differiscono davvero, torneo per torneo.',
-      href: 'https://daniloderosa.github.io/tennis_surface_speed/',
-      alt: 'Anteprima — grafico a linee, velocità per torneo',
-      cta: 'Apri il progetto'
-    }
+        "Uno sguardo interattivo a come le superfici differiscono e se è vero che i tornei ora si assomigliano tutti.",
+      href: "https://daniloderosa.github.io/tennis_surface_speed/",
+      alt: "Anteprima — grafico a linee, velocità per torneo",
+      cta: "Apri il progetto",
+    },
   },
   {
-    id: 'top50',
-    year: 2025,
-    category: 'tennis',
+    id: "top100",
+    year: 2026,
+    category: "tennis",
     external: true,
     // Anteprima non ancora disponibile: metti il PNG in static/previews/
     // e sostituisci null con '/previews/tennis-top50.png'.
     image: null,
     en: {
-      tag: 'RANKING',
-      title: 'The top 50, up close',
+      tag: "RANKING",
+      title: "The top 100, up close",
       description:
-        'A profile of the players inside the ATP top 50: serve and return numbers side by side, with the trade-offs each game style makes.',
-      href: 'https://daniloderosa.github.io/tennis_top50/',
-      alt: 'Preview — scatterplot of serve and return',
-      cta: 'Open the project'
+        "A profile of the players inside the ATP top 50: serve and return numbers side by side, with the trade-offs each game style makes.",
+      href: "https://daniloderosa.github.io/tennis_top100/",
+      alt: "Preview — scatterplot of serve and return",
+      cta: "Open the project",
     },
     it: {
-      tag: 'CLASSIFICA',
-      title: 'I primi 50, da vicino',
+      tag: "CLASSIFICA",
+      title: "I numeri dei top 100 ATP, ogni lunedì",
       description:
-        'Un ritratto dei giocatori dentro la top 50 ATP: i numeri al servizio e in risposta accostati, con i compromessi di ogni stile di gioco.',
-      href: 'https://daniloderosa.github.io/tennis_top50/?lang=it',
-      alt: 'Anteprima — scatterplot servizio / risposta',
-      cta: 'Apri il progetto'
-    }
-  }
+        "Una pagina interattiva per confrontare le statistiche dei top 100 ATP (aggiornata ogni lunedì).",
+      href: "https://daniloderosa.github.io/tennis_top100/?lang=it",
+      alt: "Pagina interattiva sulle statistiche dei top 100 giocatori del circuito maschile ATP",
+      cta: "Apri il progetto",
+    },
+  },
 ];
 
 /* Testi della pagina */
 export const projectsPage = {
   en: {
-    title: 'Projects — Danilo De Rosa',
+    title: "Projects — Danilo De Rosa",
     description:
-      'Essays and interactive graphics built on match data: serve and return patterns, surface behavior, era comparisons.',
-    heading: 'Projects',
-    lead: 'Essays and interactive graphics built on match data: serve and return patterns, surface behavior, era comparisons. Every piece pairs a readable argument with a visualization you can question.',
-    counter: 'PROJECTS',
-    categories: { tennis: 'TENNIS', other: 'OTHER' },
+      "Essays and interactive graphics built on match data: serve and return patterns, surface behavior, era comparisons.",
+    heading: "Projects",
+    lead: "Essays and interactive graphics built on match data: serve and return patterns, surface behavior, era comparisons. Every piece pairs a readable argument with a visualization you can question.",
+    counter: "PROJECTS",
+    categories: { tennis: "TENNIS", other: "OTHER" },
     pitch: {
-      title: 'Have a dataset worth a closer look?',
-      text: 'Collaborations, commissions and consulting on sports data visualization.',
-      cta: 'WRITE TO ME'
-    }
+      title: "Have a dataset worth a closer look?",
+      text: "Collaborations, commissions and consulting on sports data visualization.",
+      cta: "WRITE TO ME",
+    },
   },
   it: {
-    title: 'Progetti — Danilo De Rosa',
+    title: "Progetti — Danilo De Rosa",
     description:
-      'Saggi e grafici interattivi costruiti su dati di partita: schemi al servizio e in risposta, superfici, confronti fra epoche.',
-    heading: 'Progetti',
-    lead: 'Saggi e grafici interattivi costruiti su dati di partita: schemi al servizio e in risposta, comportamento delle superfici, confronti fra epoche. Ogni pezzo tiene insieme un ragionamento leggibile e una visualizzazione che si può interrogare.',
-    counter: 'PROGETTI',
-    categories: { tennis: 'TENNIS', other: 'ALTRO' },
+      "Saggi e grafici interattivi costruiti a tema tennis (la maggior parte) oppure altre tematiche.",
+    heading: "Progetti",
+    lead: "Saggi e grafici interattivi costruiti a tema tennis (la maggior parte) oppure altre tematiche. Negli articoli sono spesso presenti visualizzazioni e grafici interattivi.",
+    counter: "PROGETTI",
+    categories: { tennis: "TENNIS", other: "ALTRO" },
     pitch: {
-      title: 'Hai un dataset che merita uno sguardo?',
-      text: 'Collaborazioni, commissioni e consulenze su data visualization sportiva.',
-      cta: 'SCRIVIMI'
-    }
-  }
+      title: "Hai un dataset che merita uno sguardo?",
+      text: "Collaborazioni e consulenze su visualizzazioni dati e analisi di performance sportiva.",
+      cta: "SCRIVIMI",
+    },
+  },
 };
