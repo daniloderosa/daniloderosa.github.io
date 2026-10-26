@@ -1,6 +1,6 @@
 export const contactPage = {
   en: {
-    title: "Contact — Danilo De Rosa",
+    title: "Contact - Danilo De Rosa",
     description:
       "Collaborations, datasets worth a look, questions about a chart: how to reach me.",
     heading: "Contact",
@@ -25,7 +25,7 @@ export const contactPage = {
   },
 
   it: {
-    title: "Contatti — Danilo De Rosa",
+    title: "Contatti - Danilo De Rosa",
     description:
       "Collaborazioni, dataset che meritano uno sguardo, domande su un grafico: come contattarmi.",
     heading: "Contatti",

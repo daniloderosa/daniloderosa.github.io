@@ -84,7 +84,7 @@ export const projects = [
 /* Testi della pagina */
 export const projectsPage = {
   en: {
-    title: "Projects — Danilo De Rosa",
+    title: "Projects - Danilo De Rosa",
     description:
       "Essays and interactive graphics, mostly about tennis, but also on other topics.",
     heading: "Projects",
@@ -98,7 +98,7 @@ export const projectsPage = {
     },
   },
   it: {
-    title: "Progetti — Danilo De Rosa",
+    title: "Progetti - Danilo De Rosa",
     description:
       "Saggi e grafici interattivi costruiti a tema tennis (la maggior parte) oppure altre tematiche.",
     heading: "Progetti",

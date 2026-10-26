@@ -1,8 +1,15 @@
-<!-- Marchio: un quadrato di terra rossa con la riga bianca e la pallina
-     lime, come il campo della home. Colori uguali a tokens.css
-     (--bg, --court-line, --ball): se cambi quelli, cambiali anche qui. -->
+<!-- Favicon: una pallina da tennis. Colori uguali a tokens.css (--ball,
+     --ball-dark, --court-line): se cambi quelli, cambiali anche qui.
+     Le due righe bianche sono archi di cerchi centrati fuori dalla pallina,
+     tagliati con il bordo della pallina stessa. -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32">
-  <rect width="32" height="32" fill="#6f3418"/>
-  <rect x="0" y="21" width="32" height="2.5" fill="#fdf8f2"/>
-  <circle cx="17" cy="13" r="7" fill="#d9f24e"/>
+  <defs>
+    <clipPath id="ball"><circle cx="16" cy="16" r="15"/></clipPath>
+  </defs>
+  <circle cx="16" cy="16" r="15" fill="#d9f24e"/>
+  <g clip-path="url(#ball)" fill="none" stroke="#fdf8f2" stroke-width="2.6">
+    <circle cx="-4" cy="16" r="14"/>
+    <circle cx="36" cy="16" r="14"/>
+  </g>
+  <circle cx="16" cy="16" r="14.4" fill="none" stroke="#9db526" stroke-width="1.2"/>
 </svg>
