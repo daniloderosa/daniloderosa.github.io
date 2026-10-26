@@ -60,7 +60,7 @@ export const site = {
 
     /* ---- HOME ---- */
     home: {
-      title: "Danilo De Rosa — Portfolio with essays and interactive graphics",
+      title: "Danilo De Rosa - Portfolio",
       description:
         "Essays and interactive graphics on tennis and my other passions, with a special focus on data visualization.",
       motto: "Tennis is decided by centimeters. I measure them.",
@@ -129,8 +129,7 @@ export const site = {
     socialLabel: "Profili",
 
     home: {
-      title:
-        "Danilo De Rosa — Pagina portfolio con articoli e grafici interattivi",
+      title: "Danilo De Rosa - Portfolio",
       description:
         "Saggi e grafici interattivi sul tennis e altre mie passioni, con un occhio di riguardo per la data visualization.",
       motto: "Il tennis si decide sui centimetri. Io li misuro.",
