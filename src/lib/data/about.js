@@ -1,14 +1,10 @@
 /**
  * PAGINA "CHI SONO" (/about/ e /it/chi-sono/).
- *
- * TODO Danilo: i testi che iniziano con "Segnaposto" / "Placeholder" vanno
- * riscritti prima di pubblicare, in tutte e due le lingue. La foto va in
- * static/ (per esempio static/ritratto.jpg) e il percorso in `photo`.
  */
 
 export const aboutPage = {
   // Foto verticale 4:5. null = riquadro a righe con l'etichetta.
-  photo: null,
+  photo: "/profilo.jpg",
 
   en: {
     title: "About — Danilo De Rosa",
@@ -30,7 +26,7 @@ export const aboutPage = {
         items: [
           "The story before the data, always!",
           "Let's think through innovative charts together",
-          "\"Data doesn't lie\" is a lie (quote: Sheldon Studio).",
+          '"Data doesn\'t lie" is a lie (quote: Sheldon Studio).',
         ],
       },
       {
