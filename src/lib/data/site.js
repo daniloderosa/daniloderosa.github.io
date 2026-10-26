@@ -60,10 +60,10 @@ export const site = {
 
     /* ---- HOME ---- */
     home: {
-      title: "Danilo De Rosa — Tennis is decided by millimeters",
+      title: "Danilo De Rosa — Portfolio with essays and interactive graphics",
       description:
-        "Data-driven analysis of professional tennis: essays and interactive graphics on serve and return, surfaces and eras.",
-      motto: "Tennis is decided by millimeters. I measure them.",
+        "Essays and interactive graphics on tennis and my other passions, with a special focus on data visualization.",
+      motto: "Tennis is decided by centimeters. I measure them.",
 
       /* Le tre schede accanto al campo: compaiono una per rimbalzo, nell'ordine.
          Tutta la scheda e cliccabile. `page` porta a una pagina del sito,
@@ -71,14 +71,14 @@ export const site = {
          Le schede devono restare tre: la terza finisce dove finisce il campo. */
       cards: [
         {
-          tag: "SURFACES · 2025",
-          title: "How fast is a court, really?",
+          tag: "SURFACES · 2026",
+          title: "Has tennis become all the same?",
           href: "https://daniloderosa.github.io/tennis_surface_speed/",
           external: true,
         },
         {
-          tag: "RANKING · 2025",
-          title: "The top 100, up close",
+          tag: "RANKING · 2026",
+          title: "ATP Top 100: stats and numbers",
           href: "https://daniloderosa.github.io/tennis_top100/",
           external: true,
         },
@@ -90,19 +90,19 @@ export const site = {
          dell'animazione (il 5 diventa 6 e la colonna dei 40 sparisce). */
       score: {
         winner: "DE ROSA",
-        loser: "COMMON WISDOM",
+        loser: "SLOPPY ANALYSES",
         gameSetMatch: "GAME · SET · MATCH",
       },
       call: "IN",
-      callNote: "MARGIN ON THE LINE · 2.4 MM",
-      callNoteShort: "MARGIN · 2.4 MM",
-      mark: "2.4 MM",
+      callNote: "MARGIN ON THE LINE · 2.4 CM",
+      callNoteShort: "MARGIN · 2.4 CM",
+      mark: "2.4 CM",
 
       /* L'indice delle pagine sotto il campo */
       indexLabel: "Sections",
       index: [
         { page: "projects", title: "Projects", chip: "ESSAYS AND GRAPHICS" },
-        { page: "about", title: "About", chip: "PORTRAIT" },
+        { page: "about", title: "About", chip: "ABOUT ME" },
         { page: "contact", title: "Contact", chip: "WRITE TO ME" },
       ],
     },

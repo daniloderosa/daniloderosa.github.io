@@ -18,7 +18,13 @@
   <h1 class="display">{t.heading}</h1>
   <p class="lead">{t.lead}</p>
 
-  <a class="email" href="mailto:{site.email}" aria-label="{t.emailLabel} {site.email}">
+  <!-- L'oggetto arriva da contact.js (emailSubject). encodeURIComponent
+       trasforma spazi e accenti nel formato richiesto dai link mailto. -->
+  <a
+    class="email"
+    href="mailto:{site.email}?subject={encodeURIComponent(t.emailSubject)}"
+    aria-label="{t.emailLabel} {site.email}"
+  >
     <span class="email-text">{site.email}</span>
     <span class="email-arrow" aria-hidden="true">↗</span>
   </a>

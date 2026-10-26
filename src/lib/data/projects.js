@@ -12,7 +12,7 @@
  *   external  true = progetto in un'altra repository, si apre in una scheda nuova
  *   image     anteprima in static/previews/. null = riquadro a righe con etichetta
  *   en / it   testi nella lingua: tag, titolo, descrizione, link, alt, azione.
- *             Il link puo cambiare con la lingua: la top 50 in italiano si
+ *             Il link puo cambiare con la lingua: la top 100 in italiano si
  *             apre con ?lang=it in fondo all'indirizzo. Surface speed per ora
  *             ha un solo indirizzo, uguale nelle due lingue.
  *
@@ -31,9 +31,9 @@ export const projects = [
     image: null,
     en: {
       tag: "SURFACES",
-      title: "How fast is a tennis court, really?",
+      title: "Has tennis become all the same?",
       description:
-        "Court speed is talked about constantly and measured almost never. An interactive look at how surfaces actually differ, tournament by tournament.",
+        "An interactive look at how surfaces differ, and whether it is true that tournaments now all look alike.",
       href: "https://daniloderosa.github.io/tennis_surface_speed/",
       alt: "Preview — line chart, speed by tournament",
       cta: "Open the project",
@@ -54,15 +54,15 @@ export const projects = [
     category: "tennis",
     external: true,
     // Anteprima non ancora disponibile: metti il PNG in static/previews/
-    // e sostituisci null con '/previews/tennis-top50.png'.
+    // e sostituisci null con '/previews/tennis-top100.png'.
     image: null,
     en: {
       tag: "RANKING",
-      title: "The top 100, up close",
+      title: "The ATP top 100 numbers, every Monday",
       description:
-        "A profile of the players inside the ATP top 50: serve and return numbers side by side, with the trade-offs each game style makes.",
+        "An interactive page to compare the stats of the ATP top 100 (updated every Monday).",
       href: "https://daniloderosa.github.io/tennis_top100/",
-      alt: "Preview — scatterplot of serve and return",
+      alt: "Interactive page with the stats of the top 100 players on the ATP men's tour",
       cta: "Open the project",
     },
     it: {
@@ -82,14 +82,14 @@ export const projectsPage = {
   en: {
     title: "Projects — Danilo De Rosa",
     description:
-      "Essays and interactive graphics built on match data: serve and return patterns, surface behavior, era comparisons.",
+      "Essays and interactive graphics, mostly about tennis, but also on other topics.",
     heading: "Projects",
-    lead: "Essays and interactive graphics built on match data: serve and return patterns, surface behavior, era comparisons. Every piece pairs a readable argument with a visualization you can question.",
+    lead: "Essays and interactive graphics, mostly about tennis, but also on other topics. The articles often include interactive visualizations and charts.",
     counter: "PROJECTS",
     categories: { tennis: "TENNIS", other: "OTHER" },
     pitch: {
       title: "Have a dataset worth a closer look?",
-      text: "Collaborations, commissions and consulting on sports data visualization.",
+      text: "Collaborations and consulting on data visualization and sports performance analysis.",
       cta: "WRITE TO ME",
     },
   },

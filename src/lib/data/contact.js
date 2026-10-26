@@ -4,21 +4,23 @@ export const contactPage = {
     description:
       "Collaborations, datasets worth a look, questions about a chart: how to reach me.",
     heading: "Contact",
-    lead: "Placeholder — for a collaboration, a dataset worth a closer look or a question about a chart: write to me. I read everything and reply, usually within a couple of days.",
+    lead: "If you would like to collaborate or have a dataset you would like to visualize, write to me. I always read every email and usually reply within a couple of days.",
     emailLabel: "Send an email to",
+    // Oggetto che compare gia scritto quando si clicca sull'indirizzo email.
+    emailSubject: "Message from your website",
     // Traduzione delle categorie dei profili (campo `kind` in site.js)
-    kinds: { social: "SOCIAL", work: "PROFESSIONAL", code: "CODE" },
+    kinds: { social: "SOCIAL", work: "WORK", code: "PROJECTS" },
     topicsLabel: "WHAT WE CAN TALK ABOUT",
     topics: [
-      "Placeholder: commissioned articles and interactive graphics.",
-      "Placeholder: match data analysis for clubs and media.",
-      "Placeholder: consulting on sports data visualization.",
-      "Placeholder: talks, workshops and teaching.",
+      "Commissioned articles, data stories and interactive graphics.",
+      "Performance analysis for athletes, clubs and news media.",
+      "Consulting on data visualization (sports and beyond).",
+      "Talks, workshops and teaching on data visualization and performance analysis.",
     ],
     projectLabel: "IF YOU ARE WRITING ABOUT A PROJECT",
     project: [
-      "Placeholder: tell me in two lines the question you want to answer, what data you already have and when you would need it. If you have a sample file, attach it — an extract is enough.",
-      "Placeholder: location and time zone, availability, working languages.",
+      "Briefly tell me what your project is about, what data you already have and when you would need it. If you already have ideas or sample datasets, feel free to attach them.",
+      "I generally work in Italian and English on CET time, but if you have other needs, let's talk.",
     ],
   },
 
@@ -29,6 +31,8 @@ export const contactPage = {
     heading: "Contatti",
     lead: "Se vuoi collaborare o hai un dataset che vorresti visualizzare scrivimi. Leggo sempre tutte le mail e rispondo di solito entro un paio di giorni.",
     emailLabel: "Scrivi una email a",
+    // Oggetto che compare gia scritto quando si clicca sull'indirizzo email.
+    emailSubject: "Contatto dal sito",
     kinds: { social: "SOCIAL", work: "LAVORO", code: "PROGETTI" },
     topicsLabel: "DI COSA POSSIAMO PARLARE",
     topics: [
