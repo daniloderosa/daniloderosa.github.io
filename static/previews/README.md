@@ -1,13 +1,17 @@
 # Anteprime dei progetti
 
-Qui vanno le immagini che compaiono nelle schede della home.
+Qui vanno le immagini e i video che compaiono nelle schede della pagina Progetti.
 
-- Formato: PNG, proporzione 16:10 (per esempio 1280 x 800).
-- Nome del file: quello indicato nel commento dentro `src/lib/data/work.js`.
+Per ogni progetto, in `src/lib/data/projects.js`:
 
-Dopo aver messo il file, apri `src/lib/data/work.js` e sostituisci
-`image: null` con il percorso dell'immagine, per esempio
-`image: '/previews/tennis-top50.png'`.
+- **Anteprima animata**: un file MP4 (`video`) piu il suo primo fotogramma in PNG
+  (`poster`). Il video parte da solo, muto e in loop, solo quando la scheda e
+  visibile. Chi ha attivato "riduci movimento" nel sistema vede solo il poster.
+- **Anteprima statica**: un solo PNG o JPG (`image`).
+- Nessuna delle due: si vede un riquadro a righe con il testo alternativo.
 
-Ricordati di scrivere anche il testo alternativo (`alt`) nelle due lingue:
-serve a chi non vede l'immagine e non e facoltativo.
+Le immagini non vengono ritagliate: qualunque proporzione va bene, ma 16:10
+(per esempio 1280 x 800) riempie il riquadro senza bordi bianchi.
+
+Il testo alternativo (`alt`) e obbligatorio, nelle due lingue.
+Le GIF non vanno usate: pesano dieci volte tanto e non si possono fermare.

@@ -11,7 +11,10 @@
    * year      anno, mostrato accanto al tag
    * badge     etichetta sull'anteprima (TENNIS / ALTRO)
    * primary   true = etichetta in lime (tennis), false = etichetta scura
-   * image     percorso dell'anteprima, oppure null
+   * video     anteprima animata (MP4), oppure assente
+   * poster    primo fotogramma del video: si vede finche il video non parte
+   *           e per sempre se chi visita ha chiesto "riduci movimento"
+   * image     anteprima statica, usata se non c'e il video
    * external  true = link a un'altra repository, si apre in una scheda nuova
    *
    * @type {{
@@ -20,10 +23,29 @@
    *   badge: string,
    *   primary?: boolean,
    *   image?: string | null,
+   *   video?: string | null,
+   *   poster?: string | null,
    *   external?: boolean
    * }}
    */
-  let { item, year, badge, primary = true, image = null, external = false } = $props();
+  let { item, year, badge, primary = true, image = null, video = null, poster = null, external = false } = $props();
+
+  /** @type {HTMLVideoElement | undefined} */
+  let player = $state();
+
+  /* Il video parte solo quando la scheda e visibile e si ferma quando esce
+     dallo schermo: cosi non scarica nulla finche non serve e non consuma
+     batteria. Con "riduci movimento" non parte mai: resta il poster. */
+  $effect(() => {
+    if (!player || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const el = player;
+    const watcher = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) el.play().catch(() => {});
+      else el.pause();
+    });
+    watcher.observe(el);
+    return () => watcher.disconnect();
+  });
 
   const target = $derived(external ? '_blank' : undefined);
   const rel = $derived(external ? 'noopener' : undefined);
@@ -32,7 +54,17 @@
 <article class="card">
   <a class="thumb-link" href={item.href} {target} {rel} aria-label={item.title}>
     <div class="thumb hatch">
-      {#if image}
+      {#if video}
+        <!-- Senza autoplay: lo avvia lo script qui sopra, solo se opportuno.
+             Senza JavaScript si vede il poster. Per i lettori di schermo il
+             contenitore e un'immagine con il suo testo alternativo, il video
+             dentro e nascosto. -->
+        <span class="media" role="img" aria-label={item.alt}>
+          <video bind:this={player} {poster} muted loop playsinline preload="none" aria-hidden="true">
+            <source src={video} type="video/mp4" />
+          </video>
+        </span>
+      {:else if image}
         <img src={image} alt={item.alt} loading="lazy" width="640" height="400" />
       {:else}
         <!-- Anteprima non ancora disponibile: riquadro a righe con etichetta. -->
@@ -78,10 +110,22 @@
     overflow: hidden;
   }
 
-  .thumb img {
+  /* L'anteprima e un grafico: non va mai ritagliata, altrimenti si perdono
+     assi ed etichette. "contain" la mostra intera, qualunque proporzione
+     abbia (anche video quadrati o molto larghi); lo spazio che
+     avanza e bianco, come lo sfondo dei grafici. */
+  .media {
+    display: block;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+  }
+
+  .thumb img,
+  .thumb video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: var(--color-white);
   }
 
   .placeholder {

@@ -10,7 +10,11 @@
  *   year      anno di pubblicazione (serve anche al contatore in alto)
  *   category  'tennis' oppure 'other': decide l'etichetta sull'anteprima
  *   external  true = progetto in un'altra repository, si apre in una scheda nuova
- *   image     anteprima in static/previews/. null = riquadro a righe con etichetta
+ *   video     anteprima animata (MP4) in static/previews/, oppure assente
+ *   poster    primo fotogramma del video (PNG): si vede prima che parta, e
+ *             sempre per chi ha chiesto meno movimento nel sistema
+ *   image     anteprima statica (PNG/JPG) al posto del video, oppure assente.
+ *             Senza video ne image si vede il riquadro a righe con etichetta
  *   en / it   testi nella lingua: tag, titolo, descrizione, link, alt, azione.
  *             Il link puo cambiare con la lingua: la top 100 in italiano si
  *             apre con ?lang=it in fondo all'indirizzo. Surface speed per ora
@@ -26,16 +30,16 @@ export const projects = [
     year: 2026,
     category: "tennis",
     external: true,
-    // Anteprima non ancora disponibile: metti il PNG in static/previews/
-    // e sostituisci null con '/previews/tennis-surface-speed.png'.
     image: null,
+    video: "/previews/surface.mp4",
+    poster: "/previews/surface.png",
     en: {
       tag: "SURFACES",
       title: "Has tennis become all the same?",
       description:
         "An interactive look at how surfaces differ, and whether it is true that tournaments now all look alike.",
       href: "https://daniloderosa.github.io/tennis_surface_speed/",
-      alt: "Preview — line chart, speed by tournament",
+      alt: "Preview — line chart, speed of the 3 different surfaces (grass, hard court, clay) during different years",
       cta: "Open the project",
     },
     it: {
@@ -44,7 +48,7 @@ export const projects = [
       description:
         "Uno sguardo interattivo a come le superfici differiscono e se è vero che i tornei ora si assomigliano tutti.",
       href: "https://daniloderosa.github.io/tennis_surface_speed/",
-      alt: "Anteprima — grafico a linee, velocità per torneo",
+      alt: "Anteprima — grafico a linee, velocità delle 3 diversi superfici (erba, cemento, terra) nel corso degli anni",
       cta: "Apri il progetto",
     },
   },
@@ -53,9 +57,9 @@ export const projects = [
     year: 2026,
     category: "tennis",
     external: true,
-    // Anteprima non ancora disponibile: metti il PNG in static/previews/
-    // e sostituisci null con '/previews/tennis-top100.png'.
     image: null,
+    video: "/previews/atp_top100.mp4",
+    poster: "/previews/atp_top100.png",
     en: {
       tag: "RANKING",
       title: "The ATP top 100 numbers, every Monday",
