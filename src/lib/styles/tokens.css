@@ -102,9 +102,9 @@
   --score-name-w: 205px;
   --score-num-w: 38px;
   --score-pts-w: 54px;
-  --score-name-w-m: 122px;
+  --score-name-w-m: 118px;
   --score-num-w-m: 24px;
-  --score-pts-w-m: 34px;
+  --score-pts-w-m: 30px;
 
   /* -----------------------------------------------------------------------
      1d. CARATTERI
@@ -134,13 +134,16 @@
   /* Nome in testa alla home - Archivo 800 */
   --type-name: 52px;
   --type-name-line: 54px;
-  --type-name-m: 34px;
+  /* Il nome sta su una riga accanto al menu lingua: il corpo si riduce solo
+     se lo spazio non basta (il nome e largo circa 6.8 volte il corpo; 140px
+     sono i margini piu il menu). */
+  --type-name-m: min(34px, calc((100vw - 140px) / 6.8));
   --type-name-line-m: 37px;
 
   /* Motto sotto il nome - Spectral corsivo */
   --type-motto: 19px;
   --type-motto-line: 27px;
-  --type-motto-m: 15px;
+  --type-motto-m: min(15px, 4vw);    /* una riga sola anche sui telefoni stretti */
   --type-motto-line-m: 21px;
 
   /* Voci dell'indice "01 Progetti / 02 Chi sono" - Archivo 800 */
@@ -261,11 +264,23 @@
   --underline-offset: 3px;           /* distanza della sottolineatura */
   --flag-w: 20px;                    /* bandierine del selettore lingua */
   --flag-h: 14px;
+  --chevron-w: 10px;                 /* freccetta del menu lingua */
+  --chevron-h: 6px;
   --dot-size: 14px;                  /* pallina del separatore in Chi sono */
   --score-accent: 5px;               /* bordo lime del tabellone */
   --score-accent-m: 4px;
   --bounce-line-m: 2.5px;            /* cerchi dei rimbalzi su mobile */
-  --court-w-m: min(78vw, 350px);     /* larghezza del campo verticale */
+  --court-aspect: 2.167;             /* lunghezza / larghezza del campo: 23.77 m / 10.97 m */
+  --hero-stack-m: 168px;             /* altezza di tutto cio che sta sopra il campo
+                                        sui telefoni: nome, claim, tabellone */
+  --hero-peek-m: 40px;               /* spazio che resta sotto il campo nella prima
+                                        schermata: la freccia (32px) piu 8px di
+                                        respiro. Il primo riquadro scuro parte
+                                        dopo, fuori schermo */
+  /* Larghezza del campo verticale: la piu grande che permette di vederlo
+     tutto, fino alla riga di fondo e un po' oltre, nella prima schermata.
+     Non supera mai 78vw (350px su tablet) e non scende sotto 160px. */
+  --court-w-m: clamp(160px, calc((100vh - var(--hero-stack-m) - var(--hero-peek-m)) / var(--court-aspect)), min(78vw, 350px));
   --col-min-s: 240px;                /* colonne minime delle griglie */
   --col-min: 260px;
   --col-min-l: 280px;
@@ -274,12 +289,14 @@
   /* Corpi minori fuori scala */
   --type-cta: 15px;                  /* "Open the project" */
   --type-gsm: 14px;                  /* GAME · SET · MATCH su desktop */
+  --type-gsm-m: 9px;                 /* GAME · SET · MATCH su telefono: sta accanto al tabellone */
   --type-arrow: 28px;                /* freccia dell'indice in home */
   --type-arrow-m: 20px;
 
   /* Spaziatura fra le lettere, altre varianti */
   --tracking-soft: 0.1em;            /* etichette lunghe, anteprime */
   --tracking-label-wide: 0.14em;     /* pulsanti, GAME · SET · MATCH */
+  --tracking-gsm-m: 0.06em;          /* GAME · SET · MATCH su telefono */
   --tracking-wide-m: 0.22em;         /* sottotitolo della chiamata IN, mobile */
 
   /* Bagliori della pallina e ombre del campo */
@@ -368,4 +385,21 @@
   --stroke-axis: 1px;
   --stroke-annotation: 1.5px;
   --dot-radius: 3px;
+}
+
+/* Sui telefoni la barra degli indirizzi riduce lo schermo visibile: "svh"
+   e l'altezza con la barra aperta, cosi il campo sta sempre intero. I browser
+   che non lo conoscono usano "vh" (definito sopra). */
+@supports (height: 100svh) {
+  :root {
+    --court-w-m: clamp(160px, calc((100svh - var(--hero-stack-m) - var(--hero-peek-m)) / var(--court-aspect)), min(78vw, 350px));
+  }
+}
+
+/* Telefoni sotto i 360px: il GAME · SET · MATCH sta sotto il tabellone
+   (vedi HawkEye.svelte), quindi sopra il campo c'e piu spazio occupato. */
+@media (max-width: 359px) {
+  :root {
+    --hero-stack-m: 204px;
+  }
 }

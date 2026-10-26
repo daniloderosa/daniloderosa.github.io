@@ -203,11 +203,11 @@
 
 <section class="hero" class:armed>
   <div class="head">
-    <div>
+    <div class="titles">
       <h1 class="name">{site.name}</h1>
       <p class="motto">{t.motto}</p>
     </div>
-    <LanguageSwitch {lang} page="home" />
+    <div class="lang"><LanguageSwitch {lang} page="home" /></div>
   </div>
 
   <div class="stage">
@@ -247,6 +247,11 @@
           </div>
         </div>
       </div>
+
+      <!-- Freccia sotto il campo: sui telefoni fa capire che sotto c'e altro
+           da scoprire scorrendo. E decorativa; su desktop non serve (la
+           testata sta tutta nello schermo) e non si vede. -->
+      <div class="scroll-hint" aria-hidden="true">↓</div>
 
       <!-- Le schede: a ogni rimbalzo ne compare una. Tutta la scheda e un
            link; al passaggio del mouse si schiarisce e compare la freccia. -->
@@ -303,15 +308,32 @@
     color: var(--fg);
   }
 
+  /* Su telefono: nome e selettore lingua sulla stessa riga, claim sotto a
+     tutta larghezza. Nome e claim non vanno mai a capo (nowrap) e il loro
+     corpo si riduce da solo sugli schermi stretti (vedi tokens.css). */
   .head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: var(--space-3);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'name lang'
+      'motto motto';
+    align-items: center;
+    column-gap: var(--space-3);
     padding: 0 var(--page-pad);
   }
 
+  .titles {
+    display: contents;
+  }
+
+  .lang {
+    grid-area: lang;
+    justify-self: end;
+  }
+
   .name {
+    grid-area: name;
+    white-space: nowrap;
     margin: 0;
     font-family: var(--font-display);
     font-weight: var(--weight-black);
@@ -321,7 +343,9 @@
   }
 
   .motto {
-    margin: var(--space-2) 0 0;
+    grid-area: motto;
+    white-space: nowrap;
+    margin: var(--space-1) 0 0;
     font-family: var(--font-text);
     font-style: italic;
     font-size: var(--type-motto-m);
@@ -338,13 +362,20 @@
     margin: var(--space-4) var(--page-pad) 0;
   }
 
+  /* Tabellone e GAME · SET · MATCH sulla stessa riga. Il riquadro del
+     GAME · SET · MATCH prende lo spazio che resta (flex: 1) e si restringe
+     finche serve; e invisibile finche il punto non finisce, e a quel punto
+     la colonna 40/15 si e chiusa e lo spazio c'e. */
   .scorebar {
     order: -1;
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     gap: var(--space-2);
-    margin-bottom: var(--space-5);
+    margin-bottom: var(--space-3);
+  }
+
+  .score {
+    flex: none;
   }
 
   /* ---------- Tabellone ---------- */
@@ -371,6 +402,7 @@
 
   .player {
     width: var(--score-name-w-m);
+    white-space: nowrap;
     font-family: var(--font-display);
     font-weight: var(--weight-bold);
   }
@@ -400,12 +432,17 @@
   }
 
   .gsm {
+    flex: 1 1 0;
+    min-width: 0;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
     background: var(--panel);
-    padding: var(--space-2) var(--space-3);
+    padding: 0 var(--space-1);
     font-family: var(--font-mono);
     font-weight: var(--weight-bold);
-    font-size: var(--type-label-xs);
-    letter-spacing: var(--tracking-label-wide);
+    font-size: var(--type-gsm-m);
+    letter-spacing: var(--tracking-gsm-m);
     color: var(--ball);
     white-space: nowrap;
     opacity: 0;
@@ -416,6 +453,21 @@
   .gsm.on {
     opacity: 1;
     transform: none;
+  }
+
+  /* Telefoni molto stretti (sotto i 360px): non c'e posto per affiancarli,
+     il GAME · SET · MATCH torna sotto il tabellone. Lo spazio e sempre
+     riservato, quindi niente scatti quando compare. */
+  @media (max-width: 359px) {
+    .scorebar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .gsm {
+      flex: none;
+      padding: var(--space-2) var(--space-3);
+    }
   }
 
   /* ---------- Il campo ---------- */
@@ -590,7 +642,28 @@
 
   /* ---------- Schede: su mobile stanno sotto il campo ---------- */
   .cards-wrap {
-    margin-top: var(--space-6);
+    margin-top: var(--space-4);
+  }
+
+  /* Freccia che invita a scorrere. Sta sotto il campo ed e l'ultima cosa che
+     si vede nella prima schermata: il primo riquadro scuro comincia 16px
+     piu in basso, fuori schermo. Rimbalza piano. */
+  .scroll-hint {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--space-6);
+    font-family: var(--font-display);
+    font-weight: var(--weight-bold);
+    font-size: var(--type-arrow-m);
+    line-height: 1;
+    color: var(--fg);
+    animation: hint 1.6s ease-in-out infinite;
+  }
+
+  @keyframes hint {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(var(--nudge)); }
   }
 
   .cards {
@@ -701,12 +774,21 @@
       padding: var(--space-6) var(--page-pad-wide) 0;
     }
 
+    /* Su desktop: nome e claim a sinistra, selettore lingua a destra. */
     .head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
       padding: 0;
       margin-bottom: var(--space-6);
     }
 
+    .titles {
+      display: block;
+    }
+
     .name {
+      white-space: normal;
       font-size: var(--type-name);
       line-height: var(--type-name-line);
     }
@@ -724,6 +806,10 @@
       min-height: 0;
       margin: 0;
       container-type: size;
+    }
+
+    .scroll-hint {
+      display: none;
     }
 
     .playfield {
@@ -784,6 +870,9 @@
     }
 
     .gsm {
+      flex: none;
+      display: block;
+      overflow: visible;
       padding: var(--space-2) var(--space-4);
       font-size: var(--type-gsm);
       letter-spacing: var(--tracking-label-wide);

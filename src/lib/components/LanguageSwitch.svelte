@@ -10,6 +10,12 @@
    * e non e cliccabile; l'altra porta alla pagina gemella (mai alla home),
    * che si ricava da src/lib/data/routes.js.
    *
+   * Due versioni dello stesso selettore, scelte dal CSS:
+   * - da 700px in su: le due lingue affiancate, sempre visibili;
+   * - sotto i 700px (telefono): un menu a tendina, per risparmiare spazio.
+   *   Il pulsante mostra la lingua attuale; toccandolo si apre l'elenco.
+   *   Si chiude con un tocco fuori, con Esc o scegliendo una lingua.
+   *
    * I colori delle bandiere sono quelli nazionali: sono un contenuto, non
    * stile del sito, per questo stanno qui e non in tokens.css.
    * Sono disegnate in SVG e non con le emoji perche su Windows le emoji
@@ -21,7 +27,28 @@
 
   const t = $derived(site[lang]);
   const other = $derived(twin(page, lang));
+
+  let open = $state(false);
+  /** @type {HTMLElement | undefined} */
+  let root = $state();
+  /** @type {HTMLButtonElement | undefined} */
+  let trigger = $state();
+
+  /** @param {KeyboardEvent} e */
+  function onKey(e) {
+    if (e.key === 'Escape' && open) {
+      open = false;
+      trigger?.focus();
+    }
+  }
+
+  /** @param {MouseEvent} e */
+  function onOutside(e) {
+    if (open && root && !root.contains(/** @type {Node} */ (e.target))) open = false;
+  }
 </script>
+
+<svelte:window onkeydown={onKey} onclick={onOutside} />
 
 {#snippet usFlag()}
   <svg class="flag" viewBox="0 0 60 30" aria-hidden="true">
@@ -46,68 +73,188 @@
   </svg>
 {/snippet}
 
-<nav class="switch" aria-label={t.langNav}>
-  <!-- EN, sempre per prima -->
-  {#if lang === 'en'}
-    <span class="item current">{@render usFlag()}<span>EN</span><span class="sr-only">{t.currentLang}</span></span>
-  {:else}
-    <a class="item link" href={other} hreflang="en" aria-label={t.langLabel}>{@render usFlag()}<span>EN</span></a>
-  {/if}
+<nav class="switch" aria-label={t.langNav} bind:this={root}>
+  <!-- VERSIONE LARGA (da 700px): EN sempre per prima, IT sempre per seconda -->
+  <div class="inline">
+    {#if lang === 'en'}
+      <span class="item current">{@render usFlag()}<span>EN</span><span class="sr-only">{t.currentLang}</span></span>
+    {:else}
+      <a class="item link" href={other} hreflang="en" aria-label={t.langLabel}>{@render usFlag()}<span>EN</span></a>
+    {/if}
 
-  <span class="sep" aria-hidden="true">·</span>
+    <span class="sep" aria-hidden="true">·</span>
 
-  <!-- IT, sempre per seconda -->
-  {#if lang === 'it'}
-    <span class="item current">{@render itFlag()}<span>IT</span><span class="sr-only">{t.currentLang}</span></span>
-  {:else}
-    <a class="item link" href={other} hreflang="it" aria-label={t.langLabel}>{@render itFlag()}<span>IT</span></a>
-  {/if}
+    {#if lang === 'it'}
+      <span class="item current">{@render itFlag()}<span>IT</span><span class="sr-only">{t.currentLang}</span></span>
+    {:else}
+      <a class="item link" href={other} hreflang="it" aria-label={t.langLabel}>{@render itFlag()}<span>IT</span></a>
+    {/if}
+  </div>
+
+  <!-- VERSIONE A TENDINA (telefono) -->
+  <div class="dropdown">
+    <button
+      type="button"
+      class="trigger"
+      bind:this={trigger}
+      aria-expanded={open}
+      aria-controls="lang-menu"
+      aria-label="{t.langNav}: {lang.toUpperCase()}"
+      onclick={() => (open = !open)}
+    >
+      {#if lang === 'en'}{@render usFlag()}{:else}{@render itFlag()}{/if}
+      <span>{lang.toUpperCase()}</span>
+      <svg class="chevron" class:flipped={open} viewBox="0 0 10 6" aria-hidden="true">
+        <path d="M1 1l4 4 4-4" fill="none" stroke="currentColor" stroke-width="1.6" />
+      </svg>
+    </button>
+
+    {#if open}
+      <ul class="menu" id="lang-menu">
+        <li>
+          {#if lang === 'en'}
+            <span class="option current">{@render usFlag()}<span>EN</span><span class="sr-only">{t.currentLang}</span></span>
+          {:else}
+            <a class="option" href={other} hreflang="en" aria-label={t.langLabel} onclick={() => (open = false)}>{@render usFlag()}<span>EN</span></a>
+          {/if}
+        </li>
+        <li>
+          {#if lang === 'it'}
+            <span class="option current">{@render itFlag()}<span>IT</span><span class="sr-only">{t.currentLang}</span></span>
+          {:else}
+            <a class="option" href={other} hreflang="it" aria-label={t.langLabel} onclick={() => (open = false)}>{@render itFlag()}<span>IT</span></a>
+          {/if}
+        </li>
+      </ul>
+    {/if}
+  </div>
 </nav>
 
 <style>
   .switch {
-    display: flex;
-    align-items: center;
-    gap: var(--space-1);
+    position: relative;
     font-family: var(--font-mono);
     font-size: var(--type-label);
     letter-spacing: var(--tracking-soft);
     white-space: nowrap;
   }
 
-  .item {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    /* Area tattile da 44px */
-    min-height: var(--tap-min);
-    padding: 0 var(--space-2);
-  }
-
-  .current {
-    color: var(--fg);
-    font-weight: var(--weight-bold);
-  }
-
-  .link {
-    color: var(--fg-2);
-    text-decoration: none;
-  }
-
-  .link:hover,
-  .link:focus-visible {
-    color: var(--acc);
-    text-decoration: underline;
-    text-underline-offset: var(--underline-offset);
-  }
-
   .flag {
     width: var(--flag-w);
     height: var(--flag-h);
     display: block;
+    flex: none;
   }
 
-  .sep {
-    color: var(--rule-2);
+  /* ---------- Telefono: tendina ---------- */
+  .inline {
+    display: none;
+  }
+
+  .trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap-min);
+    padding: 0 var(--space-3);
+    font: inherit;
+    letter-spacing: inherit;
+    color: var(--fg);
+    background: transparent;
+    border: var(--border-thin);
+    cursor: pointer;
+  }
+
+  .chevron {
+    width: var(--chevron-w);
+    height: var(--chevron-h);
+    transition: transform var(--ease-fast);
+  }
+
+  .chevron.flipped {
+    transform: rotate(180deg);
+  }
+
+  /* Il pannello usa i colori chiari del footer: si legge sopra qualunque
+     cosa ci sia sotto, in tutte e due le palette. */
+  .menu {
+    position: absolute;
+    right: 0;
+    top: calc(100% + var(--space-1));
+    z-index: 20;
+    min-width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: var(--foot-bg);
+    color: var(--foot-fg);
+    border: var(--line) solid var(--foot-fg);
+  }
+
+  .option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap-min);
+    padding: 0 var(--space-3);
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .option.current {
+    font-weight: var(--weight-bold);
+  }
+
+  .menu li + li .option {
+    border-top: var(--line-thin) solid var(--foot-fg);
+  }
+
+  a.option:hover,
+  a.option:focus-visible {
+    background: var(--foot-fg);
+    color: var(--foot-bg);
+  }
+
+  /* ---------- Da 700px: le due lingue affiancate ---------- */
+  @media (min-width: 700px) {
+    .dropdown {
+      display: none;
+    }
+
+    .inline {
+      display: flex;
+      align-items: center;
+      gap: var(--space-1);
+    }
+
+    .item {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      /* Area tattile da 44px */
+      min-height: var(--tap-min);
+      padding: 0 var(--space-2);
+    }
+
+    .current {
+      color: var(--fg);
+      font-weight: var(--weight-bold);
+    }
+
+    .link {
+      color: var(--fg-2);
+      text-decoration: none;
+    }
+
+    .link:hover,
+    .link:focus-visible {
+      color: var(--acc);
+      text-decoration: underline;
+      text-underline-offset: var(--underline-offset);
+    }
+
+    .sep {
+      color: var(--rule-2);
+    }
   }
 </style>
