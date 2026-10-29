@@ -169,7 +169,7 @@ export function creaGrafici(lang) {
         )
         .join(' ') +
       F.a1.chiusura(
-        perc(sp.tournament.pct, 1),
+        perc(sp.tournament.pct),
         sp.tournament.won,
         sp.tournament.played,
         sp.reference_pct.musetti_52w_avg,
@@ -201,14 +201,12 @@ export function creaGrafici(lang) {
       {
         key: 'torneo',
         label: E.barraTorneo(zt.counts.total),
-        decimali: 1,
         totale: zt.counts.total,
         parti: zone(zt.counts),
       },
       {
         key: 'finale',
         label: E.barraFinale(z.final.counts.total),
-        decimali: 0,
         totale: z.final.counts.total,
         parti: zone(z.final.counts),
       },
@@ -218,11 +216,11 @@ export function creaGrafici(lang) {
       F.a3.torneo(
         zt.counts.total,
         zt.counts.bh_zone,
-        perc(zt.opponent_stroke_zone_pct.backhand, 1),
+        perc(zt.opponent_stroke_zone_pct.backhand),
         zt.counts.fh_zone,
-        perc(zt.opponent_stroke_zone_pct.forehand, 1),
+        perc(zt.opponent_stroke_zone_pct.forehand),
         zt.counts.body,
-        perc(zt.opponent_stroke_zone_pct.body_unattributed, 1),
+        perc(zt.opponent_stroke_zone_pct.body_unattributed),
       ) +
       F.a3.finale(
         z.final.counts.total,
@@ -292,8 +290,8 @@ export function creaGrafici(lang) {
       key: p.key,
       label: p.cognome,
       sub: p.turno,
-      a: { value: vr.musetti[p.key], text: perc(vr.musetti[p.key], 1) },
-      b: { value: vr.opponent[p.key], text: perc(vr.opponent[p.key], 1) },
+      a: { value: vr.musetti[p.key], text: perc(vr.musetti[p.key]) },
+      b: { value: vr.opponent[p.key], text: perc(vr.opponent[p.key]) },
     })),
     riferimenti: [
       {
@@ -308,20 +306,20 @@ export function creaGrafici(lang) {
         tipo: 'tour',
         nome: E.mediaTourBreve,
         nomeLungo: E.mediaTour,
-        testo: perc(B.B1.reference_pct.tour_avg, 1),
+        testo: perc(B.B1.reference_pct.tour_avg),
       },
     ],
     summary:
       F.b1.intro +
       partite
-        .map((p) => F.b1.partita(p.cognome, perc(vr.musetti[p.key], 1), perc(vr.opponent[p.key], 1)))
+        .map((p) => F.b1.partita(p.cognome, perc(vr.musetti[p.key]), perc(vr.opponent[p.key])))
         .join(' ') +
       F.b1.chiusura(
-        perc(B.B1.tournament.pct, 1),
+        perc(B.B1.tournament.pct),
         B.B1.tournament.variation,
         migliaia(B.B1.tournament.total_shots),
         B.B1.reference_pct.musetti_52w_avg,
-        num(B.B1.reference_pct.tour_avg, 1),
+        num(B.B1.reference_pct.tour_avg),
       ),
   };
 
@@ -362,19 +360,19 @@ export function creaGrafici(lang) {
         key: 'torneo',
         // Le due righe del nome nella colonna a sinistra: "Torneo" / "5 partite"
         nomi: [E.torneoNome[0], E.torneoNome[1](partite.length)],
-        musetti: { impatto: bc.tournament.impact_pct, decimali: 1 },
-        avversario: { impatto: mediaAvversari, decimali: 1 },
+        musetti: { impatto: bc.tournament.impact_pct },
+        avversario: { impatto: mediaAvversari },
       },
       ...partite.map((p) => ({
         key: p.key,
         nomi: [p.turno, p.cognome],
-        musetti: { impatto: bc.per_match_site_impact_pct[p.key], decimali: 0 },
-        avversario: { impatto: impattoAvversarioPartita(p.key), decimali: 0 },
+        musetti: { impatto: bc.per_match_site_impact_pct[p.key] },
+        avversario: { impatto: impattoAvversarioPartita(p.key) },
       })),
     ],
     riferimenti: riferimenti(rif.musetti_52w_avg, rif.tour_avg, (v) => `${segno(v)}%`),
     summary:
-      F.b3.intro(segno(bc.tournament.impact_pct, 1), bc.tournament.plays, segno(mediaAvversari, 1)) +
+      F.b3.intro(segno(bc.tournament.impact_pct), bc.tournament.plays, segno(mediaAvversari)) +
       partite
         .map((p) =>
           F.b3.partita(
@@ -413,7 +411,7 @@ export function creaGrafici(lang) {
     intestazioni: ['', ...E.zoneIntestazioni],
     righe: a3.barre.map((b) => [
       b.label,
-      ...b.parti.map((p) => `${perc(p.value, b.decimali)} (${p.count}/${b.totale})`),
+      ...b.parti.map((p) => `${perc(p.value)} (${p.count}/${b.totale})`),
     ]),
     nota: F.a3.tabNota,
   };
@@ -433,8 +431,8 @@ export function creaGrafici(lang) {
           : `${rc[i - 1].hot} / ${rc[i - 1].cold} / ${rc[i - 1].plays}`;
       return [
         r.nomi.join(', '),
-        `${segno(r.musetti.impatto, r.musetti.decimali)}%`,
-        `${segno(r.avversario.impatto, r.avversario.decimali)}%`,
+        `${segno(r.musetti.impatto)}%`,
+        `${segno(r.avversario.impatto)}%`,
         conteggi,
       ];
     }),
