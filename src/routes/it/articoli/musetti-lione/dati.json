@@ -1,0 +1,1225 @@
+{
+  "meta": {
+    "title": "Musetti a Lione 2026",
+    "tournament": "ATP 250 Lione, cemento indoor, 19-25 ottobre 2026",
+    "source": "Courtside Advantage (TennisViz), https://courtsideadvantage.com",
+    "attribution": "da fornire dall'autore (abbonamento TennisViz dell'autore)",
+    "extracted_on": "2026-10-26",
+    "language": "it",
+    "conventions": [
+      "velocita' in km/h",
+      "media del torneo = cinque partite di Musetti, finale inclusa",
+      "in caso di discrepanza tra pagine del sito vale Match Stats",
+      "ogni valore rimanda a un id di fonte (O, A, B, C) nella sezione 'Fonti e calcoli' dello storyboard",
+      "match keys: R1, R2, QF, SF, F"
+    ],
+    "screenshots": [
+      {
+        "id": "S1",
+        "file": "screenshots/S1-A3-serve-direction.jpg",
+        "block": "A3"
+      },
+      {
+        "id": "S2",
+        "file": "screenshots/S2-B3-hot-cold-schede.jpg",
+        "block": "B3"
+      },
+      {
+        "id": "S3",
+        "file": "screenshots/S3-B3-hot-cold-traiettorie.jpg",
+        "block": "B3"
+      }
+    ]
+  },
+  "matches": [
+    {
+      "key": "R1",
+      "id": 4152709,
+      "round": "1° turno",
+      "date": "2026-10-19",
+      "opponent": "Matteo Arnaldi",
+      "score": "6-1 6-4",
+      "duration": "1h19",
+      "musetti_player": "player2"
+    },
+    {
+      "key": "R2",
+      "id": 4158261,
+      "round": "2° turno",
+      "date": "2026-10-21",
+      "opponent": "Moïse Kouamé",
+      "score": "6-4 6-4",
+      "duration": "1h49",
+      "musetti_player": "player2"
+    },
+    {
+      "key": "QF",
+      "id": 4164423,
+      "round": "Quarti",
+      "date": "2026-10-23",
+      "opponent": "Luca Van Assche",
+      "score": "7-6(5) 6-7(7) 6-4",
+      "duration": "3h31",
+      "musetti_player": "player2"
+    },
+    {
+      "key": "SF",
+      "id": 4170021,
+      "round": "Semifinale",
+      "date": "2026-10-24",
+      "opponent": "Flavio Cobolli",
+      "score": "4-6 6-2 7-5",
+      "duration": "2h31",
+      "musetti_player": "player2"
+    },
+    {
+      "key": "F",
+      "id": 4172296,
+      "round": "Finale",
+      "date": "2026-10-25",
+      "opponent": "Taylor Fritz",
+      "score": "6-3 6-4",
+      "duration": "1h20",
+      "musetti_player": "player1"
+    }
+  ],
+  "blocks": {
+    "opening": {
+      "sources": [
+        "O1",
+        "O2",
+        "O3"
+      ],
+      "ratings": {
+        "R1": 8.09,
+        "R2": 8.15,
+        "QF": 8.12,
+        "SF": 8.47,
+        "F": 9.07
+      },
+      "tournament_mean": 8.38,
+      "musetti_52w_avg": 8.07,
+      "tour_avg": 7.29,
+      "note": "tournament_mean = media semplice dei cinque rating di partita, non pesata sui punti"
+    },
+    "A1": {
+      "sources": [
+        "A01",
+        "A02",
+        "A03",
+        "A04",
+        "A18",
+        "A19",
+        "A20"
+      ],
+      "second_serve_points_won": {
+        "musetti": [
+          {
+            "match": "R1",
+            "won": 9,
+            "played": 16,
+            "pct": 56.2
+          },
+          {
+            "match": "R2",
+            "won": 10,
+            "played": 18,
+            "pct": 55.6
+          },
+          {
+            "match": "QF",
+            "won": 26,
+            "played": 41,
+            "pct": 63.4
+          },
+          {
+            "match": "SF",
+            "won": 21,
+            "played": 39,
+            "pct": 53.8
+          },
+          {
+            "match": "F",
+            "won": 14,
+            "played": 20,
+            "pct": 70.0
+          }
+        ],
+        "opponent": [
+          {
+            "match": "R1",
+            "won": 8,
+            "played": 25,
+            "pct": 32.0
+          },
+          {
+            "match": "R2",
+            "won": 11,
+            "played": 26,
+            "pct": 42.3
+          },
+          {
+            "match": "QF",
+            "won": 18,
+            "played": 43,
+            "pct": 41.9
+          },
+          {
+            "match": "SF",
+            "won": 15,
+            "played": 32,
+            "pct": 46.9
+          },
+          {
+            "match": "F",
+            "won": 8,
+            "played": 17,
+            "pct": 47.1
+          }
+        ],
+        "tournament": {
+          "won": 80,
+          "played": 134,
+          "pct": 59.7
+        },
+        "reference_pct": {
+          "musetti_52w_avg": 55,
+          "tour_avg": 51
+        }
+      },
+      "return_points_won": {
+        "on_first_serve": {
+          "won": 65,
+          "played": 248,
+          "pct": 26.2,
+          "per_match": [
+            {
+              "match": "R1",
+              "won": 10,
+              "played": 35
+            },
+            {
+              "match": "R2",
+              "won": 16,
+              "played": 47
+            },
+            {
+              "match": "QF",
+              "won": 18,
+              "played": 85
+            },
+            {
+              "match": "SF",
+              "won": 12,
+              "played": 49
+            },
+            {
+              "match": "F",
+              "won": 9,
+              "played": 32
+            }
+          ],
+          "reference_pct": {
+            "musetti_52w_avg": 28,
+            "tour_avg": 28
+          }
+        },
+        "on_second_serve": {
+          "won": 83,
+          "played": 143,
+          "pct": 58.0,
+          "per_match": [
+            {
+              "match": "R1",
+              "won": 17,
+              "played": 25
+            },
+            {
+              "match": "R2",
+              "won": 15,
+              "played": 26
+            },
+            {
+              "match": "QF",
+              "won": 25,
+              "played": 43
+            },
+            {
+              "match": "SF",
+              "won": 17,
+              "played": 32
+            },
+            {
+              "match": "F",
+              "won": 9,
+              "played": 17
+            }
+          ],
+          "reference_pct": {
+            "musetti_52w_avg": 52,
+            "tour_avg": 49
+          }
+        }
+      }
+    },
+    "A2": {
+      "sources": [
+        "A05",
+        "A06",
+        "A07",
+        "A08",
+        "A09",
+        "A10"
+      ],
+      "unit": "km/h",
+      "first_serve_speed": {
+        "per_match": {
+          "R1": 204,
+          "R2": 203,
+          "QF": 200,
+          "SF": 201,
+          "F": 201
+        },
+        "musetti_52w_avg": 193,
+        "tour_avg": 192
+      },
+      "second_serve_speed": {
+        "per_match": {
+          "R1": 151,
+          "R2": 142,
+          "QF": 148,
+          "SF": 146,
+          "F": 148
+        },
+        "musetti_52w_avg": 151,
+        "tour_avg": 158,
+        "fritz_final": 159
+      },
+      "second_serves_unreturned": {
+        "musetti": [
+          {
+            "match": "R1",
+            "unreturned": 4,
+            "played": 14
+          },
+          {
+            "match": "R2",
+            "unreturned": 3,
+            "played": 18
+          },
+          {
+            "match": "QF",
+            "unreturned": 7,
+            "played": 40
+          },
+          {
+            "match": "SF",
+            "unreturned": 7,
+            "played": 37
+          },
+          {
+            "match": "F",
+            "unreturned": 7,
+            "played": 20
+          }
+        ],
+        "musetti_total": {
+          "unreturned": 28,
+          "played": 129,
+          "pct": 21.7
+        },
+        "opponents": [
+          {
+            "match": "R1",
+            "unreturned": 6,
+            "played": 24
+          },
+          {
+            "match": "R2",
+            "unreturned": 1,
+            "played": 23
+          },
+          {
+            "match": "QF",
+            "unreturned": 4,
+            "played": 41
+          },
+          {
+            "match": "SF",
+            "unreturned": 4,
+            "played": 32
+          },
+          {
+            "match": "F",
+            "unreturned": 4,
+            "played": 17
+          }
+        ],
+        "opponents_total": {
+          "unreturned": 19,
+          "played": 137,
+          "pct": 13.9
+        },
+        "reference_pct": {
+          "musetti_52w_avg": 20,
+          "tour_avg": 16
+        }
+      }
+    },
+    "A3": {
+      "sources": [
+        "A11",
+        "A12",
+        "A13",
+        "A14",
+        "A15",
+        "A16",
+        "A17"
+      ],
+      "screenshot": "S1",
+      "zones_per_match": {
+        "R1": {
+          "adv": [
+            2,
+            2,
+            3
+          ],
+          "deuce": [
+            3,
+            3,
+            1
+          ]
+        },
+        "R2": {
+          "adv": [
+            2,
+            4,
+            1
+          ],
+          "deuce": [
+            8,
+            1,
+            2
+          ]
+        },
+        "QF": {
+          "adv": [
+            5,
+            5,
+            12
+          ],
+          "deuce": [
+            8,
+            3,
+            7
+          ]
+        },
+        "SF": {
+          "adv": [
+            4,
+            4,
+            7
+          ],
+          "deuce": [
+            10,
+            5,
+            7
+          ]
+        },
+        "F": {
+          "adv": [
+            5,
+            2,
+            4
+          ],
+          "deuce": [
+            8,
+            1,
+            0
+          ]
+        }
+      },
+      "zones_legend": "adv = [esterno, corpo, T] nel box dei vantaggi; deuce = [T, corpo, esterno] nel box del pari",
+      "tournament_incl_final": {
+        "counts": {
+          "T": 64,
+          "body": 30,
+          "wide": 35,
+          "bh_zone": 55,
+          "fh_zone": 44,
+          "total": 129
+        },
+        "direction_pct": {
+          "T": 49.6,
+          "body": 23.3,
+          "wide": 27.1
+        },
+        "opponent_stroke_zone_pct": {
+          "backhand": 42.6,
+          "forehand": 34.1,
+          "body_unattributed": 23.3
+        }
+      },
+      "final": {
+        "counts": {
+          "T": 12,
+          "body": 3,
+          "wide": 5,
+          "bh_zone": 13,
+          "fh_zone": 4,
+          "total": 20
+        },
+        "direction_pct": {
+          "T": 60.0,
+          "body": 15.0,
+          "wide": 25.0
+        },
+        "opponent_stroke_zone_pct": {
+          "backhand": 65.0,
+          "forehand": 20.0,
+          "body_unattributed": 15.0
+        }
+      },
+      "opponent_actual_return_stroke": {
+        "per_match_forehand_backhand": {
+          "R1": [
+            21,
+            28
+          ],
+          "R2": [
+            15,
+            36
+          ],
+          "QF": [
+            59,
+            60
+          ],
+          "SF": [
+            52,
+            54
+          ],
+          "F": [
+            24,
+            38
+          ]
+        },
+        "tournament": {
+          "backhand": 216,
+          "total": 387,
+          "pct": 55.8
+        },
+        "final_fritz": {
+          "backhand": 38,
+          "total": 62,
+          "pct": 61.3
+        },
+        "note": "su tutte le battute (prima e seconda), non solo sulle seconde"
+      },
+      "assumptions": [
+        "tutti gli avversari sono destrimani (verifica iniziale da ricerca web, confermata dall'autore)",
+        "la zona del colpo avversario e' una stima dalla direzione della battuta; il corpo non e' attribuito",
+        "orientamento dei box nella grafica: sinistra = vantaggi, destra = pari (verificato in A12)"
+      ]
+    },
+    "A4": {
+      "sources": [
+        "A06",
+        "A22",
+        "A23"
+      ],
+      "second_serve_return_position_pct": {
+        "R1": [
+          38,
+          50,
+          12
+        ],
+        "R2": [
+          35,
+          35,
+          30
+        ],
+        "QF": [
+          29,
+          25,
+          46
+        ],
+        "SF": [
+          53,
+          19,
+          28
+        ],
+        "F": [
+          19,
+          0,
+          81
+        ]
+      },
+      "bands": [
+        "dentro il campo",
+        "0-2 m dietro la linea",
+        "oltre 2 m dietro la linea"
+      ],
+      "reference": {
+        "musetti_52w_avg": [
+          17,
+          22,
+          61
+        ],
+        "tour_approx": [
+          37,
+          21,
+          41
+        ],
+        "note": "il Tour varia di 1-2 punti tra pagine (37-38 / 20-21 / 40-42)"
+      },
+      "first_serve_return_beyond_2m_pct": {
+        "R1": 66,
+        "R2": 59,
+        "QF": 79,
+        "SF": 42,
+        "F": 89
+      },
+      "first_serve_beyond_2m_avg_pct": 74,
+      "second_serve_speed_context_kmh": {
+        "fritz_final": 159,
+        "musetti_final": 148
+      }
+    },
+    "B1": {
+      "sources": [
+        "B01",
+        "B02",
+        "B03",
+        "B04",
+        "B05"
+      ],
+      "variation_shots_pct": {
+        "musetti": {
+          "R1": 38.8,
+          "R2": 36.3,
+          "QF": 31.4,
+          "SF": 35.7,
+          "F": 37.0
+        },
+        "opponent": {
+          "R1": 25.6,
+          "R2": 21.4,
+          "QF": 17.9,
+          "SF": 20.1,
+          "F": 15.0
+        }
+      },
+      "tournament": {
+        "variation": 503,
+        "total_shots": 1448,
+        "pct": 34.7
+      },
+      "reference_pct": {
+        "musetti_52w_avg": 33,
+        "tour_avg": 21.3
+      },
+      "note": "la definizione del sito elenca slice, slice corti, smorzate, angoli e colpi a rete; le percentuali includono anche i lob"
+    },
+    "B2": {
+      "sources": [
+        "B06",
+        "B07",
+        "B08",
+        "B09",
+        "B10"
+      ],
+      "backhand_slice_share_pct": {
+        "musetti": {
+          "R1": 59,
+          "R2": 45,
+          "QF": 45,
+          "SF": 46,
+          "F": 51
+        },
+        "opponent": {
+          "R1": 21,
+          "R2": 9,
+          "QF": 9,
+          "SF": 13,
+          "F": 6
+        }
+      },
+      "backhand_slice_spin_rpm": {
+        "musetti_range": [
+          -3328,
+          -3021
+        ],
+        "opponent_range": [
+          -2429,
+          -1754
+        ],
+        "musetti_52w_avg": -3031,
+        "tour_avg": -2613
+      },
+      "backhand_topspin_spin_rpm": {
+        "musetti_per_match": {
+          "R1": 2281,
+          "R2": 2609,
+          "QF": 2264,
+          "SF": 2205,
+          "F": 2350
+        },
+        "musetti_52w_avg": 2340,
+        "tour_avg": 1798
+      }
+    },
+    "B3": {
+      "sources": [
+        "B11",
+        "B12",
+        "B13",
+        "B14",
+        "B15",
+        "B16",
+        "B17"
+      ],
+      "screenshots": [
+        "S2",
+        "S3"
+      ],
+      "definition": {
+        "hot": "vincenti, colpi che portano il giocatore in attacco, colpi che provocano un errore dell'avversario",
+        "cold": "errori non forzati, colpi che portano l'avversario in attacco, colpi che regalano un vincente all'avversario",
+        "impact": "quota hot meno quota cold sui colpi dello schema; servizio e risposta esclusi (Insights Explained)"
+      },
+      "focus_scheme": "Rovescio incrociato",
+      "backhand_crosscourt": {
+        "tournament": {
+          "plays": 347,
+          "hot": 60,
+          "cold": 100,
+          "net": -40,
+          "impact_pct": -11.5,
+          "share_of_plays_pct": 23.9
+        },
+        "per_match_site_impact_pct": {
+          "R1": -26,
+          "R2": -13,
+          "QF": -8,
+          "SF": -12,
+          "F": -8
+        },
+        "reference_impact_pct_approx": {
+          "musetti_52w_avg": -11,
+          "tour_avg": -2,
+          "note": "stimati dalla geometria dei segmenti nel grafico del sito (precisione circa 1 punto)"
+        },
+        "opponents_same_scheme": [
+          {
+            "match": "QF",
+            "opponent": "Van Assche",
+            "plays": 156,
+            "hot": 24,
+            "cold": 27
+          },
+          {
+            "match": "SF",
+            "opponent": "Cobolli",
+            "plays": 74,
+            "hot": 14,
+            "cold": 15
+          },
+          {
+            "match": "F",
+            "opponent": "Fritz",
+            "plays": 52,
+            "hot": 14,
+            "cold": 13
+          }
+        ]
+      },
+      "all_schemes_tournament": [
+        {
+          "scheme": "Rovescio incrociato",
+          "plays": 347,
+          "hot": 60,
+          "cold": 100,
+          "net": -40,
+          "impact_pct": -11.5,
+          "net_per_match": {
+            "R1": -9,
+            "R2": -10,
+            "QF": -9,
+            "SF": -8,
+            "F": -4
+          },
+          "per_match": [
+            {
+              "match": "R1",
+              "plays": 34,
+              "hot": 5,
+              "cold": 14
+            },
+            {
+              "match": "R2",
+              "plays": 79,
+              "hot": 11,
+              "cold": 21
+            },
+            {
+              "match": "QF",
+              "plays": 119,
+              "hot": 22,
+              "cold": 31
+            },
+            {
+              "match": "SF",
+              "plays": 66,
+              "hot": 13,
+              "cold": 21
+            },
+            {
+              "match": "F",
+              "plays": 49,
+              "hot": 9,
+              "cold": 13
+            }
+          ]
+        },
+        {
+          "scheme": "Rovescio lungolinea",
+          "plays": 197,
+          "hot": 55,
+          "cold": 49,
+          "net": 6,
+          "impact_pct": 3.0,
+          "net_per_match": {
+            "R1": 0,
+            "R2": 1,
+            "QF": -3,
+            "SF": 8,
+            "F": 0
+          },
+          "per_match": [
+            {
+              "match": "R1",
+              "plays": 17,
+              "hot": 4,
+              "cold": 4
+            },
+            {
+              "match": "R2",
+              "plays": 40,
+              "hot": 11,
+              "cold": 10
+            },
+            {
+              "match": "QF",
+              "plays": 62,
+              "hot": 12,
+              "cold": 15
+            },
+            {
+              "match": "SF",
+              "plays": 43,
+              "hot": 17,
+              "cold": 9
+            },
+            {
+              "match": "F",
+              "plays": 35,
+              "hot": 11,
+              "cold": 11
+            }
+          ]
+        },
+        {
+          "scheme": "Dritto incrociato",
+          "plays": 252,
+          "hot": 61,
+          "cold": 34,
+          "net": 27,
+          "impact_pct": 10.7,
+          "net_per_match": {
+            "R1": 9,
+            "R2": 2,
+            "QF": 10,
+            "SF": 4,
+            "F": 2
+          },
+          "per_match": [
+            {
+              "match": "R1",
+              "plays": 28,
+              "hot": 12,
+              "cold": 3
+            },
+            {
+              "match": "R2",
+              "plays": 40,
+              "hot": 8,
+              "cold": 6
+            },
+            {
+              "match": "QF",
+              "plays": 93,
+              "hot": 20,
+              "cold": 10
+            },
+            {
+              "match": "SF",
+              "plays": 57,
+              "hot": 15,
+              "cold": 11
+            },
+            {
+              "match": "F",
+              "plays": 34,
+              "hot": 6,
+              "cold": 4
+            }
+          ]
+        },
+        {
+          "scheme": "Dritto lungolinea",
+          "plays": 173,
+          "hot": 53,
+          "cold": 30,
+          "net": 23,
+          "impact_pct": 13.3,
+          "net_per_match": {
+            "R1": 5,
+            "R2": 5,
+            "QF": 7,
+            "SF": 5,
+            "F": 1
+          },
+          "per_match": [
+            {
+              "match": "R1",
+              "plays": 13,
+              "hot": 6,
+              "cold": 1
+            },
+            {
+              "match": "R2",
+              "plays": 28,
+              "hot": 11,
+              "cold": 6
+            },
+            {
+              "match": "QF",
+              "plays": 62,
+              "hot": 20,
+              "cold": 13
+            },
+            {
+              "match": "SF",
+              "plays": 36,
+              "hot": 10,
+              "cold": 5
+            },
+            {
+              "match": "F",
+              "plays": 34,
+              "hot": 6,
+              "cold": 5
+            }
+          ]
+        },
+        {
+          "scheme": "Dritto da centro campo",
+          "plays": 227,
+          "hot": 58,
+          "cold": 40,
+          "net": 18,
+          "impact_pct": 7.9,
+          "net_per_match": {
+            "R1": 5,
+            "R2": 6,
+            "QF": 2,
+            "SF": 6,
+            "F": -1
+          },
+          "per_match": [
+            {
+              "match": "R1",
+              "plays": 27,
+              "hot": 7,
+              "cold": 2
+            },
+            {
+              "match": "R2",
+              "plays": 37,
+              "hot": 10,
+              "cold": 4
+            },
+            {
+              "match": "QF",
+              "plays": 92,
+              "hot": 24,
+              "cold": 22
+            },
+            {
+              "match": "SF",
+              "plays": 46,
+              "hot": 14,
+              "cold": 8
+            },
+            {
+              "match": "F",
+              "plays": 25,
+              "hot": 3,
+              "cold": 4
+            }
+          ]
+        },
+        {
+          "scheme": "Dritto inside-in e inside-out",
+          "plays": 111,
+          "hot": 42,
+          "cold": 17,
+          "net": 25,
+          "impact_pct": 22.5,
+          "net_per_match": {
+            "R1": 3,
+            "R2": 6,
+            "QF": 11,
+            "SF": 4,
+            "F": 1
+          },
+          "per_match": [
+            {
+              "match": "R1",
+              "plays": 11,
+              "hot": 5,
+              "cold": 2
+            },
+            {
+              "match": "R2",
+              "plays": 23,
+              "hot": 10,
+              "cold": 4
+            },
+            {
+              "match": "QF",
+              "plays": 50,
+              "hot": 16,
+              "cold": 5
+            },
+            {
+              "match": "SF",
+              "plays": 16,
+              "hot": 7,
+              "cold": 3
+            },
+            {
+              "match": "F",
+              "plays": 11,
+              "hot": 4,
+              "cold": 3
+            }
+          ]
+        },
+        {
+          "scheme": "Rovescio da centro campo",
+          "plays": 54,
+          "hot": 14,
+          "cold": 14,
+          "net": 0,
+          "impact_pct": 0.0,
+          "net_per_match": {
+            "R1": -1,
+            "R2": 0,
+            "QF": 2,
+            "SF": -2,
+            "F": 1
+          },
+          "per_match": [
+            {
+              "match": "R1",
+              "plays": 6,
+              "hot": 1,
+              "cold": 2
+            },
+            {
+              "match": "R2",
+              "plays": 8,
+              "hot": 3,
+              "cold": 3
+            },
+            {
+              "match": "QF",
+              "plays": 17,
+              "hot": 5,
+              "cold": 3
+            },
+            {
+              "match": "SF",
+              "plays": 17,
+              "hot": 3,
+              "cold": 5
+            },
+            {
+              "match": "F",
+              "plays": 6,
+              "hot": 2,
+              "cold": 1
+            }
+          ]
+        },
+        {
+          "scheme": "Volee",
+          "plays": 64,
+          "hot": 30,
+          "cold": 7,
+          "net": 23,
+          "impact_pct": 35.9,
+          "net_per_match": {
+            "R1": 4,
+            "R2": 6,
+            "QF": 8,
+            "SF": 2,
+            "F": 3
+          },
+          "per_match": [
+            {
+              "match": "R1",
+              "plays": 8,
+              "hot": 5,
+              "cold": 1
+            },
+            {
+              "match": "R2",
+              "plays": 18,
+              "hot": 8,
+              "cold": 2
+            },
+            {
+              "match": "QF",
+              "plays": 27,
+              "hot": 11,
+              "cold": 3
+            },
+            {
+              "match": "SF",
+              "plays": 7,
+              "hot": 3,
+              "cold": 1
+            },
+            {
+              "match": "F",
+              "plays": 4,
+              "hot": 3,
+              "cold": 0
+            }
+          ]
+        },
+        {
+          "scheme": "Smorzate",
+          "plays": 24,
+          "hot": 12,
+          "cold": 7,
+          "net": 5,
+          "impact_pct": 20.8,
+          "net_per_match": {
+            "R1": -2,
+            "R2": 4,
+            "QF": 3,
+            "SF": 0,
+            "F": 0
+          },
+          "per_match": [
+            {
+              "match": "R1",
+              "plays": 3,
+              "hot": 0,
+              "cold": 2
+            },
+            {
+              "match": "R2",
+              "plays": 4,
+              "hot": 4,
+              "cold": 0
+            },
+            {
+              "match": "QF",
+              "plays": 8,
+              "hot": 4,
+              "cold": 1
+            },
+            {
+              "match": "SF",
+              "plays": 7,
+              "hot": 3,
+              "cold": 3
+            },
+            {
+              "match": "F",
+              "plays": 2,
+              "hot": 1,
+              "cold": 1
+            }
+          ]
+        }
+      ],
+      "totals": {
+        "plays_per_match": {
+          "R1": 147,
+          "R2": 277,
+          "QF": 530,
+          "SF": 295,
+          "F": 200
+        },
+        "net_per_match": {
+          "R1": 14,
+          "R2": 20,
+          "QF": 31,
+          "SF": 19,
+          "F": 3
+        },
+        "net_per_100_plays": {
+          "R1": 9.5,
+          "R2": 7.2,
+          "QF": 5.8,
+          "SF": 6.4,
+          "F": 1.5
+        },
+        "plays": 1449,
+        "hot": 385,
+        "cold": 298,
+        "net": 87
+      },
+      "final_balance_caution": {
+        "musetti_net": 3,
+        "fritz_net": 17,
+        "fritz_hot": 57,
+        "fritz_cold": 40,
+        "note": "il saldo hot meno cold non coincide con il risultato"
+      }
+    },
+    "closing": {
+      "sources": [
+        "C1",
+        "C2",
+        "C3",
+        "C4",
+        "A11",
+        "A14",
+        "A15"
+      ],
+      "fritz_final_backhand": {
+        "winners": 0,
+        "unforced_errors": 13,
+        "forced_errors": 11,
+        "shot_quality": 5.8,
+        "shot_quality_52w_avg": 7.2,
+        "backhand_line": {
+          "impact_pct": -27,
+          "hot": 0,
+          "cold": 4,
+          "plays": 15
+        }
+      },
+      "backhand_net_clearance_cm": {
+        "musetti": 111,
+        "fritz": 57
+      }
+    }
+  }
+}
