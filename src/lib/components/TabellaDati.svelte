@@ -1,6 +1,7 @@
 <script>
   import MetodoDialog from './MetodoDialog.svelte';
   import PulsanteIcona from './PulsanteIcona.svelte';
+  import { site } from '$lib/data/site.js';
 
   /**
    * TABELLA DEI DATI di un grafico, in una finestra che si apre da un pulsante
@@ -14,15 +15,16 @@
    * intestazioni   nomi delle colonne
    * righe          righe di celle (testo); la prima cella e il nome della riga
    * nota           (facoltativo) frase sotto la tabella
+   * lang           'it' o 'en': lingua del pulsante e della finestra
    *
-   * @type {{ titolo: string, intestazioni: string[], righe: string[][], nota?: string }}
+   * @type {{ titolo: string, intestazioni: string[], righe: string[][], nota?: string, lang?: 'it' | 'en' }}
    */
-  let { titolo, intestazioni, righe, nota = '' } = $props();
+  let { titolo, intestazioni, righe, nota = '', lang = 'it' } = $props();
 </script>
 
-<MetodoDialog etichetta="Dati in tabella" {titolo}>
+<MetodoDialog etichetta={site[lang].chart.dataTable} {titolo} {lang}>
   {#snippet pulsante(apri)}
-    <PulsanteIcona etichetta="Dati in tabella" onclick={apri} ariaHaspopup="dialog">
+    <PulsanteIcona etichetta={site[lang].chart.dataTable} onclick={apri} ariaHaspopup="dialog">
       <!-- Icona di una tabella -->
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <rect x="3.5" y="5" width="17" height="14" rx="1.5" />

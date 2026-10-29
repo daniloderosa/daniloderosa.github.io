@@ -2,6 +2,7 @@
   import TabellaDati from './TabellaDati.svelte';
   import PulsanteIcona from './PulsanteIcona.svelte';
   import { scaricaGrafico, nomeFileDaTitolo } from '$lib/scaricaGrafico.js';
+  import { site } from '$lib/data/site.js';
 
   /**
    * CONTENITORE CONDIVISO DEI GRAFICI.
@@ -19,13 +20,18 @@
    * tabella   (facoltativo ma consigliato) { intestazioni, righe, nota }: i
    *           numeri del grafico in forma di tabella, apribile dal pulsante
    *           "Dati in tabella" (accessibile da lettore di schermo e tastiera)
+   * lang      'it' o 'en': lingua dei pulsanti (tabella, download) e degli avvisi
    *
    * Esempio d'uso:
    *   <ChartFrame title="..." subtitle="..." summary="..." source="...">
    *     <svg ...>...</svg>
    *   </ChartFrame>
    */
-  let { title, subtitle, summary, source, note = null, tabella = null, children } = $props();
+  let { title, subtitle, summary, source, note = null, tabella = null, lang = 'it', children } = $props();
+
+  // Scritte dei pulsanti e degli avvisi nella lingua della pagina
+  const lingua = $derived(lang === 'en' ? 'en' : 'it');
+  const ui = $derived(site[lingua].chart);
 
   // Prefisso unico per gli id: serve a collegare titolo e sottotitolo al
   // grafico anche quando nella pagina ci sono piu ChartFrame.
@@ -47,7 +53,7 @@
       await scaricaGrafico(figura, nomeFileDaTitolo(title));
     } catch (e) {
       console.error(e);
-      errore = "Non è stato possibile creare l'immagine del grafico.";
+      errore = ui.imageError;
     } finally {
       occupato = false;
     }
@@ -82,9 +88,9 @@
     <!-- data-escludi-immagine: le icone non compaiono nell'immagine scaricata -->
     <div class="azioni" data-escludi-immagine>
       {#if tabella}
-        <TabellaDati titolo={title} intestazioni={tabella.intestazioni} righe={tabella.righe} nota={tabella.nota} />
+        <TabellaDati titolo={title} intestazioni={tabella.intestazioni} righe={tabella.righe} nota={tabella.nota} lang={lingua} />
       {/if}
-      <PulsanteIcona etichetta="Scarica il grafico come immagine" onclick={scarica} {occupato}>
+      <PulsanteIcona etichetta={ui.download} onclick={scarica} {occupato}>
         <!-- Icona del download: freccia verso un vassoio -->
         <svg viewBox="0 0 24 24" aria-hidden="true">
           <path d="M12 4.5v10.5M7.5 11l4.5 4.5 4.5-4.5M5 19.5h14" />

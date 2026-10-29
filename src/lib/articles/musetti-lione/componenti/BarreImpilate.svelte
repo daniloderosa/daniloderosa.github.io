@@ -1,5 +1,5 @@
 <script>
-  import { num } from '../formato.js';
+  import { formati } from '../formato.js';
   import { larghezzaTesto } from './geometria.js';
 
   /**
@@ -24,9 +24,12 @@
    * l'informazione non dipende dal solo colore. Il grafico e statico:
    * i valori sono scritti nei segmenti.
    *
-   * @type {{ barre: any[], legenda?: any[], nomiDentro?: boolean, etichettaSopra?: boolean }}
+   * @type {{ barre: any[], legenda?: any[], nomiDentro?: boolean, etichettaSopra?: boolean, lang?: 'it' | 'en' }}
    */
-  let { barre, legenda = [], nomiDentro = false, etichettaSopra = false } = $props();
+  let { barre, legenda = [], nomiDentro = false, etichettaSopra = false, lang = 'it' } = $props();
+
+  // Percentuali scritte con i decimali della lingua della pagina
+  const { num } = $derived(formati(lang));
 
   // Larghezza reale del contenitore; se e nascosto (0) si usa 320.
   let misurata = $state(320);

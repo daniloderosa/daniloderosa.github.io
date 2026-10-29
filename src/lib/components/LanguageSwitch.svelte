@@ -21,7 +21,7 @@
    * Sono disegnate in SVG e non con le emoji perche su Windows le emoji
    * delle bandiere non esistono: al loro posto compaiono le lettere "US".
    *
-   * @type {{ lang: 'en' | 'it', page: 'home' | 'projects' | 'about' | 'contact' }}
+   * @type {{ lang: 'en' | 'it', page: string }}
    */
   let { lang, page } = $props();
 

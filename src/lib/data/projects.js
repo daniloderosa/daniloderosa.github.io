@@ -14,6 +14,8 @@
  *   poster    primo fotogramma del video (PNG): si vede prima che parta, e
  *             sempre per chi ha chiesto meno movimento nel sistema
  *   image     anteprima statica (PNG/JPG) al posto del video, oppure assente.
+ *             Se l'anteprima ha del testo nella lingua, si mette dentro en / it
+ *             (una per lingua): quella della lingua vince su questa.
  *             Senza video ne image si vede il riquadro a righe con etichetta
  *   en / it   testi nella lingua: tag, titolo, descrizione, link, alt, azione.
  *             Il link puo cambiare con la lingua: la top 100 in italiano si
@@ -24,7 +26,38 @@
  * href: '/articles/<slug>/' (en) e '/it/articoli/<slug>/' (it).
  */
 
+import { routes } from "./routes.js";
+
 export const projects = [
+  {
+    id: "musetti-lione",
+    year: 2026,
+    category: "tennis",
+    external: false,
+    image: null,
+    video: null,
+    poster: null,
+    en: {
+      tag: "TOURNAMENTS",
+      title: "How Musetti won the ATP 250 in Lyon",
+      description:
+        "Five interactive charts on the second serve, the return and the backhand of Lorenzo Musetti's week in Lyon.",
+      href: routes.musettiLione.en,
+      image: "/previews/musetti-en.png",
+      alt: "Preview — the title of the article, How Musetti won the ATP 250 in Lyon",
+      cta: "Read the article",
+    },
+    it: {
+      tag: "TORNEI",
+      title: "Come Musetti ha vinto il torneo 250 di Lione",
+      description:
+        "Cinque grafici interattivi su seconda di servizio, risposta e rovescio di Lorenzo Musetti nella settimana di Lione.",
+      href: routes.musettiLione.it,
+      image: "/previews/musetti-it.png",
+      alt: "Anteprima — il titolo dell'articolo, Come Musetti ha vinto il torneo 250 di Lione",
+      cta: "Leggi l'articolo",
+    },
+  },
   {
     id: "surface-speed",
     year: 2026,

@@ -18,9 +18,12 @@
    * Le etichette stanno direttamente sui punti della prima riga
    * ("Musetti", "Avversario"): niente legenda.
    *
-   * @type {{ righe: any[], riferimenti: any[], domain: number[], ticks: number[] }}
+   * ui           { musetti, avversario }: i nomi delle due serie nella lingua
+   *              della pagina (vedi etichette.js)
+   *
+   * @type {{ righe: any[], riferimenti: any[], domain: number[], ticks: number[], ui: { musetti: string, avversario: string } }}
    */
-  let { righe, riferimenti, domain, ticks } = $props();
+  let { righe, riferimenti, domain, ticks, ui } = $props();
 
   // Larghezza reale del contenitore: il grafico si ridisegna a ogni misura.
   // Se il contenitore e nascosto (0) si usa 320, per non avere scale rovesciate.
@@ -90,8 +93,8 @@
     {/each}
 
     {#each righe as riga, i (riga.key)}
-      {@const testoA = testoPunto(i, 'Musetti', riga.a.text)}
-      {@const testoB = testoPunto(i, 'Avversario', riga.b.text)}
+      {@const testoA = testoPunto(i, ui.musetti, riga.a.text)}
+      {@const testoB = testoPunto(i, ui.avversario, riga.b.text)}
       {@const etA = etichetta(x(riga.a.value), testoA, w, 4, sinistra)}
       {@const etB = etichetta(x(riga.b.value), testoB, w, 4, sinistra)}
 

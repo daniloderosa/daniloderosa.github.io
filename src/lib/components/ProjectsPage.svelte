@@ -40,7 +40,7 @@
         year={project.year}
         badge={t.categories[project.category === 'tennis' ? 'tennis' : 'other']}
         primary={project.category === 'tennis'}
-        image={project.image}
+        image={project[lang].image ?? project.image}
         video={project.video}
         poster={project.poster}
         external={project.external}

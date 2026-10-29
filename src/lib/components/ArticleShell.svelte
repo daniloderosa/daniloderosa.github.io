@@ -1,7 +1,8 @@
 <script>
   import SiteFooter from './SiteFooter.svelte';
   import { site } from '$lib/data/site.js';
-  import { path } from '$lib/data/routes.js';
+  import LanguageSwitch from './LanguageSwitch.svelte';
+  import { path, twin } from '$lib/data/routes.js';
 
   /**
    * Cornice comune degli ARTICOLI: intestazione con ritorno all'elenco dei
@@ -12,7 +13,13 @@
    * lang         'en' o 'it'
    * title        titolo della scheda del browser e dell'anteprima social
    * description  descrizione per motori di ricerca e anteprima social
-   * href         indirizzo della pagina, per esempio '/it/articoli/slug/'
+   * image        (facoltativo) anteprima social propria della pagina: percorso
+   *              di un file in static/, per esempio '/og-articolo-it.png'.
+   *              Senza, si usa quella generale del sito per la lingua.
+   * imageAlt     testo alternativo dell'anteprima (obbligatorio se c'e `image`)
+   * page         chiave dell'articolo in src/lib/data/routes.js (indirizzi nelle due
+   *              lingue): serve all'indirizzo canonico, ai tag hreflang e al
+   *              selettore lingua, che porta alla versione gemella
    * noindex      true = chiede ai motori di ricerca di non indicizzare la
    *              pagina. Da usare finche l'articolo non e approvato e tradotto.
    * footer       (facoltativo) snippet col contenuto del piede, a sinistra. Se manca,
@@ -22,30 +29,27 @@
    *              scorre: il contenuto deve starci. Sotto quelle misure la
    *              pagina scorre normalmente.
    *
-   * QUANDO ESISTE LA VERSIONE INGLESE: aggiungere in routes.js la riga
-   * dell'articolo, usare <LanguageSwitch> nell'intestazione e i tag hreflang
-   * qui sotto (come fa SeoHead per le altre pagine). Finche la gemella non
-   * c'e, il selettore lingua non va mostrato: porterebbe a una pagina che non
-   * esiste.
-   *
    * @type {{
    *   lang: 'en' | 'it',
    *   title: string,
    *   description: string,
-   *   href: string,
+   *   page: string,
+   *   image?: string,
+   *   imageAlt?: string,
    *   noindex?: boolean,
    *   schermata?: boolean,
    *   footer?: import('svelte').Snippet,
    *   children: import('svelte').Snippet
    * }}
    */
-  let { lang, title, description, href, noindex = false, schermata = false, footer, children } = $props();
+  let { lang, title, description, page, image: immagine, imageAlt: immagineAlt, noindex = false, schermata = false, footer, children } = $props();
 
   const t = $derived(site[lang]);
-  const url = $derived(site.url + href);
-  // Anteprima social: per ora quella generale del sito, una per lingua.
-  const image = $derived(`${site.url}/og-${lang}.png`);
-  const imageAlt = $derived(`${site.name} — ${t.home.motto}`);
+  const url = $derived(site.url + path(page, lang));
+  const urlGemella = $derived(site.url + twin(page, lang));
+  // Anteprima social: quella della pagina, se c'e; altrimenti quella generale del sito.
+  const image = $derived(site.url + (immagine ?? `/og-${lang}.png`));
+  const imageAlt = $derived(immagineAlt ?? `${site.name} — ${t.home.motto}`);
 
   // Palette Panna anche sul fondo della pagina intera, come nelle altre pagine interne.
   $effect(() => {
@@ -57,6 +61,11 @@
   <title>{title}</title>
   <meta name="description" content={description} />
   <link rel="canonical" href={url} />
+
+  <!-- Dice ai motori di ricerca che le due lingue sono la stessa pagina. -->
+  <link rel="alternate" hreflang={lang} href={url} />
+  <link rel="alternate" hreflang={lang === 'en' ? 'it' : 'en'} href={urlGemella} />
+  <link rel="alternate" hreflang="x-default" href={site.url + path(page, 'en')} />
   {#if noindex}
     <meta name="robots" content="noindex" />
   {/if}
@@ -82,6 +91,8 @@
       <span aria-hidden="true">←</span>
       <span>{t.nav.projects}</span>
     </a>
+    <!-- Selettore lingua in alto a destra: porta alla stessa pagina nell'altra lingua -->
+    <div class="lingua"><LanguageSwitch {lang} {page} /></div>
   </header>
 
   <main class="main">
@@ -108,6 +119,10 @@
   }
 
   .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
     padding: var(--space-2) var(--margine);
     border-bottom: var(--border-rule);
   }

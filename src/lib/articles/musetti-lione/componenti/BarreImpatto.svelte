@@ -1,7 +1,7 @@
 <script>
   import { scaleLinear } from 'd3';
   import { ancoreRiferimenti, etichetta, larghezzaTesto } from './geometria.js';
-  import { segno } from '../formato.js';
+  import { formati } from '../formato.js';
 
   /**
    * BARRE DIVERGENTI: l'impatto di uno schema di gioco (quota di colpi hot
@@ -9,7 +9,7 @@
    * verso sinistra l'impatto e negativo. Usato in B3. Grafico statico, senza
    * interazione: il riassunto testuale lo da il ChartFrame.
    *
-   * righe        [{ key, label, musetti: {impatto, decimali},
+   * righe        [{ key, nomi: [riga1, riga2], musetti: {impatto, decimali},
    *                 avversario: {impatto, decimali} }]
    *              la prima riga e il torneo: li l'avversario e la MEDIA dei cinque
    * riferimenti  [{ value, tipo: 'musetti'|'tour', nome, testo }] linee verticali
@@ -29,9 +29,15 @@
    * dei valori stanno sempre nel disegno (le frecce "Saldo negativo / positivo" scivolano a sinistra se serve)
    * e le scritte dei valori non toccano la colonna dei nomi.
    *
-   * @type {{ righe: any[], riferimenti: any[], domain: number[], ticks: number[] }}
+   * ui           scritte nella lingua della pagina (vedi etichette.js): musetti,
+   *              avversario, saldoNegativo, saldoPositivo, mediaAvversari
+   *
+   * @type {{ righe: any[], riferimenti: any[], domain: number[], ticks: number[], ui: any, lang?: 'it' | 'en' }}
    */
-  let { righe, riferimenti, domain, ticks } = $props();
+  let { righe, riferimenti, domain, ticks, ui, lang = 'it' } = $props();
+
+  // Numeri con segno scritti con i decimali della lingua della pagina
+  const { segno } = $derived(formati(lang));
 
   // Larghezza reale del contenitore; se e nascosto (0) si usa 320.
   let misurata = $state(320);
@@ -61,17 +67,8 @@
   const crescita = $derived(Math.max(extra, 0));
   const h = $derived(alto + righe.length * altezzaRiga + basso);
 
-  /**
-   * Le due righe del nome: ["1° turno", "Arnaldi"]. Il label arriva come
-   * "turno · cognome"; per il torneo la seconda riga e "5 partite".
-   * @param {string} label
-   * @param {number} i  indice della riga (0 = torneo)
-   */
-  function dueRighe(label, i) {
-    const [a, b] = label.split(' · ');
-    return i === 0 ? [label.split(',')[0], `${righe.length - 1} partite`] : [a, b ?? ''];
-  }
-  const nomi = $derived(righe.map((r, i) => dueRighe(r.label, i)));
+  // Le due righe del nome di ogni blocco (es. ["1° turno", "Arnaldi"]): arrivano dai dati.
+  const nomi = $derived(righe.map((r) => r.nomi));
   // Colonna dei nomi: larga quanto la riga di testo piu lunga.
   const colNomi = $derived(Math.max(...nomi.flat().map(larghezzaTesto)) + 8);
 
@@ -113,7 +110,7 @@
 
   // Frecce "Saldo negativo / positivo": stanno attorno allo zero, ma se a destra
   // non c'e posto per la scritta l'intero gruppo scivola a sinistra.
-  const frecciaTesto = larghezzaTesto('Saldo positivo') + 24; // freccia + scritta
+  const frecciaTesto = $derived(larghezzaTesto(ui.saldoPositivo) + 24); // freccia + scritta
   const spostaFrecce = $derived(Math.min(0, w - 4 - (x(0) + frecciaTesto)));
 
   // Etichette dei tick: si parte dallo zero e si salta quella che toccherebbe
@@ -175,7 +172,7 @@
     if (!d) return '';
     const valore = larghezzaTesto(`${segno(d.impatto, d.decimali)}%`);
     const posto = barra(d.impatto).x - 5 - (colNomi + 4) - valore - larghezzaTesto('\u00a0') - 10;
-    return ['media avversari', 'media avv.', 'media'].find((t) => larghezzaTesto(t) <= posto) ?? '';
+    return ui.mediaAvversari.find((/** @type {string} */ t) => larghezzaTesto(t) <= posto) ?? '';
   });
 </script>
 
@@ -202,9 +199,9 @@
       <!-- Legenda diretta, in una riga in cima: forma e colore -->
       <g transform="translate(4 0)">
         <rect class="barra-a" x="0" y="2" width="14" height="10" />
-        <text class="leg-a" x="20" y="11">Musetti</text>
+        <text class="leg-a" x="20" y="11">{ui.musetti}</text>
         <rect class="barra-b" x="100" y="4" width="14" height="8" />
-        <text class="leg-b" x="120" y="11">Avversario</text>
+        <text class="leg-b" x="120" y="11">{ui.avversario}</text>
       </g>
 
       <!-- Asse dello zero -->
@@ -237,9 +234,9 @@
       <!-- Direzione dell'asse, sotto i tick: frecce disegnate + scritta -->
       <g class="direzione" transform="translate({spostaFrecce} {h - basso + 36})">
         <path class="freccia" d="M {x(0) - 4} 0 H {x(0) - 18} M {x(0) - 14} -4 L {x(0) - 18} 0 L {x(0) - 14} 4" />
-        <text class="dir-testo" x={x(0) - 24} y="4" text-anchor="end">Saldo negativo</text>
+        <text class="dir-testo" x={x(0) - 24} y="4" text-anchor="end">{ui.saldoNegativo}</text>
         <path class="freccia" d="M {x(0) + 4} 0 H {x(0) + 18} M {x(0) + 14} -4 L {x(0) + 18} 0 L {x(0) + 14} 4" />
-        <text class="dir-testo" x={x(0) + 24} y="4">Saldo positivo</text>
+        <text class="dir-testo" x={x(0) + 24} y="4">{ui.saldoPositivo}</text>
       </g>
     </g>
   </svg>

@@ -58,6 +58,14 @@ export const site = {
     footer: "© 2026 — BUILT ON POINT-BY-POINT DATA",
     socialLabel: "Profiles",
 
+    /* Pulsanti e avvisi dei grafici degli articoli (ChartFrame, finestre) */
+    chart: {
+      dataTable: "Data table",
+      download: "Download the chart as an image",
+      imageError: "The chart image could not be created.",
+      close: "Close",
+    },
+
     /* ---- HOME ---- */
     home: {
       title: "Danilo De Rosa - Portfolio",
@@ -70,19 +78,19 @@ export const site = {
          `href` + `external` a un progetto in un'altra repository.
          Le schede devono restare tre: la terza finisce dove finisce il campo. */
       cards: [
-        {
-          tag: "SURFACES · 2026",
-          title: "Has tennis become all the same?",
-          href: "https://daniloderosa.github.io/tennis_surface_speed/",
-          external: true,
-        },
+        { tag: "TOURNAMENTS · 2026", title: "How Musetti won in Lyon", page: "musettiLione" },
         {
           tag: "RANKING · 2026",
           title: "ATP Top 100: stats and numbers",
           href: "https://daniloderosa.github.io/tennis_top100/",
           external: true,
         },
-        { tag: "PORTRAIT", title: "About me", page: "about" },
+        {
+          tag: "SURFACES · 2026",
+          title: "Has tennis become all the same?",
+          href: "https://daniloderosa.github.io/tennis_surface_speed/",
+          external: true,
+        },
       ],
       cardsLabel: "Featured",
 
@@ -128,6 +136,14 @@ export const site = {
     footer: "© 2026 — COSTRUITO SU DATI PUNTO PER PUNTO",
     socialLabel: "Profili",
 
+    /* Pulsanti e avvisi dei grafici degli articoli (ChartFrame, finestre) */
+    chart: {
+      dataTable: "Dati in tabella",
+      download: "Scarica il grafico come immagine",
+      imageError: "Non è stato possibile creare l'immagine del grafico.",
+      close: "Chiudi",
+    },
+
     home: {
       title: "Danilo De Rosa - Portfolio",
       description:
@@ -135,19 +151,19 @@ export const site = {
       motto: "Il tennis si decide sui centimetri. Io li misuro.",
 
       cards: [
-        {
-          tag: "SUPERFICI · 2026",
-          title: "Il tennis è diventato tutto uguale?",
-          href: "https://daniloderosa.github.io/tennis_surface_speed/",
-          external: true,
-        },
+        { tag: "TORNEI · 2026", title: "Come Musetti ha vinto a Lione", page: "musettiLione" },
         {
           tag: "CLASSIFICA · 2026",
           title: "ATP Top 100 - Statistiche e numeri",
           href: "https://daniloderosa.github.io/tennis_top100/?lang=it",
           external: true,
         },
-        { tag: "RITRATTO", title: "Chi sono", page: "about" },
+        {
+          tag: "SUPERFICI · 2026",
+          title: "Il tennis è diventato tutto uguale?",
+          href: "https://daniloderosa.github.io/tennis_surface_speed/",
+          external: true,
+        },
       ],
       cardsLabel: "In evidenza",
 

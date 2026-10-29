@@ -1,4 +1,6 @@
 <script>
+  import { site } from '$lib/data/site.js';
+
   /**
    * POP-UP: un pulsante che apre una finestra (note sui dati, tabelle). Usa l'elemento nativo <dialog>: Esc e clic sullo sfondo la chiudono
    * e il browser tiene il cursore dentro la finestra, senza codice nostro.
@@ -7,14 +9,15 @@
    * titolo     titolo della finestra
    * voci       i paragrafi della finestra (alternativa a `children`)
    * children   (facoltativo) snippet con un contenuto qualsiasi, per esempio una tabella
+   * lang       'it' o 'en': lingua del pulsante "Chiudi"
    * piccolo    true = pulsante con il corpo dei testi di fonte dei grafici
    * pulsante   (facoltativo) snippet che disegna il pulsante al posto della
    *            scritta: riceve la funzione che apre la finestra
    *               {#snippet pulsante(apri)} <button onclick={apri}>...</button> {/snippet}
    *
-   * @type {{ etichetta: string, titolo: string, voci?: string[], children?: import('svelte').Snippet, piccolo?: boolean, pulsante?: import('svelte').Snippet<[() => void]> }}
+   * @type {{ etichetta: string, titolo: string, voci?: string[], children?: import('svelte').Snippet, lang?: 'it' | 'en', piccolo?: boolean, pulsante?: import('svelte').Snippet<[() => void]> }}
    */
-  let { etichetta, titolo, voci = [], children, piccolo = false, pulsante } = $props();
+  let { etichetta, titolo, voci = [], children, lang = 'it', piccolo = false, pulsante } = $props();
 
   // Id unico del titolo (collega il titolo alla finestra per i lettori di schermo)
   const uid = $props.id();
@@ -51,7 +54,7 @@
            Con Tab si raggiunge comunque il pulsante. -->
       <!-- svelte-ignore a11y_no_noninteractive_tabindex, a11y_autofocus -->
       <h2 id={idTitolo} tabindex="-1" autofocus>{titolo}</h2>
-      <button type="button" class="chiudi" aria-label="Chiudi" onclick={() => finestra?.close()}>×</button>
+      <button type="button" class="chiudi" aria-label={site[lang].chart.close} onclick={() => finestra?.close()}>×</button>
     </div>
     <!-- tabindex: il corpo puo scorrere, quindi deve essere raggiungibile da tastiera -->
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->

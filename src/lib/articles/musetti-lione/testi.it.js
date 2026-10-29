@@ -10,12 +10,15 @@
  *              un'etichetta davanti al paragrafo): dati e ipotesi restano
  *              distinti, come chiede lo storyboard.
  *
- * Quando i testi saranno approvati, la versione inglese si fara in un file
- * gemello (testi.en.js) con la stessa forma.
+ * La versione inglese e nel file gemello testi.en.js, con la stessa forma:
+ * quando si cambia un testo qui, va cambiato anche li.
  */
 
 export const meta = {
   titolo: "Come Musetti ha vinto il torneo 250 di Lione",
+  // Anteprima social: file in static/ e suo testo alternativo
+  immagine: "/og-musetti-it.png",
+  immagineAlt: "Titolo dell'articolo: Come Musetti ha vinto Lione",
   // Sottotitolo sotto il titolo: una sola riga
   sottotitolo:
     "Dopo 4 anni Musetti è tornato a vincere un torneo ATP battendo in finale Fritz 6-3 6-4 con un Performance Rating di 9.07, il più alto della sua settimana: da dove arriva quel vantaggio e, soprattutto, come ha costruito le sue vittorie nel torneo?",
@@ -23,8 +26,6 @@ export const meta = {
   titoloPagina: "Come Musetti ha vinto il torneo 250 di Lione - Danilo De Rosa",
   descrizione:
     "Come Lorenzo Musetti ha vinto l'ATP 250 di Lione 2026: 5 grafici per capirlo.",
-  // Indirizzo della pagina (serve a canonical e og:url)
-  indirizzo: "/it/articoli/musetti-lione/",
 };
 
 /* ------------------------------------------------------------------ */
@@ -153,16 +154,14 @@ export const schede = [A1, A3, A4, B1, B3];
 /* Nota sui dati, in fondo alla pagina                                */
 /* ------------------------------------------------------------------ */
 // Fonte dei dati, scritta in fondo a ogni grafico.
-export const fonte =
-  "Dati: Courtside Advantage (TennisViz), courtsideadvantage.com";
+export const fonte = "Dati per gentile concessione di TennisViz e Courtside Advantage";
 
 export const notaDati = {
   titolo: "Come leggere i dati",
   voci: [
     "Tutti i dati vengono da Courtside Advantage (TennisViz) e riguardano le cinque partite vinte da Musetti all'ATP 250 di Lione, cemento indoor, 19-25 ottobre 2026.",
     "Le medie di riferimento sono quelle del sito: la media del giocatore copre i tabelloni principali ATP delle ultime 52 settimane; la media Tour i tabelloni principali di ATP 250, 500, 1000, United Cup, Next Gen e Finals nello stesso periodo.",
-    "«Media del torneo» indica le cinque partite di Musetti, finale inclusa. Se due pagine del sito danno valori diversi, vale Match Stats.",
-    "Le percentuali calcolate su pochi casi (per esempio le 20 seconde della finale) sono sempre accompagnate dal conteggio.",
+    "«Media del torneo» indica le cinque partite di Musetti, finale inclusa.",
   ],
 };
 
