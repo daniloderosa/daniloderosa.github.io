@@ -215,9 +215,17 @@
   /* Desktop, una schermata: grafico a sinistra, testo a destra (colonna di
      testo larga al massimo 38rem, come nel riferimento). */
   @media (min-width: 900px) and (min-height: 700px) {
+    /* Il link "← Progetti" e il selettore lingua stanno in alto a destra, sulla
+       stessa riga del titolo: il corpo del titolo scende con la larghezza
+       della finestra (fino a 46px) cosi non ci finisce mai sotto. Il titolo
+       italiano e circa 20 volte il suo corpo; 16rem sono lo spazio dei due
+       comandi. */
     .testata h1 {
-      font-size: var(--type-display-m);
-      line-height: var(--type-display-line-m);
+      font-size: min(
+        var(--type-display-m),
+        calc((100vw - 2 * clamp(var(--page-pad), 4vw, calc(var(--space-7) + var(--space-2))) - 16rem) / 20.3)
+      );
+      line-height: 1.05;
     }
 
     .sottotitolo {
