@@ -133,14 +133,9 @@
       </figure>
     </section>
   {/each}
-  <p class="fonte">{t.noteGrafici}</p>
 </ArticleShell>
 
 <style>
-  .testata {
-    max-width: 980px;
-  }
-
   .occhiello {
     margin: 0 0 var(--space-2);
     font-family: var(--font-mono);
@@ -156,7 +151,6 @@
   }
 
   .sottotitolo {
-    max-width: 72ch;
     margin: var(--space-3) 0 0;
     font-family: var(--font-text);
     font-style: italic;
@@ -166,7 +160,6 @@
   }
 
   .avviso {
-    max-width: 72ch;
     margin: var(--space-5) 0 0;
     padding: var(--space-3) var(--space-4);
     border-left: var(--space-1) solid var(--acc);
@@ -205,7 +198,6 @@
 
   .testo {
     margin: var(--space-2) 0 0;
-    max-width: 68ch;
   }
 
   figure {
@@ -280,7 +272,6 @@
   .passi {
     margin: var(--space-3) 0 0;
     padding-left: 1.4em;
-    max-width: 68ch;
   }
 
   .passi li + li {

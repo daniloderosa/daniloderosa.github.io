@@ -74,7 +74,6 @@ export const testi = {
         altezza: 672,
       },
     ],
-    noteGrafici: "Grafici in inglese. Dati: mie elaborazioni sul video degli highlights.",
   },
   en: {
     meta: {
@@ -142,6 +141,5 @@ export const testi = {
         altezza: 672,
       },
     ],
-    noteGrafici: "Data: my own processing of the highlights video.",
   },
 };
