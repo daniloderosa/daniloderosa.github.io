@@ -15,6 +15,8 @@ export const testi = {
         "Campo, palla e giocatori tracciati da un video televisivo, con un normale processore, senza scheda grafica: colpi, rimbalzi e spostamenti della finale Alcaraz - Shelton.",
     },
     occhiello: "COMPUTER VISION · PARIGI 2026",
+    avviso:
+      "Questo è un test: un esperimento per provare le tecniche di computer vision. I risultati non hanno alcun valore statistico né informativo.",
     titolo: "Dal video al campo: Alcaraz e Shelton tracciati frame per frame",
     sottotitolo:
       "Un esperimento di computer vision sugli highlights della finale del Masters 1000 di Parigi: dove sono il campo, la palla e i due giocatori in ogni fotogramma, e cosa se ne ricava. Tutto su un processore comune, senza scheda grafica e senza addestrare modelli.",
@@ -31,13 +33,8 @@ export const testi = {
         "Video dello scambio con annotazioni: righe del campo sovrapposte, scia gialla della palla, scheletri colorati dei due giocatori ed etichette dritto e rovescio sui colpi.",
       altMappa:
         "Animazione del campo visto dall'alto: due tracce colorate seguono gli spostamenti dei giocatori dietro le linee di fondo e sei punti gialli segnano i rimbalzi.",
-      fonteVideo: "Immagini: highlights ufficiali Tennis TV. Annotazioni: elaborazione dell'autore.",
+      fonteVideo: "Immagini: highlights ufficiali Tennis TV. Annotazioni: mie elaborazioni.",
     },
-    numeri: [
-      { cifra: "23", frase: "scambi ripresi dalla camera principale, 253 secondi di gioco" },
-      { cifra: "93%", frase: "dei fotogrammi in cui la palla viene trovata" },
-      { cifra: "174", frase: "colpi riconosciuti, 87 a testa, e 158 rimbalzi" },
-    ],
     metodo: {
       titolo: "Come funziona",
       passi: [
@@ -77,17 +74,7 @@ export const testi = {
         altezza: 672,
       },
     ],
-    noteGrafici: "Grafici in inglese. Dati: elaborazione dell'autore sul video degli highlights.",
-    limiti: {
-      titolo: "Quanto fidarsi",
-      voci: [
-        "Non esistono annotazioni manuali di questo video: su un campione controllato a occhio, circa l'85% di colpi e rimbalzi è corretto.",
-        "Con una sola camera non si conosce l'altezza della palla: la sua posizione sul campo è nota solo ai rimbalzi.",
-        "A 25 fotogrammi al secondo una palla a 150 km/h percorre 1,7 metri tra un'immagine e l'altra: posizioni e velocità hanno un margine di qualche decina di centimetri e qualche km/h.",
-        "Il tipo di colpo viene da una regola geometrica, non da un modello addestrato. Il gioco a rete è il punto più debole.",
-        "Sono highlights: i numeri descrivono questi quattro minuti, non la partita.",
-      ],
-    },
+    noteGrafici: "Grafici in inglese. Dati: mie elaborazioni sul video degli highlights.",
   },
   en: {
     meta: {
@@ -96,6 +83,8 @@ export const testi = {
         "Court, ball and players tracked from a TV broadcast on an ordinary processor, with no graphics card: shots, bounces and movement in the Alcaraz - Shelton final.",
     },
     occhiello: "COMPUTER VISION · PARIS 2026",
+    avviso:
+      "This is a test: an experiment to try out computer vision techniques. The results have no statistical or informative value.",
     titolo: "From broadcast to court: Alcaraz and Shelton tracked frame by frame",
     sottotitolo:
       "A computer vision experiment on the highlights of the Paris Masters 1000 final: where the court, the ball and both players are in every frame, and what that tells us. All of it on an ordinary processor, with no graphics card and no model training.",
@@ -112,13 +101,8 @@ export const testi = {
         "Video of the rally with annotations: court lines overlaid, a yellow ball trail, coloured skeletons on both players and forehand and backhand labels on the shots.",
       altMappa:
         "Animation of the court from above: two coloured trails follow the players behind the baselines and six yellow dots mark the bounces.",
-      fonteVideo: "Footage: official Tennis TV highlights. Annotations: author's processing.",
+      fonteVideo: "Footage: official Tennis TV highlights. Annotations: my own processing.",
     },
-    numeri: [
-      { cifra: "23", frase: "rallies filmed by the main camera, 253 seconds of play" },
-      { cifra: "93%", frase: "of the frames in which the ball is found" },
-      { cifra: "174", frase: "shots detected, 87 each, and 158 bounces" },
-    ],
     metodo: {
       titolo: "How it works",
       passi: [
@@ -158,16 +142,6 @@ export const testi = {
         altezza: 672,
       },
     ],
-    noteGrafici: "Data: author's processing of the highlights video.",
-    limiti: {
-      titolo: "How far to trust it",
-      voci: [
-        "There are no manual annotations for this video: on a sample checked by eye, about 85% of shots and bounces are correct.",
-        "With a single camera the ball's height is unknown: its position on the court is known only at the bounces.",
-        "At 25 frames per second a ball at 150 km/h travels 1.7 metres between two images: positions and speeds carry a margin of a few tens of centimetres and a few km/h.",
-        "The shot type comes from a geometric rule, not a trained model. Net play is the weakest spot.",
-        "These are highlights: the numbers describe these four minutes, not the match.",
-      ],
-    },
+    noteGrafici: "Data: my own processing of the highlights video.",
   },
 };

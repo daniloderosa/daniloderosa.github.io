@@ -61,6 +61,10 @@
     <p class="occhiello">{t.occhiello}</p>
     <h1 class="display">{t.titolo}</h1>
     <p class="sottotitolo">{t.sottotitolo}</p>
+    <!-- Avviso in evidenza: è un test, non un'analisi -->
+    <blockquote class="avviso">
+      <p>{t.avviso}</p>
+    </blockquote>
   </header>
 
   <!-- Lo scambio: video annotato e minimappa affiancati -->
@@ -107,16 +111,6 @@
     <p class="fonte">{t.scambio.fonteVideo}</p>
   </section>
 
-  <!-- Tre numeri guida -->
-  <ul class="numeri">
-    {#each t.numeri as n (n.cifra)}
-      <li>
-        <span class="cifra">{n.cifra}</span>
-        <span class="frase">{n.frase}</span>
-      </li>
-    {/each}
-  </ul>
-
   <!-- Metodo in cinque passi -->
   <section class="blocco" aria-labelledby="metodo">
     <h2 id="metodo" class="titolo-blocco">{t.metodo.titolo}</h2>
@@ -140,16 +134,6 @@
     </section>
   {/each}
   <p class="fonte">{t.noteGrafici}</p>
-
-  <!-- Limiti -->
-  <section class="blocco limiti" aria-labelledby="limiti">
-    <h2 id="limiti" class="titolo-blocco">{t.limiti.titolo}</h2>
-    <ul class="dash-list">
-      {#each t.limiti.voci as voce (voce)}
-        <li>{voce}</li>
-      {/each}
-    </ul>
-  </section>
 </ArticleShell>
 
 <style>
@@ -181,6 +165,23 @@
     color: var(--fg-2);
   }
 
+  .avviso {
+    max-width: 72ch;
+    margin: var(--space-5) 0 0;
+    padding: var(--space-3) var(--space-4);
+    border-left: var(--space-1) solid var(--acc);
+    background: var(--hatch-2);
+  }
+
+  .avviso p {
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: var(--weight-bold);
+    font-size: var(--type-small);
+    line-height: var(--type-small-line);
+    color: var(--fg);
+  }
+
   .blocco {
     margin-top: var(--space-7);
   }
@@ -195,8 +196,7 @@
   }
 
   .testo,
-  .passi,
-  .limiti :global(li) {
+  .passi {
     font-family: var(--font-text);
     font-size: var(--type-body-m);
     line-height: var(--type-body-line-m);
@@ -277,41 +277,6 @@
     color: var(--fg-3);
   }
 
-  .numeri {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr);
-    gap: var(--space-4);
-    margin: var(--space-7) 0 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .numeri li {
-    padding: var(--space-3) var(--space-4);
-    border-left: var(--space-1) solid var(--acc);
-    background: var(--hatch-2);
-  }
-
-  .cifra {
-    display: block;
-    font-family: var(--font-display);
-    font-weight: var(--weight-black);
-    font-size: var(--type-display-m);
-    line-height: var(--type-display-line-m);
-    letter-spacing: var(--tracking-display);
-    color: var(--acc);
-  }
-
-  .frase {
-    display: block;
-    margin-top: var(--space-1);
-    font-family: var(--font-text);
-    font-style: italic;
-    font-size: var(--type-small);
-    line-height: var(--type-small-line);
-    color: var(--fg-2);
-  }
-
   .passi {
     margin: var(--space-3) 0 0;
     padding-left: 1.4em;
@@ -337,11 +302,6 @@
     border: var(--border-rule, 1px solid var(--rule));
   }
 
-  .limiti :global(.dash-list) {
-    max-width: 68ch;
-    margin-top: var(--space-3);
-  }
-
   @media (min-width: 700px) {
     .testata h1 {
       font-size: var(--type-display-m);
@@ -359,14 +319,9 @@
     }
 
     .testo,
-    .passi,
-    .limiti :global(li) {
+    .passi {
       font-size: var(--type-body);
       line-height: var(--type-body-line);
-    }
-
-    .numeri {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
     }
   }
 
