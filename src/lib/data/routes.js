@@ -1,7 +1,7 @@
 /**
  * INDIRIZZI DEL SITO, nelle due lingue.
  *
- * Ogni pagina ha una chiave (home, projects, about, contact, musettiLione) e un indirizzo per
+ * Ogni pagina ha una chiave (home, projects, about, contact, musettiLione, tennisCv) e un indirizzo per
  * lingua. Da qui leggono tutti: i menu, i pulsanti e il selettore lingua,
  * che cosi porta sempre alla pagina gemella e mai alla home.
  *
@@ -17,6 +17,7 @@ export const routes = {
   about: { en: "/about/", it: "/it/chi-sono/" },
   contact: { en: "/contact/", it: "/it/contatti/" },
   musettiLione: { en: "/articles/musetti-lione/", it: "/it/articoli/musetti-lione/" },
+  tennisCv: { en: "/articles/tennis-computer-vision/", it: "/it/articoli/tennis-computer-vision/" },
 };
 
 /**
