@@ -1,0 +1,5 @@
+{
+  "private": true,
+  "type": "commonjs",
+  "description": "Simulator engine and tools: engine.js is CommonJS (also used by the .cjs scripts and by the game)"
+}

@@ -1,0 +1,22 @@
+// Full simulated / real comparison on the real matches. Usage: node validate.cjs [model] [rep] [output file]
+const fs = require('fs');
+const E = require('./engine.js');
+const V = require('./vallib.cjs');
+const M = JSON.parse(fs.readFileSync(process.argv[2] || 'model_all.json', 'utf8'));
+const RS = require('./data/real_stats.json');
+const rep = +(process.argv[3] || 3), OUT = process.argv[4];
+E.setExtreme(M.xErr, M.xWin); if (M.kfe != null) E.setKfe(M.kfe); E.setShotMod(M.shotMod || {});
+if (M.cDef != null) E.applyIndices(M.players, M.cDef, M.cRet);
+const T = new Set(M.target);
+const t0 = Date.now();
+const sim = V.simulate(M, RS, { k: M.phaseK, persist: M.persist, rep, seed: 7, only: T });
+const real = V.sumReal(RS, T);
+const sumAll = o => { const tot = V.newStats(); Object.assign(tot, { bopSum: 0, bopN: 0 }); for (const id of T) { const s = o[id]; for (const [k, v] of Object.entries(s)) { if (typeof v === 'number') tot[k] = (tot[k] || 0) + v; else if (k === 'se1' || k === 'se2') for (const [b, x] of Object.entries(v)) tot[k][b] = (tot[k][b] || 0) + x; else if (k === 'plays') for (const [pl, c] of Object.entries(v)) { const t = (tot.plays[pl] ??= { n: 0 }); for (const [cl, x] of Object.entries(c)) t[cl] = (t[cl] || 0) + x; } else if (k === 's1') for (const sd of ['deuce', 'ad']) for (const f of ['fh', 'bh']) tot.s1[sd][f] += v[sd][f]; else if (k === 'post') for (const f of ['ue', 'fe', 'win']) tot.post[f] += v[f] || 0; } } return tot; };
+const ms = V.metrics(sumAll(sim)), mr = V.metrics(sumAll(real), true);
+const per = [...T].map(id => ({ id, name: M.players[id].name, s: V.metrics(sim[id]), r: V.metrics(real[id], true) }));
+const f = v => (Number.isNaN(v) ? '  -  ' : Math.abs(v) >= 10 ? v.toFixed(1) : v.toFixed(3));
+let txt = `Simulation: ${rep}x the real points, ${((Date.now() - t0) / 1000).toFixed(1)} s | k ${M.phaseK} persist ${M.persist} xErr ${M.xErr} xWin ${M.xWin} kfe ${M.kfe ?? 0}\n\n`;
+txt += 'metric'.padEnd(52) + 'sim (8)'.padStart(9) + 'real (8)'.padStart(10) + '   ' + per.map(p => p.name.split(' ').at(-1).slice(0, 8).padStart(17)).join('') + '\n';
+for (const k of Object.keys(mr)) txt += k.padEnd(52) + f(ms[k]).padStart(9) + f(mr[k]).padStart(10) + '   ' + per.map(p => `${f(p.s[k])}/${f(p.r[k])}`.padStart(17)).join('') + '\n';
+if (OUT) fs.writeFileSync(OUT, txt); else console.log(txt);
+module.exports = { ms, mr, per };

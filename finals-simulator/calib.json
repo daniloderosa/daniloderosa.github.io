@@ -1,0 +1,4054 @@
+{
+ "k": 0.25,
+ "persist": 0.65,
+ "xErr": 0.92,
+ "xWin": 0.92,
+ "shotMod": {
+  "3|1": {
+   "winner": 1.0473990016456383,
+   "error": 2.296228854954631,
+   "fe": 0.9552260266246453,
+   "opponent_winner": 0.9559616735766924,
+   "opponent_error": 0.6843336640252329
+  },
+  "4|1": {
+   "winner": 0.643232442355805,
+   "error": 0.479985807923051,
+   "fe": 2.859763187816901,
+   "opponent_winner": 0.8409197575554138,
+   "opponent_error": 1.1434490684638625
+  },
+  "5|1": {
+   "winner": 2.235446420832841,
+   "error": 0.8251147216486953,
+   "fe": 0.4166993462583509,
+   "opponent_winner": 1.2174517989293532,
+   "opponent_error": 0.9229926748690437
+  },
+  "6|1": {
+   "winner": 0.7105166989027389,
+   "error": 0.553444842354625,
+   "fe": 1.0422708466520816,
+   "opponent_winner": 1.2087806291879826,
+   "opponent_error": 0.3799155733641752
+  },
+  "7|1": {
+   "winner": 0.6622907761238773,
+   "error": 0.42332482174476455,
+   "fe": 0.5453482755128229
+  },
+  "3|2": {
+   "winner": 0.33073843350790777,
+   "error": 1.9582016813151975,
+   "fe": 1.5319565542660152,
+   "opponent_winner": 0.9478171943490902,
+   "opponent_error": 1.0857239261374017
+  },
+  "4|2": {
+   "winner": 0.5336869062265245,
+   "error": 0.4709423747717072,
+   "fe": 0.5652089221471757,
+   "opponent_winner": 0.7574615155812363,
+   "opponent_error": 1.170400733420638
+  },
+  "5|2": {
+   "winner": 0.6531441295147348,
+   "error": 0.605021626632987,
+   "fe": 0.6376221738626142,
+   "opponent_winner": 1.0115547494561943,
+   "opponent_error": 0.9695520014561292
+  },
+  "6|2": {
+   "winner": 0.6917643787087333,
+   "error": 0.41111831381673686,
+   "fe": 0.7720658318344855,
+   "opponent_winner": 1.4135046477222615,
+   "opponent_error": 1.5709139242656875
+  },
+  "7|2": {
+   "winner": 0.6215564853731028,
+   "error": 0.4719610990091602,
+   "fe": 0.6492627718194427
+  }
+ },
+ "grid": [
+  {
+   "k": 0.25,
+   "persist": 0.65,
+   "L": 108.1
+  },
+  {
+   "k": 0.3,
+   "persist": 0.65,
+   "L": 111
+  },
+  {
+   "k": 0.2,
+   "persist": 0.65,
+   "L": 113.4
+  },
+  {
+   "k": 0.35,
+   "persist": 0.65,
+   "L": 119.4
+  },
+  {
+   "k": 0.25,
+   "persist": 0.7,
+   "L": 120.6
+  },
+  {
+   "k": 0.15,
+   "persist": 0.75,
+   "L": 123.3
+  },
+  {
+   "k": 0.2,
+   "persist": 0.7,
+   "L": 128
+  },
+  {
+   "k": 0.15,
+   "persist": 0.65,
+   "L": 131.6
+  },
+  {
+   "k": 0.25,
+   "persist": 0.75,
+   "L": 133.6
+  },
+  {
+   "k": 0.3,
+   "persist": 0.7,
+   "L": 134.3
+  },
+  {
+   "k": 0.2,
+   "persist": 0.75,
+   "L": 135.5
+  },
+  {
+   "k": 0.3,
+   "persist": 0.75,
+   "L": 141.4
+  },
+  {
+   "k": 0.15,
+   "persist": 0.7,
+   "L": 143.5
+  },
+  {
+   "k": 0.35,
+   "persist": 0.7,
+   "L": 143.6
+  },
+  {
+   "k": 0.35,
+   "persist": 0.75,
+   "L": 157.3
+  }
+ ],
+ "players": {
+  "10690": {
+   "thirdFH": {
+    "deuce": 1.4446906204936527,
+    "ad": 0.7160386762723898
+   },
+   "playMult": {
+    "backhand_crosscourt": 6.284590094683219,
+    "forehand_crosscourt": 1.6413528293387518,
+    "forehand_from_the_middle": 0.1,
+    "forehand_line": 1.6892364818444023,
+    "forehand_inside_in_out": 10,
+    "backhand_line": 6.356505761995435,
+    "backhand_from_the_middle": 0.1,
+    "volleys": 0.31256619853798356,
+    "drop_shots": 0.5508251302854297
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0173685752152475,
+     "neutral": 1.0588636809138905,
+     "cold": 0.9883318014706853
+    },
+    "forehand_crosscourt": {
+     "hot": 1.082887332170069,
+     "neutral": 1.019241053443861,
+     "cold": 0.9878642964580543
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.093299978598337,
+     "neutral": 0.990139992998223,
+     "cold": 1.1596217842639707
+    },
+    "forehand_line": {
+     "hot": 1.0304132818619536,
+     "neutral": 1.0210824442692594,
+     "cold": 1.1173175351473084
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.1983917243383986,
+     "neutral": 0.9488125533232019,
+     "cold": 1.0682806479959903
+    },
+    "backhand_line": {
+     "hot": 1.101971110743068,
+     "neutral": 1.0469750915730123,
+     "cold": 1.1241225113912479
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.196402289839507,
+     "neutral": 1.049323359447842,
+     "cold": 1.4274815783525168
+    },
+    "volleys": {
+     "hot": 1.1813691369037342,
+     "neutral": 1.0042961662262082,
+     "cold": 1.0684838786383835
+    },
+    "drop_shots": {
+     "hot": 1.5013546679922078,
+     "neutral": 1.0996418624736,
+     "cold": 1.2724601064353553
+    }
+   }
+  },
+  "11033": {
+   "thirdFH": {
+    "deuce": 5.092521227464203,
+    "ad": 0.42757954301873585
+   },
+   "playMult": {
+    "forehand_crosscourt": 3.0216282530063236,
+    "backhand_crosscourt": 0.3207600545163614,
+    "forehand_from_the_middle": 0.29501741078559607,
+    "backhand_from_the_middle": 0.3092895815875778,
+    "forehand_line": 3.3034987853431352,
+    "backhand_line": 0.32756373824285584,
+    "volleys": 0.7489988547939158,
+    "drop_shots": 0.8348309304668591
+   },
+   "corr": {
+    "forehand_crosscourt": {
+     "hot": 1.0490942528625857,
+     "neutral": 1.0261266519464172,
+     "cold": 1.0040841611935876
+    },
+    "backhand_crosscourt": {
+     "hot": 1.2266267454335575,
+     "neutral": 0.9790896978237463,
+     "cold": 1.0556759109997285
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.040947312529411,
+     "neutral": 1.0617034968398744,
+     "cold": 1.1153092979650472
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.107209518634605,
+     "neutral": 1.1121167481766712,
+     "cold": 0.9178747853402438
+    },
+    "forehand_line": {
+     "hot": 1.0762261935749156,
+     "neutral": 0.9744192923611739,
+     "cold": 1.2749036836245542
+    },
+    "backhand_line": {
+     "hot": 1.1108531002857003,
+     "neutral": 1.0818779412382837,
+     "cold": 1.599881268714242
+    },
+    "volleys": {
+     "hot": 1.208843407776772,
+     "neutral": 1.0526563635976625,
+     "cold": 0.9501792887052193
+    },
+    "drop_shots": {
+     "hot": 1.160059211713709,
+     "neutral": 1.0461562688456127,
+     "cold": 1.381357299939123
+    }
+   }
+  },
+  "11385": {
+   "thirdFH": {
+    "deuce": 1.29830371469037,
+    "ad": 1.4989245790721357
+   },
+   "playMult": {
+    "backhand_crosscourt": 3.6597733736417566,
+    "forehand_from_the_middle": 0.536623950834504,
+    "forehand_crosscourt": 0.15614587693195292,
+    "forehand_line": 0.16694629073999248,
+    "forehand_inside_in_out": 5.794843068443008,
+    "backhand_line": 3.7918083010779124,
+    "volleys": 0.7734146873051101,
+    "backhand_from_the_middle": 0.7080932768048084,
+    "drop_shots": 0.8972704599223245
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.057563501766302,
+     "neutral": 1.0117619188517852,
+     "cold": 1.0611025788325883
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0591132607172116,
+     "neutral": 1.04200196709819,
+     "cold": 1.113874800375101
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0531906570037524,
+     "neutral": 1.0249320006382463,
+     "cold": 1.1922480355302194
+    },
+    "forehand_line": {
+     "hot": 1.1024054397178038,
+     "neutral": 0.9652775924330879,
+     "cold": 1.1787142063834106
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.0883736563610462,
+     "neutral": 1.0433611472823683,
+     "cold": 1.391434878479663
+    },
+    "backhand_line": {
+     "hot": 1.37116973945886,
+     "neutral": 0.9673884323741253,
+     "cold": 1.113214436728151
+    },
+    "volleys": {
+     "hot": 1.2891439154926494,
+     "neutral": 1.0851205121298368,
+     "cold": 1.0203780445380468
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.2756256860171864,
+     "neutral": 1.084710086404501,
+     "cold": 1.012916378081859
+    },
+    "drop_shots": {
+     "hot": 1.1193727243943303,
+     "neutral": 1.0756928018961838,
+     "cold": 1.0643519826099768
+    }
+   }
+  },
+  "11430": {
+   "thirdFH": {
+    "deuce": 0.31794481803281605,
+    "ad": 2.1106771093356245
+   },
+   "playMult": {
+    "volleys": 1.9337910177467876,
+    "forehand_from_the_middle": 0.5756443333394627,
+    "backhand_crosscourt": 1.1159664611812394,
+    "forehand_crosscourt": 0.6140206547110707,
+    "backhand_line": 1.063557316924652,
+    "forehand_line": 0.6685735216930544,
+    "forehand_inside_in_out": 1.9468222595878508,
+    "backhand_from_the_middle": 0.9073675339943958,
+    "drop_shots": 1.737122315178524
+   },
+   "corr": {
+    "volleys": {
+     "hot": 1.1573632897453838,
+     "neutral": 0.9973918492559702,
+     "cold": 1.0659326656678774
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0470844165174487,
+     "neutral": 1.1037546145523351,
+     "cold": 1.094307573888712
+    },
+    "backhand_crosscourt": {
+     "hot": 1.2963039231479359,
+     "neutral": 1.1082437582695512,
+     "cold": 0.907065832721233
+    },
+    "forehand_crosscourt": {
+     "hot": 0.9131363379958144,
+     "neutral": 1.1174918269661742,
+     "cold": 1.1931880383701308
+    },
+    "backhand_line": {
+     "hot": 1.3240159499466613,
+     "neutral": 1.1712731425551983,
+     "cold": 1.1069961986868333
+    },
+    "forehand_line": {
+     "hot": 1.2437927517472471,
+     "neutral": 1.1166731551172357,
+     "cold": 1.1037315621408483
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.0964321484444424,
+     "neutral": 1.1882964859374852,
+     "cold": 1.9934347551933131
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.4307303059543743,
+     "neutral": 1.1439108333253412,
+     "cold": 0.9501678775522456
+    },
+    "drop_shots": {
+     "hot": 0.9701064899019639,
+     "neutral": 1.101533527412118,
+     "cold": 1.166079886050384
+    }
+   }
+  },
+  "11685": {
+   "thirdFH": {
+    "deuce": 0.28687497739643697,
+    "ad": 1.498371423821671
+   },
+   "playMult": {
+    "backhand_crosscourt": 1.2741539575125436,
+    "forehand_crosscourt": 2.649728025001802,
+    "forehand_line": 2.59511828573213,
+    "forehand_from_the_middle": 0.19614357408232228,
+    "backhand_line": 1.2465601223227238,
+    "volleys": 0.5832709424664564,
+    "backhand_from_the_middle": 0.17874111621613498,
+    "forehand_inside_in_out": 1.892830877454445
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.054538561914781,
+     "neutral": 1.0348482300536834,
+     "cold": 1.0025521134252364
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0500136803783855,
+     "neutral": 0.99302164520563,
+     "cold": 1.141577034752673
+    },
+    "forehand_line": {
+     "hot": 0.9701851625175262,
+     "neutral": 1.0492880479538178,
+     "cold": 1.2530777997480567
+    },
+    "forehand_from_the_middle": {
+     "hot": 0.9575250172885365,
+     "neutral": 1.0921281275735348,
+     "cold": 1.1481770269969453
+    },
+    "backhand_line": {
+     "hot": 0.9440633029615177,
+     "neutral": 1.0787995352453439,
+     "cold": 1.2536408913845896
+    },
+    "volleys": {
+     "hot": 1.2864891957612046,
+     "neutral": 0.9250239269891993,
+     "cold": 1.0112294954460381
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.0713719724253379,
+     "neutral": 1.0560478594277234,
+     "cold": 1.0754567101953854
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.0002014719621244,
+     "neutral": 1.2443851039084899,
+     "cold": 2.1029799746185085
+    }
+   }
+  },
+  "12479": {
+   "thirdFH": {
+    "deuce": 1.4247035989840358,
+    "ad": 1.770885715781945
+   },
+   "playMult": {
+    "backhand_crosscourt": 1.077554285234173,
+    "forehand_crosscourt": 0.5314626982765636,
+    "volleys": 1.699577027324391,
+    "backhand_from_the_middle": 1.708465670423277,
+    "backhand_line": 1.0429351845183161,
+    "forehand_from_the_middle": 1.066970113589856,
+    "forehand_inside_in_out": 1.6223986276355635,
+    "forehand_line": 0.550270625140812,
+    "drop_shots": 1.9257313508365466
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0634177544589123,
+     "neutral": 1.0087000546637077,
+     "cold": 1.1051662763558385
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0494852977929958,
+     "neutral": 1.0069361529026992,
+     "cold": 1.086319552187529
+    },
+    "volleys": {
+     "hot": 1.1260432424704956,
+     "neutral": 1.030537972151709,
+     "cold": 0.9651389861787943
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.0959480440450324,
+     "neutral": 1.0429824874833498,
+     "cold": 1.0906290232968778
+    },
+    "backhand_line": {
+     "hot": 1.0229913821185666,
+     "neutral": 1.0164058680343606,
+     "cold": 1.1344228089060413
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1489445917106718,
+     "neutral": 1.0702085959168752,
+     "cold": 0.8197934978197986
+    },
+    "forehand_inside_in_out": {
+     "hot": 0.9959684052278521,
+     "neutral": 1.1397359115944699,
+     "cold": 1.5474190514322483
+    },
+    "forehand_line": {
+     "hot": 1.138210047266301,
+     "neutral": 1.0472645896538881,
+     "cold": 0.9848427205021822
+    },
+    "drop_shots": {
+     "hot": 1.0787482765115108,
+     "neutral": 1.1688631065252943,
+     "cold": 1.3321444480608113
+    }
+   }
+  },
+  "12507": {
+   "thirdFH": {
+    "deuce": 0.2769100888445903,
+    "ad": 10
+   },
+   "playMult": {
+    "forehand_crosscourt": 2.2633041740096354,
+    "backhand_crosscourt": 0.5339395332039782,
+    "backhand_line": 0.5485978838788304,
+    "forehand_line": 1.969320423466054,
+    "forehand_from_the_middle": 0.43800360110283465,
+    "backhand_from_the_middle": 0.444849421328077,
+    "volleys": 0.899428345773046,
+    "drop_shots": 1.0245078818730826
+   },
+   "corr": {
+    "forehand_crosscourt": {
+     "hot": 1.154842498427888,
+     "neutral": 1.0650308358123737,
+     "cold": 1.0064173028330277
+    },
+    "backhand_crosscourt": {
+     "hot": 1.2593688461247525,
+     "neutral": 1.0533194429593251,
+     "cold": 1.1117903026299272
+    },
+    "backhand_line": {
+     "hot": 1.2885125423127695,
+     "neutral": 1.220359939665866,
+     "cold": 1.2538036427941202
+    },
+    "forehand_line": {
+     "hot": 1.142268006507542,
+     "neutral": 0.9855981487095732,
+     "cold": 1.2094363081299244
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.2092975839783824,
+     "neutral": 1.1413427631940736,
+     "cold": 1.1049218883626821
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1305991525706518,
+     "neutral": 1.121820595070591,
+     "cold": 1.1674353290798203
+    },
+    "volleys": {
+     "hot": 1.2003021368991902,
+     "neutral": 0.963413450607866,
+     "cold": 1.126680438968167
+    },
+    "drop_shots": {
+     "hot": 1.137733590491332,
+     "neutral": 1.228338487086232,
+     "cold": 0.9046519599278723
+    }
+   }
+  },
+  "12628": {
+   "thirdFH": {
+    "deuce": 0.8696375809492985,
+    "ad": 1.9658644726264909
+   },
+   "playMult": {
+    "backhand_crosscourt": 2.1625733925463337,
+    "forehand_crosscourt": 0.7734363444424378,
+    "forehand_from_the_middle": 0.2667174403985265,
+    "forehand_line": 0.7791580877472563,
+    "backhand_line": 2.1854350116456525,
+    "volleys": 1.10882642730637,
+    "backhand_from_the_middle": 0.2976152349081326,
+    "forehand_inside_in_out": 3.3831595582536464,
+    "drop_shots": 1.226221122970848
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 0.9890248935200954,
+     "neutral": 1.0062234580168503,
+     "cold": 1.0319483272419627
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0135609203350195,
+     "neutral": 1.005204696642269,
+     "cold": 1.0161946308400278
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0217379612169926,
+     "neutral": 1.0070270141391084,
+     "cold": 1.0756096557254706
+    },
+    "forehand_line": {
+     "hot": 1.029714110854272,
+     "neutral": 0.984117681215801,
+     "cold": 1.0801244339969156
+    },
+    "backhand_line": {
+     "hot": 1.0258521024416183,
+     "neutral": 1.005698094584876,
+     "cold": 1.004072055328447
+    },
+    "volleys": {
+     "hot": 1.0823723789364887,
+     "neutral": 1.038942357047066,
+     "cold": 0.9889920050375417
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.045375749242625,
+     "neutral": 1.0084950517898614,
+     "cold": 1.0333486315736546
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.006457020122025,
+     "neutral": 1.0507798080463617,
+     "cold": 1.1201028292267736
+    },
+    "drop_shots": {
+     "hot": 1.178500174708156,
+     "neutral": 1.0938012932644636,
+     "cold": 1.11983610223088
+    }
+   }
+  },
+  "12721": {
+   "thirdFH": {
+    "deuce": 0.459021656724154,
+    "ad": 5.455476807658235
+   },
+   "playMult": {
+    "forehand_crosscourt": 6.8182555435899435,
+    "forehand_from_the_middle": 0.129896696355462,
+    "backhand_crosscourt": 0.6691119939454295,
+    "forehand_line": 6.956342223421319,
+    "backhand_line": 0.6205976204501201,
+    "volleys": 0.7674051695407893,
+    "backhand_from_the_middle": 0.16913046890438183,
+    "forehand_inside_in_out": 1.017327309805723,
+    "drop_shots": 0.8387478042645288
+   },
+   "corr": {
+    "forehand_crosscourt": {
+     "hot": 1.0577590843392566,
+     "neutral": 1.1120714088398373,
+     "cold": 1.1434775305518874
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.3729671813648874,
+     "neutral": 1.0424281425746724,
+     "cold": 0.8557747104421721
+    },
+    "backhand_crosscourt": {
+     "hot": 1.139646567542636,
+     "neutral": 1.1102858507660671,
+     "cold": 0.9267716095896436
+    },
+    "forehand_line": {
+     "hot": 1.0969644622349213,
+     "neutral": 1.093586353869697,
+     "cold": 1.5650703851203676
+    },
+    "backhand_line": {
+     "hot": 1.531153498899421,
+     "neutral": 1.1480668909791898,
+     "cold": 1.0620590940124892
+    },
+    "volleys": {
+     "hot": 1.2459777959064495,
+     "neutral": 1.1209981421520938,
+     "cold": 0.8292497838975936
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.7337048588708421,
+     "neutral": 1.1905621412733673,
+     "cold": 1.4220609701826161
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.2007162566828575,
+     "neutral": 1.083267475125797,
+     "cold": 1.4196170356237192
+    },
+    "drop_shots": {
+     "hot": 0.8717887953610959,
+     "neutral": 1.1173600136453032,
+     "cold": 1.1528360581334687
+    }
+   }
+  },
+  "13578": {
+   "thirdFH": {
+    "deuce": 1.6134481182023483,
+    "ad": 0.8046981373100928
+   },
+   "playMult": {
+    "backhand_crosscourt": 10,
+    "forehand_crosscourt": 0.3067669382052974,
+    "forehand_from_the_middle": 0.1,
+    "forehand_line": 0.284936214184512,
+    "backhand_line": 10,
+    "backhand_from_the_middle": 0.1,
+    "forehand_inside_in_out": 10,
+    "volleys": 0.33264856120140296,
+    "drop_shots": 0.4561463507223873
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.1292785872581081,
+     "neutral": 1.0641806582353392,
+     "cold": 0.9720872470696648
+    },
+    "forehand_crosscourt": {
+     "hot": 1.122059182713015,
+     "neutral": 1.0050704234585068,
+     "cold": 0.9889500225114167
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1165636800186225,
+     "neutral": 0.9908796401643315,
+     "cold": 1.153279537260883
+    },
+    "forehand_line": {
+     "hot": 1.070648834459099,
+     "neutral": 1.0274624947823516,
+     "cold": 1.1419951803678892
+    },
+    "backhand_line": {
+     "hot": 1.1904280082464749,
+     "neutral": 1.0542243411420613,
+     "cold": 0.9891544519425234
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1706913533843712,
+     "neutral": 1.007586138367709,
+     "cold": 1.0654465218721403
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.2023943735441973,
+     "neutral": 1.0425016177888353,
+     "cold": 1.4039784083449538
+    },
+    "volleys": {
+     "hot": 1.1179260770997854,
+     "neutral": 1.0561084856548275,
+     "cold": 0.8103420114919452
+    },
+    "drop_shots": {
+     "hot": 1.1102420145797438,
+     "neutral": 1.0961797689846464,
+     "cold": 1.1459125607073086
+    }
+   }
+  },
+  "15307": {
+   "thirdFH": {
+    "deuce": 1.2043792343767863,
+    "ad": 1.7879492015958558
+   },
+   "playMult": {
+    "backhand_crosscourt": 0.8889502395066751,
+    "forehand_crosscourt": 0.9233739260765653,
+    "forehand_from_the_middle": 1.1086790640415458,
+    "forehand_line": 0.888885673644125,
+    "forehand_inside_in_out": 1.30413529251404,
+    "backhand_from_the_middle": 1.1530623902429942,
+    "volleys": 1.4236088403590426,
+    "backhand_line": 0.9389956712442439,
+    "drop_shots": 1.6747198088317743
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0855654377405595,
+     "neutral": 1.0018215242975608,
+     "cold": 1.0145833491569622
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0627090690108543,
+     "neutral": 1.0070430718631516,
+     "cold": 1.0013407028557197
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0960444100989521,
+     "neutral": 0.9940200918705511,
+     "cold": 1.2017344270738521
+    },
+    "forehand_line": {
+     "hot": 1.0434021955736108,
+     "neutral": 1.0434901353890662,
+     "cold": 1.1048666865906438
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.173132494354536,
+     "neutral": 1.1100688878039218,
+     "cold": 1.4109310544566764
+    },
+    "backhand_from_the_middle": {
+     "hot": 0.9692811014145486,
+     "neutral": 1.0829470645431383,
+     "cold": 1.3123541666418985
+    },
+    "volleys": {
+     "hot": 1.19634948603014,
+     "neutral": 1.0089183630144674,
+     "cold": 1.4250259067526605
+    },
+    "backhand_line": {
+     "hot": 1.0147147009286723,
+     "neutral": 1.0931363554597524,
+     "cold": 1.0975382563837508
+    },
+    "drop_shots": {
+     "hot": 1.2266539248391968,
+     "neutral": 1.1244125450161178,
+     "cold": 1.133076991766531
+    }
+   }
+  },
+  "15308": {
+   "thirdFH": {
+    "deuce": 1.7717864331363797,
+    "ad": 2.018342752190331
+   },
+   "playMult": {
+    "backhand_crosscourt": 5.143395249798095,
+    "forehand_crosscourt": 0.38848430475230633,
+    "forehand_from_the_middle": 0.12343222319753333,
+    "forehand_line": 0.39581440028126574,
+    "backhand_line": 5.314049005896747,
+    "volleys": 0.6732985942776089,
+    "forehand_inside_in_out": 7.063608518851484,
+    "backhand_from_the_middle": 0.16701882633169485,
+    "drop_shots": 0.8307999592646468
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0554205128290202,
+     "neutral": 1.0352294376394546,
+     "cold": 1.0210264662471853
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0677502795211264,
+     "neutral": 1.0459491318659904,
+     "cold": 0.9612489335469249
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0615934503907094,
+     "neutral": 1.0085327787289537,
+     "cold": 1.1235490394867371
+    },
+    "forehand_line": {
+     "hot": 1.1659127504740256,
+     "neutral": 1.0246483475278072,
+     "cold": 0.9635431056826699
+    },
+    "backhand_line": {
+     "hot": 1.1111271060158634,
+     "neutral": 1.103419526577252,
+     "cold": 0.9877002808700563
+    },
+    "volleys": {
+     "hot": 1.229462463383029,
+     "neutral": 0.9553535292856737,
+     "cold": 0.9404564975534632
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.172290187592907,
+     "neutral": 1.1157526827584843,
+     "cold": 1.1244189930970465
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.4831070565403939,
+     "neutral": 0.9984211462625476,
+     "cold": 1.1279306448721826
+    },
+    "drop_shots": {
+     "hot": 1.0625999675051216,
+     "neutral": 1.2160498711810797,
+     "cold": 1.4528735326791196
+    }
+   }
+  },
+  "15310": {
+   "thirdFH": {
+    "deuce": 1.1153190910973778,
+    "ad": 0.6268258954616114
+   },
+   "playMult": {
+    "backhand_crosscourt": 2.513105013866267,
+    "backhand_line": 2.458719843996022,
+    "forehand_crosscourt": 1.2107777361009335,
+    "backhand_from_the_middle": 0.12897596757515808,
+    "forehand_from_the_middle": 0.13379176617055777,
+    "forehand_line": 1.1962750288866573,
+    "forehand_inside_in_out": 4.097568401699197,
+    "volleys": 0.5144572652817169,
+    "drop_shots": 0.7177007674963642
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.002848401840314,
+     "neutral": 1.0183596374921042,
+     "cold": 1.0366663755393235
+    },
+    "backhand_line": {
+     "hot": 1.0246586567031606,
+     "neutral": 1.029708407266618,
+     "cold": 1.0738253472967252
+    },
+    "forehand_crosscourt": {
+     "hot": 0.9709150768095821,
+     "neutral": 1.0319807784325545,
+     "cold": 1.045571268570685
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.0657619541699785,
+     "neutral": 1.0511539600459772,
+     "cold": 1.0644202005035406
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0899651501503067,
+     "neutral": 0.9834071735898433,
+     "cold": 1.0997446692645079
+    },
+    "forehand_line": {
+     "hot": 1.0077101465826566,
+     "neutral": 0.930760768857143,
+     "cold": 1.3150778378417742
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.004002140584464,
+     "neutral": 1.1531752617276474,
+     "cold": 1.2016712354065497
+    },
+    "volleys": {
+     "hot": 1.0910337597838207,
+     "neutral": 1.0502848714022601,
+     "cold": 0.7851070910968144
+    },
+    "drop_shots": {
+     "hot": 1.0090219381395955,
+     "neutral": 1.1472811007515837,
+     "cold": 1.2127417526861526
+    }
+   }
+  },
+  "16170": {
+   "thirdFH": {
+    "deuce": 10,
+    "ad": 1.2778807577514835
+   },
+   "playMult": {
+    "forehand_crosscourt": 7.246143314294085,
+    "forehand_from_the_middle": 0.2274968430849962,
+    "backhand_crosscourt": 0.4526421637615966,
+    "forehand_line": 7.469759257658831,
+    "backhand_line": 0.4349316581261815,
+    "volleys": 1.139917185175624,
+    "backhand_from_the_middle": 0.3117769122532553,
+    "forehand_inside_in_out": 0.5547652274701014,
+    "drop_shots": 1.0986649996576474
+   },
+   "corr": {
+    "forehand_crosscourt": {
+     "hot": 1.2279572356745057,
+     "neutral": 1.0317423359174918,
+     "cold": 1.0310469100719748
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1477286573574348,
+     "neutral": 1.0838809817442838,
+     "cold": 0.9108616179087254
+    },
+    "backhand_crosscourt": {
+     "hot": 1.1139661146607671,
+     "neutral": 1.1645119055846127,
+     "cold": 1.007091993063241
+    },
+    "forehand_line": {
+     "hot": 1.1388590345969491,
+     "neutral": 1.1114799801591508,
+     "cold": 1.3351497279370685
+    },
+    "backhand_line": {
+     "hot": 1.3120404296709063,
+     "neutral": 1.1549071608980173,
+     "cold": 1.0917119839013067
+    },
+    "volleys": {
+     "hot": 1.2241545486595937,
+     "neutral": 1.2826370875936126,
+     "cold": 0.8946816846666145
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.3702890859785035,
+     "neutral": 1.0779277041673492,
+     "cold": 1.1676948784535301
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.189095741560762,
+     "neutral": 1.0372647670180497,
+     "cold": 1.2626723331920204
+    },
+    "drop_shots": {
+     "hot": 1.1459189838247137,
+     "neutral": 0.9245638267868317,
+     "cold": 1.103052783660572
+    }
+   }
+  },
+  "18679": {
+   "thirdFH": {
+    "deuce": 0.25966331884998023,
+    "ad": 1.0933333370788232
+   },
+   "playMult": {
+    "forehand_crosscourt": 0.26746859567763803,
+    "backhand_crosscourt": 10,
+    "backhand_line": 10,
+    "forehand_from_the_middle": 0.1,
+    "volleys": 0.26799605621782335,
+    "forehand_line": 0.3120058888340096,
+    "forehand_inside_in_out": 10,
+    "backhand_from_the_middle": 0.1,
+    "drop_shots": 0.5130593039543483
+   },
+   "corr": {
+    "forehand_crosscourt": {
+     "hot": 1.1580561607709154,
+     "neutral": 1.0478411474849565,
+     "cold": 1.1018240528392196
+    },
+    "backhand_crosscourt": {
+     "hot": 1.1541747094710288,
+     "neutral": 1.0738384702545085,
+     "cold": 1.0857825146756437
+    },
+    "backhand_line": {
+     "hot": 1.4164703062670727,
+     "neutral": 1.1238025134758582,
+     "cold": 1.1250716094433957
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.2887574881943231,
+     "neutral": 1.1363680923902635,
+     "cold": 1.1602712060705178
+    },
+    "volleys": {
+     "hot": 1.3078508413256358,
+     "neutral": 0.9146047301266869,
+     "cold": 1.1190742667755746
+    },
+    "forehand_line": {
+     "hot": 1.3013233832531135,
+     "neutral": 1.1836382400946335,
+     "cold": 1.024363432814762
+    },
+    "forehand_inside_in_out": {
+     "hot": 0.9366282868890956,
+     "neutral": 1.1420484451603352,
+     "cold": 0.994626139439289
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1106877773830015,
+     "neutral": 1.2610799957481216,
+     "cold": 1.5119110044421435
+    }
+   }
+  },
+  "19101": {
+   "thirdFH": {
+    "deuce": 0.21561583653340902,
+    "ad": 0.3569185166407335
+   },
+   "playMult": {
+    "backhand_crosscourt": 10,
+    "forehand_from_the_middle": 0.1799231890222952,
+    "forehand_crosscourt": 0.1,
+    "backhand_line": 10,
+    "forehand_line": 0.1,
+    "backhand_from_the_middle": 0.10189838311664284,
+    "volleys": 0.13323632826161508,
+    "drop_shots": 0.25870948244405134
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0073671052045456,
+     "neutral": 1.0601902639002279,
+     "cold": 1.2988999136221855
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0279563378615093,
+     "neutral": 1.041964108305863,
+     "cold": 1.2583981633616543
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0210840559855932,
+     "neutral": 1.1388714823675474,
+     "cold": 1.5218758884619594
+    },
+    "backhand_line": {
+     "hot": 1.12083821826363,
+     "neutral": 1.0586601524951724,
+     "cold": 1.2190149270569803
+    },
+    "forehand_line": {
+     "hot": 1.070576427941437,
+     "neutral": 1.0974580020333404,
+     "cold": 1.1955667505102376
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.34996375425201,
+     "neutral": 1.3412344098171847,
+     "cold": 0.8347258351550096
+    },
+    "volleys": {
+     "hot": 1.2557027653990682,
+     "neutral": 1.1337531080141892,
+     "cold": 1.303872142360374
+    },
+    "drop_shots": {
+     "hot": 1.059385068912494,
+     "neutral": 1.017211242741164,
+     "cold": 1.0183582701110407
+    }
+   }
+  },
+  "20959": {
+   "thirdFH": {
+    "deuce": 0.264788961969049,
+    "ad": 10
+   },
+   "playMult": {
+    "backhand_crosscourt": 3.1385322410386807,
+    "forehand_crosscourt": 0.8154450388542598,
+    "forehand_from_the_middle": 0.1,
+    "forehand_inside_in_out": 4.123693008643607,
+    "forehand_line": 0.8036571651806018,
+    "drop_shots": 0.5751809660507506,
+    "backhand_line": 3.332557448723068,
+    "volleys": 0.44499551260781167
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.2461713337408669,
+     "neutral": 1.0794749822809981,
+     "cold": 1.2099903398693983
+    },
+    "forehand_crosscourt": {
+     "hot": 1.1668097491052873,
+     "neutral": 1.0770486877032859,
+     "cold": 1.2545012448563362
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.3465987013764875,
+     "neutral": 1.004571700544431,
+     "cold": 1.0788478655325064
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.1525043503255503,
+     "neutral": 0.9558009682160885,
+     "cold": 1.3227833643614473
+    },
+    "forehand_line": {
+     "hot": 1.1379171007522189,
+     "neutral": 1.1112883572008414,
+     "cold": 1.4385655942638556
+    },
+    "drop_shots": {
+     "hot": 1.2230299978086878,
+     "neutral": 0.95467667917439,
+     "cold": 0.9819575971781004
+    },
+    "backhand_line": {
+     "hot": 1.0384759436587618,
+     "neutral": 1.0472489874338442,
+     "cold": 0.9731854750869622
+    }
+   }
+  },
+  "21514": {
+   "thirdFH": {
+    "deuce": 0.5568657556639967,
+    "ad": 0.140095653203292
+   },
+   "playMult": {
+    "backhand_crosscourt": 10,
+    "forehand_line": 0.16360177413066715,
+    "backhand_line": 10,
+    "forehand_crosscourt": 0.17006714881320434,
+    "forehand_from_the_middle": 0.1,
+    "forehand_inside_in_out": 10,
+    "volleys": 0.17409558065776956,
+    "drop_shots": 0.44965859963832155,
+    "backhand_from_the_middle": 0.1
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 0.9985072268581822,
+     "neutral": 1.1100508742423854,
+     "cold": 1.3053560060451699
+    },
+    "forehand_line": {
+     "hot": 1.2135926429202553,
+     "neutral": 1.1278552640509663,
+     "cold": 1.2787776459518587
+    },
+    "backhand_line": {
+     "hot": 1.085947954190492,
+     "neutral": 1.2555994610356465,
+     "cold": 0.9993268536704109
+    },
+    "forehand_crosscourt": {
+     "hot": 1.24172067892911,
+     "neutral": 1.1841308437278009,
+     "cold": 1.0578902011931235
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.2276129601428893,
+     "neutral": 1.2169469405099997,
+     "cold": 1.1459909794373953
+    },
+    "forehand_inside_in_out": {
+     "hot": 0.9857319227903152,
+     "neutral": 1.1230130498618718,
+     "cold": 1.6628973032728476
+    },
+    "volleys": {
+     "hot": 1.4463546201146,
+     "neutral": 1.2425102519818645,
+     "cold": 0.7835118524142369
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.4120297461779094,
+     "neutral": 0.9507637884599375,
+     "cold": 0.9302543311030783
+    }
+   }
+  },
+  "21853": {
+   "thirdFH": {
+    "deuce": 1.2650971149899948,
+    "ad": 1.354968079849167
+   },
+   "playMult": {
+    "backhand_crosscourt": 1.1441958988243046,
+    "forehand_from_the_middle": 1.5993250278262163,
+    "forehand_crosscourt": 0.39765531467810555,
+    "backhand_line": 1.082150894524345,
+    "forehand_line": 0.4207297372553674,
+    "volleys": 1.2093645247538785,
+    "backhand_from_the_middle": 1.719690431232518,
+    "forehand_inside_in_out": 1.8035063115463381,
+    "drop_shots": 1.307533389194276
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.1673677088760288,
+     "neutral": 1.1105726064269492,
+     "cold": 1.1516947122686145
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1670196675872084,
+     "neutral": 1.0457757687483413,
+     "cold": 1.1164026950518553
+    },
+    "forehand_crosscourt": {
+     "hot": 1.2609774327933698,
+     "neutral": 1.0027806620470736,
+     "cold": 0.9329599655638116
+    },
+    "backhand_line": {
+     "hot": 1.1176790943757828,
+     "neutral": 0.9554627516529294,
+     "cold": 1.3611218370976839
+    },
+    "forehand_line": {
+     "hot": 1.4276737322054898,
+     "neutral": 0.9500884237952326,
+     "cold": 1.1801036223815051
+    },
+    "volleys": {
+     "hot": 1.2473397766689656,
+     "neutral": 1.0529138872613693,
+     "cold": 0.9399933313523006
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.4210330285217503,
+     "neutral": 1.0910501492347067,
+     "cold": 0.9959407369845014
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.0406569098218794,
+     "neutral": 1.1211134569104904,
+     "cold": 1.813171597317901
+    },
+    "drop_shots": {
+     "hot": 1.074124059567792,
+     "neutral": 1.5189636989483781,
+     "cold": 0.9966230188342672
+    }
+   }
+  },
+  "22084": {
+   "thirdFH": {
+    "deuce": 0.7392532724169252,
+    "ad": 0.9853124293682329
+   },
+   "playMult": {
+    "backhand_crosscourt": 2.8175254585439875,
+    "forehand_crosscourt": 2.280361297009607,
+    "forehand_from_the_middle": 0.1,
+    "forehand_line": 2.196767806388318,
+    "backhand_line": 2.885798972200551,
+    "volleys": 0.4254507380827859,
+    "forehand_inside_in_out": 4.902496508059868,
+    "backhand_from_the_middle": 0.1,
+    "drop_shots": 0.5633256371285092
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.1646900691954387,
+     "neutral": 1.017840928189275,
+     "cold": 0.9396137595776485
+    },
+    "forehand_crosscourt": {
+     "hot": 1.1116477842922596,
+     "neutral": 1.0298460054485248,
+     "cold": 1.0708442415052286
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1554280189061383,
+     "neutral": 0.9720975843950067,
+     "cold": 1.0993647438886922
+    },
+    "forehand_line": {
+     "hot": 1.0907411200579793,
+     "neutral": 1.0108407567920514,
+     "cold": 1.091547606132838
+    },
+    "backhand_line": {
+     "hot": 1.1429271616837153,
+     "neutral": 1.0009216358650084,
+     "cold": 1.1992878392661797
+    },
+    "volleys": {
+     "hot": 1.3164495199309167,
+     "neutral": 1.1221231536051475,
+     "cold": 0.9315773610210645
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.1114691407447075,
+     "neutral": 1.0445646286780612,
+     "cold": 1.3198259818056601
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.0660326956442903,
+     "neutral": 1.1141992133094007,
+     "cold": 1.0623399423881899
+    },
+    "drop_shots": {
+     "hot": 1.356712301034589,
+     "neutral": 1.144612947218364,
+     "cold": 1.1398653578395652
+    }
+   }
+  },
+  "22157": {
+   "thirdFH": {
+    "deuce": 9.34236936955607,
+    "ad": 0.7034173863513893
+   },
+   "playMult": {
+    "volleys": 1.9829361349718873,
+    "backhand_crosscourt": 1.4557061883019655,
+    "forehand_crosscourt": 1.2078547745630157,
+    "forehand_line": 1.1367309960142165,
+    "forehand_from_the_middle": 0.13590104258012617,
+    "backhand_line": 1.4800232898247416,
+    "drop_shots": 1.4174833090806587,
+    "backhand_from_the_middle": 0.24257863499450374,
+    "forehand_inside_in_out": 2.1447137765753594
+   },
+   "corr": {
+    "volleys": {
+     "hot": 1.2330425733943386,
+     "neutral": 1.1155189451999066,
+     "cold": 1.1141091912146537
+    },
+    "backhand_crosscourt": {
+     "hot": 1.501199779829346,
+     "neutral": 1.0282570137360738,
+     "cold": 0.9540129030384714
+    },
+    "forehand_crosscourt": {
+     "hot": 1.1548896629017376,
+     "neutral": 1.0499102834200902,
+     "cold": 1.2148378255699497
+    },
+    "forehand_line": {
+     "hot": 1.1432365277823615,
+     "neutral": 1.179770999769219,
+     "cold": 1.3441730101306832
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1670120887014643,
+     "neutral": 1.0241984948861795,
+     "cold": 0.9731954407758933
+    },
+    "backhand_line": {
+     "hot": 1.2371030897598678,
+     "neutral": 1.0187298846812551,
+     "cold": 1.3726302425349395
+    },
+    "drop_shots": {
+     "hot": 0.9458566918082686,
+     "neutral": 1.0427519905574283,
+     "cold": 1.3239930005325766
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1730051999605622,
+     "neutral": 1.1465317389211223,
+     "cold": 1.307284045071207
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.1480786745358447,
+     "neutral": 1.1282812667078634,
+     "cold": 1.3182946542424077
+    }
+   }
+  },
+  "22583": {
+   "thirdFH": {
+    "deuce": 3.0986341851282098,
+    "ad": 1.3837346980001615
+   },
+   "playMult": {
+    "backhand_crosscourt": 2.44285654536384,
+    "forehand_crosscourt": 2.0497803046103567,
+    "forehand_line": 2.048981423279571,
+    "forehand_from_the_middle": 0.1,
+    "backhand_line": 2.377541257003572,
+    "backhand_from_the_middle": 0.1,
+    "volleys": 0.8318954899802254,
+    "drop_shots": 0.7144332346770288,
+    "forehand_inside_in_out": 3.276098756175527
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 0.9961000239815035,
+     "neutral": 1.0047329045859312,
+     "cold": 1.008651390469454
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0548160273051597,
+     "neutral": 0.982412179333732,
+     "cold": 1.0103361722222601
+    },
+    "forehand_line": {
+     "hot": 1.0505854540646493,
+     "neutral": 0.9961826003570139,
+     "cold": 0.9856617443710066
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0739569509960831,
+     "neutral": 1.0023931389505276,
+     "cold": 0.9941732243855538
+    },
+    "backhand_line": {
+     "hot": 1.0020055441881661,
+     "neutral": 1.0034102160200302,
+     "cold": 1.0763629498639637
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.0323302740066285,
+     "neutral": 0.9901976317426976,
+     "cold": 1.0449969035705677
+    },
+    "volleys": {
+     "hot": 1.0816749077294225,
+     "neutral": 0.9773523325622944,
+     "cold": 0.9140899551402323
+    },
+    "drop_shots": {
+     "hot": 1.0128512386409805,
+     "neutral": 0.9582494044825722,
+     "cold": 1.2385538009451587
+    },
+    "forehand_inside_in_out": {
+     "hot": 0.9820774739508713,
+     "neutral": 1.0865533700377168,
+     "cold": 1.3975788596204333
+    }
+   }
+  },
+  "22609": {
+   "thirdFH": {
+    "deuce": 1.0414801217819685,
+    "ad": 1.019036202086202
+   },
+   "playMult": {
+    "backhand_crosscourt": 7.456011344240637,
+    "forehand_line": 1.3385614296863695,
+    "forehand_crosscourt": 1.2288858843472341,
+    "forehand_from_the_middle": 0.1,
+    "backhand_line": 7.77423609912111,
+    "volleys": 0.3958622044476168,
+    "forehand_inside_in_out": 9.970997574542064,
+    "backhand_from_the_middle": 0.1,
+    "drop_shots": 0.5182505373700835
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.2133621226863691,
+     "neutral": 0.9999815037122851,
+     "cold": 1.143689741995953
+    },
+    "forehand_line": {
+     "hot": 1.2420979883922207,
+     "neutral": 0.955085163632338,
+     "cold": 1.3428844963990887
+    },
+    "forehand_crosscourt": {
+     "hot": 1.04823758664943,
+     "neutral": 1.0662849608304439,
+     "cold": 1.0143488838163832
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.106013372318931,
+     "neutral": 0.9957687008444253,
+     "cold": 1.0703363021985557
+    },
+    "backhand_line": {
+     "hot": 1.19116075624489,
+     "neutral": 1.041286528613381,
+     "cold": 0.9405597244497599
+    },
+    "volleys": {
+     "hot": 1.4319346665509167,
+     "neutral": 1.009766995553686,
+     "cold": 0.7235645845570626
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.308415606818048,
+     "neutral": 1.078802009984288,
+     "cold": 1.2449059419043387
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.3255959896250344,
+     "neutral": 1.0544725290611667,
+     "cold": 0.9315826900727081
+    },
+    "drop_shots": {
+     "hot": 1.0491766805417637,
+     "neutral": 0.9620530737155344,
+     "cold": 1.141935905837407
+    }
+   }
+  },
+  "22657": {
+   "thirdFH": {
+    "deuce": 3.115243261792064,
+    "ad": 4.6978612155145925
+   },
+   "playMult": {
+    "backhand_crosscourt": 2.429347694670796,
+    "forehand_from_the_middle": 0.38317478864834265,
+    "forehand_line": 0.42961077547186777,
+    "forehand_crosscourt": 0.4611099861260979,
+    "forehand_inside_in_out": 2.988667509184242,
+    "backhand_line": 2.741418407104533,
+    "volleys": 1.5952586872313201,
+    "backhand_from_the_middle": 0.45345956564958745,
+    "drop_shots": 1.1529192350729076
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 0.9139696192763305,
+     "neutral": 1.0528259742497215,
+     "cold": 1.2037365806915572
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0907276606190446,
+     "neutral": 1.0610353134722892,
+     "cold": 1.1816276450397034
+    },
+    "forehand_line": {
+     "hot": 1.359177373731292,
+     "neutral": 1.0342983597992739,
+     "cold": 1.148567124623703
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0861759084524243,
+     "neutral": 1.1466695833850156,
+     "cold": 1.2230243397595482
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.3232309622450322,
+     "neutral": 1.1468373177265045,
+     "cold": 1.062620917881238
+    },
+    "backhand_line": {
+     "hot": 1.2167213537811774,
+     "neutral": 1.3373555683440064,
+     "cold": 1.000716504333469
+    },
+    "volleys": {
+     "hot": 1.1627313518914615,
+     "neutral": 1.3406861377034458,
+     "cold": 1.1327597611171885
+    },
+    "backhand_from_the_middle": {
+     "hot": 0.9965696204160525,
+     "neutral": 1.0661410058098388,
+     "cold": 1.4531469033630726
+    },
+    "drop_shots": {
+     "hot": 1.1721868976612257,
+     "neutral": 1.2019573053027015,
+     "cold": 1.3435532863482584
+    }
+   }
+  },
+  "22938": {
+   "thirdFH": {
+    "deuce": 0.8916462312360154,
+    "ad": 4.074379136091654
+   },
+   "playMult": {
+    "forehand_from_the_middle": 1.1404441828954726,
+    "backhand_crosscourt": 0.8514198557405599,
+    "forehand_line": 0.6671991986617194,
+    "volleys": 1.636159910176633,
+    "forehand_crosscourt": 0.7542675868787991,
+    "backhand_line": 0.8944085052230737,
+    "backhand_from_the_middle": 1.4678689873676212,
+    "forehand_inside_in_out": 1.3254180175818882
+   },
+   "corr": {
+    "forehand_from_the_middle": {
+     "hot": 1.40188486714832,
+     "neutral": 0.9796202434914734,
+     "cold": 0.9694959588651455
+    },
+    "backhand_crosscourt": {
+     "hot": 1.1348069264552842,
+     "neutral": 1.150899629295816,
+     "cold": 1.015261093128254
+    },
+    "forehand_line": {
+     "hot": 1.1577434440430083,
+     "neutral": 1.067969349284192,
+     "cold": 1.133050579578821
+    },
+    "volleys": {
+     "hot": 0.9545469419391651,
+     "neutral": 1.4660038098906745,
+     "cold": 1.0269517735033715
+    },
+    "forehand_crosscourt": {
+     "hot": 1.1192492917376524,
+     "neutral": 1.3558571078011608,
+     "cold": 0.8977311244433475
+    },
+    "backhand_line": {
+     "hot": 1.2879145538167682,
+     "neutral": 1.1069909341400919,
+     "cold": 1.1845209047347713
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1595981036066343,
+     "neutral": 1.1943013731165097,
+     "cold": 1.2647800344965239
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.0377306328823785,
+     "neutral": 1.038463524999694,
+     "cold": 0.990663908663709
+    }
+   }
+  },
+  "23779": {
+   "thirdFH": {
+    "deuce": 1.3400432389305708,
+    "ad": 3.32805046601778
+   },
+   "playMult": {
+    "backhand_crosscourt": 1.3386094199905314,
+    "forehand_crosscourt": 0.6689209747344913,
+    "forehand_from_the_middle": 0.7429750899018237,
+    "backhand_line": 1.310629575336938,
+    "forehand_line": 0.6829579639210348,
+    "backhand_from_the_middle": 1.0616613452423314,
+    "forehand_inside_in_out": 1.4893999835914746,
+    "drop_shots": 1.1671162613517008,
+    "volleys": 1.1415154209708729
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.1139739670308937,
+     "neutral": 1.0424762278709134,
+     "cold": 1.101668842071295
+    },
+    "forehand_crosscourt": {
+     "hot": 1.225583682014048,
+     "neutral": 0.9817056121337324,
+     "cold": 1.0853214255073615
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.2604635070289805,
+     "neutral": 1.0989588376920563,
+     "cold": 1.0029868354247846
+    },
+    "backhand_line": {
+     "hot": 1.2508739361622956,
+     "neutral": 1.0853527649987018,
+     "cold": 1.1605654350133356
+    },
+    "forehand_line": {
+     "hot": 1.2017198543870908,
+     "neutral": 0.9877882446011853,
+     "cold": 1.5739558425917128
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1283002854740993,
+     "neutral": 1.1146488640855452,
+     "cold": 1.1657716427624774
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.1330318976852223,
+     "neutral": 1.0870656049266527,
+     "cold": 1.3988247426013787
+    },
+    "drop_shots": {
+     "hot": 0.9543391821250177,
+     "neutral": 1.2919479843412902,
+     "cold": 0.9676560160155844
+    }
+   }
+  },
+  "24111": {
+   "thirdFH": {
+    "deuce": 0.8609385479628726,
+    "ad": 3.8472809457078267
+   },
+   "playMult": {
+    "backhand_crosscourt": 6.10134459291284,
+    "forehand_crosscourt": 0.8143892183007234,
+    "forehand_line": 0.796221580962042,
+    "forehand_from_the_middle": 0.1,
+    "backhand_line": 5.7297291585921535,
+    "volleys": 0.6673811588980203,
+    "backhand_from_the_middle": 0.10990010607756534,
+    "forehand_inside_in_out": 6.994383739862098,
+    "drop_shots": 0.6856258443141426
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.26857373781944,
+     "neutral": 1.0596644032002671,
+     "cold": 1.050647507565904
+    },
+    "forehand_crosscourt": {
+     "hot": 1.3445015022459406,
+     "neutral": 1.0606981069149082,
+     "cold": 1.0605140448064219
+    },
+    "forehand_line": {
+     "hot": 1.1193384935165076,
+     "neutral": 1.1062856960390839,
+     "cold": 1.024389254469811
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1506082431882023,
+     "neutral": 1.0511101639293965,
+     "cold": 0.9360315946665939
+    },
+    "backhand_line": {
+     "hot": 1.178006598786745,
+     "neutral": 0.9808524247823613,
+     "cold": 1.1767392901374505
+    },
+    "volleys": {
+     "hot": 1.2783384921677006,
+     "neutral": 1.1737970857222195,
+     "cold": 0.9291969638482033
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.0625480608465563,
+     "neutral": 1.1669712278917874,
+     "cold": 1.001603750155014
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.101779536045365,
+     "neutral": 1.2242312890804148,
+     "cold": 1.0418924585072875
+    },
+    "drop_shots": {
+     "hot": 1.1444374095832035,
+     "neutral": 1.028061432743293,
+     "cold": 1.0658226435602616
+    }
+   }
+  },
+  "24343": {
+   "thirdFH": {
+    "deuce": 0.9452566384385276,
+    "ad": 0.9387353723533177
+   },
+   "playMult": {
+    "backhand_crosscourt": 3.4454517964944698,
+    "forehand_line": 1.5425299445469565,
+    "forehand_crosscourt": 1.5062261801731522,
+    "backhand_line": 3.3356573579293025,
+    "forehand_from_the_middle": 0.1,
+    "forehand_inside_in_out": 5.444300663733819,
+    "backhand_from_the_middle": 0.1,
+    "volleys": 0.335185188186182,
+    "drop_shots": 0.5226554078468063
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.052363523555435,
+     "neutral": 1.010804670919439,
+     "cold": 1.0251285769427239
+    },
+    "forehand_line": {
+     "hot": 1.0494106175459454,
+     "neutral": 1.0433574961454843,
+     "cold": 0.9841783683423786
+    },
+    "forehand_crosscourt": {
+     "hot": 1.1159876835934024,
+     "neutral": 0.9582465537559327,
+     "cold": 1.081779259182754
+    },
+    "backhand_line": {
+     "hot": 1.0336023384522015,
+     "neutral": 1.0231088168016707,
+     "cold": 1.118322197721419
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0462034847263115,
+     "neutral": 1.005995575083417,
+     "cold": 1.1193080492356018
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.121825275280197,
+     "neutral": 1.061424574704061,
+     "cold": 1.1290828717185575
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1084104719631471,
+     "neutral": 1.0207991898506914,
+     "cold": 1.2773675785848324
+    },
+    "volleys": {
+     "hot": 1.1482727601759675,
+     "neutral": 1.2760586381770254,
+     "cold": 0.8972205471079236
+    },
+    "drop_shots": {
+     "hot": 1.260175108700218,
+     "neutral": 0.985572722706654,
+     "cold": 1.0916494426831307
+    }
+   }
+  },
+  "24893": {
+   "thirdFH": {
+    "deuce": 0.3318931145086645,
+    "ad": 0.7901749161784938
+   },
+   "playMult": {
+    "backhand_crosscourt": 2.0900009278153284,
+    "forehand_line": 2.9631950298869016,
+    "forehand_crosscourt": 2.6650857321072867,
+    "forehand_from_the_middle": 0.1,
+    "backhand_line": 1.9881972816507905,
+    "forehand_inside_in_out": 3.324842961875112,
+    "backhand_from_the_middle": 0.1,
+    "volleys": 0.252907409083158,
+    "drop_shots": 0.906962272493982
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.1236719746871124,
+     "neutral": 1.2069761956053287,
+     "cold": 0.9347642145034565
+    },
+    "forehand_line": {
+     "hot": 1.2884926420326048,
+     "neutral": 1.06907064753315,
+     "cold": 1.2871998457345484
+    },
+    "forehand_crosscourt": {
+     "hot": 1.1788879635197558,
+     "neutral": 1.1211418899824082,
+     "cold": 1.1070167419006478
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1327531444543684,
+     "neutral": 1.123260605150381,
+     "cold": 0.9574585221159211
+    },
+    "backhand_line": {
+     "hot": 1.4948204844600046,
+     "neutral": 1.0329581388358164,
+     "cold": 1.1093180721174902
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.2408781829158313,
+     "neutral": 1.031238308978354,
+     "cold": 1.5691291850073006
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.5003901832943511,
+     "neutral": 1.1726839744054238,
+     "cold": 1.5232897786882997
+    },
+    "volleys": {
+     "hot": 1.6869606123793655,
+     "neutral": 1.1529175732489647,
+     "cold": 0.976188621783626
+    }
+   }
+  },
+  "26641": {
+   "thirdFH": {
+    "deuce": 2.2286677206013983,
+    "ad": 2.1480313325884692
+   },
+   "playMult": {
+    "backhand_crosscourt": 3.201074177569553,
+    "forehand_crosscourt": 1.0606405564466714,
+    "forehand_line": 1.0366589932842256,
+    "forehand_from_the_middle": 0.1,
+    "backhand_line": 3.1401560686869034,
+    "backhand_from_the_middle": 0.1,
+    "volleys": 0.6618485503964006,
+    "drop_shots": 0.6537083239399988,
+    "forehand_inside_in_out": 3.8223348098093632
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.013404402287102,
+     "neutral": 1.0145276242193015,
+     "cold": 1.0831201245676427
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0433188255657895,
+     "neutral": 1.0599419038933002,
+     "cold": 1.1784941056509055
+    },
+    "forehand_line": {
+     "hot": 1.066618596839093,
+     "neutral": 1.0240644045216731,
+     "cold": 1.0946489958117254
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1735112106425705,
+     "neutral": 0.9723506646195162,
+     "cold": 1.116457757569034
+    },
+    "backhand_line": {
+     "hot": 1.1502775198525073,
+     "neutral": 1.01154311363806,
+     "cold": 1.0717848099957357
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.0207763406458659,
+     "neutral": 1.0349859826644197,
+     "cold": 1.1534947755158638
+    },
+    "volleys": {
+     "hot": 1.1873016483574457,
+     "neutral": 1.0371455320435126,
+     "cold": 1.3626231475665669
+    },
+    "drop_shots": {
+     "hot": 1.089244058931919,
+     "neutral": 1.181818223460482,
+     "cold": 1.2402808972716601
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.11288664718368,
+     "neutral": 1.0364439556197864,
+     "cold": 1.7288744144441734
+    }
+   }
+  },
+  "27813": {
+   "thirdFH": {
+    "deuce": 1.0166570108450002,
+    "ad": 2.2898878136743477
+   },
+   "playMult": {
+    "forehand_line": 0.8870379347602405,
+    "backhand_crosscourt": 2.378509634737747,
+    "forehand_from_the_middle": 0.15161161187268507,
+    "forehand_crosscourt": 0.847240604647587,
+    "backhand_line": 2.4122516812587236,
+    "forehand_inside_in_out": 4.013771544500307,
+    "volleys": 1.0821446584657042,
+    "backhand_from_the_middle": 0.2407943904440659,
+    "drop_shots": 0.9026379961027396
+   },
+   "corr": {
+    "forehand_line": {
+     "hot": 1.2452972500730264,
+     "neutral": 1.0122354629496846,
+     "cold": 1.0184030247368154
+    },
+    "backhand_crosscourt": {
+     "hot": 1.3024980577873124,
+     "neutral": 0.9911810059370197,
+     "cold": 1.398084632780043
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.2302870508583068,
+     "neutral": 1.0828668832418757,
+     "cold": 0.89459433322199
+    },
+    "forehand_crosscourt": {
+     "hot": 1.1912145937753793,
+     "neutral": 1.1023171532912404,
+     "cold": 0.9069045999181701
+    },
+    "backhand_line": {
+     "hot": 1.071634943095885,
+     "neutral": 1.3923445007773434,
+     "cold": 0.939228970838524
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.0873134510159739,
+     "neutral": 1.1485683064818426,
+     "cold": 1.4140682576772063
+    },
+    "volleys": {
+     "hot": 1.2289485764095722,
+     "neutral": 1.0781661739937471,
+     "cold": 0.8766962037043857
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.189757738359158,
+     "neutral": 1.1093551222216145,
+     "cold": 1.40339092916935
+    }
+   }
+  },
+  "28052": {
+   "thirdFH": {
+    "deuce": 1.014777185391806,
+    "ad": 0.902463172931187
+   },
+   "playMult": {
+    "backhand_crosscourt": 3.135217430352987,
+    "forehand_crosscourt": 0.8100090510943051,
+    "forehand_from_the_middle": 0.17307714927309742,
+    "forehand_line": 0.8103019428816763,
+    "backhand_line": 3.0452134410718577,
+    "backhand_from_the_middle": 0.20420236716649856,
+    "volleys": 0.7080436608169338,
+    "forehand_inside_in_out": 5.5768074066307225,
+    "drop_shots": 0.8899182821510092
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.037524432353721,
+     "neutral": 1.0500899496592417,
+     "cold": 1.0998538343476014
+    },
+    "forehand_crosscourt": {
+     "hot": 1.1360409726093899,
+     "neutral": 0.9972678783477628,
+     "cold": 1.151601783512054
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.044923935302468,
+     "neutral": 1.0375156137758603,
+     "cold": 1.1541905871691422
+    },
+    "forehand_line": {
+     "hot": 1.1555774053666523,
+     "neutral": 1.055406533035563,
+     "cold": 0.8437364588955569
+    },
+    "backhand_line": {
+     "hot": 1.1305614874706134,
+     "neutral": 1.0855187443771346,
+     "cold": 1.0333316567310842
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.0299641053664317,
+     "neutral": 1.1478514732855147,
+     "cold": 1.0038785899883291
+    },
+    "volleys": {
+     "hot": 1.0892912650021604,
+     "neutral": 1.2027231472889208,
+     "cold": 1.0749599373022927
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.1657420129843252,
+     "neutral": 1.0978998848940889,
+     "cold": 1.236631571879201
+    },
+    "drop_shots": {
+     "hot": 1.018840319499641,
+     "neutral": 0.9359800142233334,
+     "cold": 1.351757719776233
+    }
+   }
+  },
+  "29074": {
+   "thirdFH": {
+    "deuce": 1.2715307636788886,
+    "ad": 2.221556887174608
+   },
+   "playMult": {
+    "backhand_crosscourt": 0.7171776611535915,
+    "forehand_crosscourt": 4.003884383139067,
+    "forehand_line": 4.098684696906921,
+    "forehand_from_the_middle": 0.21936550103410246,
+    "drop_shots": 1.1976423697183243,
+    "backhand_line": 0.7410146445828087,
+    "backhand_from_the_middle": 0.25669045690957026,
+    "volleys": 0.7639741984011437,
+    "forehand_inside_in_out": 0.9635103201561069
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.1501592047045897,
+     "neutral": 1.002505679476476,
+     "cold": 1.1354605751528901
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0972699281133265,
+     "neutral": 1.0236057415582398,
+     "cold": 1.1708699424453852
+    },
+    "forehand_line": {
+     "hot": 1.0599789395328978,
+     "neutral": 0.9999885605575813,
+     "cold": 1.4877593015125035
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1125785114944788,
+     "neutral": 1.0478887663154048,
+     "cold": 0.9832775953883369
+    },
+    "drop_shots": {
+     "hot": 1.0490571681743304,
+     "neutral": 1.0135401468293763,
+     "cold": 1.3804330428248952
+    },
+    "backhand_line": {
+     "hot": 1.0530846991876148,
+     "neutral": 1.0110556628551741,
+     "cold": 1.4014780042299675
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.2547410957103116,
+     "neutral": 1.1070703245262192,
+     "cold": 1.2679701652093611
+    },
+    "volleys": {
+     "hot": 1.2140954215970166,
+     "neutral": 1.0611060634312908,
+     "cold": 1.049143226445025
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.1353683764419173,
+     "neutral": 1.1238769082311306,
+     "cold": 1.3409422299624776
+    }
+   }
+  },
+  "30309": {
+   "thirdFH": {
+    "deuce": 2.3094290509449245,
+    "ad": 2.492486421411385
+   },
+   "playMult": {
+    "backhand_crosscourt": 7.484361298584807,
+    "forehand_from_the_middle": 0.12573394683567815,
+    "forehand_line": 0.16051595721425096,
+    "forehand_crosscourt": 0.1670724614710148,
+    "forehand_inside_in_out": 10,
+    "volleys": 0.6397708911944092,
+    "backhand_line": 8.10268382663417,
+    "backhand_from_the_middle": 0.25495779580371924,
+    "drop_shots": 0.6738124520387825
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0420411528676097,
+     "neutral": 1.0314979326278977,
+     "cold": 1.1550528586865147
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1690582881383949,
+     "neutral": 1.07101372760719,
+     "cold": 0.9412492107893132
+    },
+    "forehand_line": {
+     "hot": 1.1997585460890958,
+     "neutral": 1.0203836025430695,
+     "cold": 1.068159493932109
+    },
+    "forehand_crosscourt": {
+     "hot": 1.1276376445326772,
+     "neutral": 0.9805066435306051,
+     "cold": 1.161111026500277
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.0761420415072362,
+     "neutral": 1.0807029427584518,
+     "cold": 1.4371124821409043
+    },
+    "volleys": {
+     "hot": 1.221375223890463,
+     "neutral": 0.8028846745874646,
+     "cold": 0.9878927770315185
+    },
+    "backhand_line": {
+     "hot": 1.1535983902487739,
+     "neutral": 1.079808791748308,
+     "cold": 1.3581733687961774
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.2226288570760309,
+     "neutral": 1.0517976925205965,
+     "cold": 1.3579619604326392
+    },
+    "drop_shots": {
+     "hot": 1.0297530339439485,
+     "neutral": 1.0646158617556631,
+     "cold": 1.080003571302977
+    }
+   }
+  },
+  "31351": {
+   "thirdFH": {
+    "deuce": 4.295952439898578,
+    "ad": 2.337589500435501
+   },
+   "playMult": {
+    "backhand_crosscourt": 5.297113941574338,
+    "forehand_from_the_middle": 0.30409679433898973,
+    "forehand_inside_in_out": 7.385367104333538,
+    "forehand_crosscourt": 0.1,
+    "backhand_line": 5.203955651044816,
+    "volleys": 0.9976251940429663,
+    "forehand_line": 0.1,
+    "drop_shots": 0.9507269547952929,
+    "backhand_from_the_middle": 0.7609884873918487
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.2549635966346364,
+     "neutral": 1.1061460611885048,
+     "cold": 1.0027551201954061
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.2177988095489953,
+     "neutral": 1.1476193054827366,
+     "cold": 0.8055075510796409
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.176466586506762,
+     "neutral": 1.052852644401335,
+     "cold": 1.297357586613794
+    },
+    "forehand_crosscourt": {
+     "hot": 1.3079755583560508,
+     "neutral": 1.058768943888156,
+     "cold": 1.6393747680603024
+    },
+    "backhand_line": {
+     "hot": 1.2506513921264937,
+     "neutral": 1.0021140015784353,
+     "cold": 1.0232077247067541
+    },
+    "volleys": {
+     "hot": 1.2132476072612424,
+     "neutral": 1.2202991508892527,
+     "cold": 0.8528581208720675
+    },
+    "forehand_line": {
+     "hot": 1.3613654629976835,
+     "neutral": 1.1561758450146502,
+     "cold": 1.0126991277263624
+    },
+    "drop_shots": {
+     "hot": 1.034570754937509,
+     "neutral": 0.9769445390175042,
+     "cold": 1.1066951121035018
+    },
+    "backhand_from_the_middle": {
+     "hot": 0.8467888109162707,
+     "neutral": 1.1199178019065534,
+     "cold": 1.277206659338675
+    }
+   }
+  },
+  "31964": {
+   "thirdFH": {
+    "deuce": 1.5845185064417144,
+    "ad": 5.056378161724279
+   },
+   "playMult": {
+    "backhand_crosscourt": 10,
+    "forehand_crosscourt": 0.12668754171212113,
+    "forehand_from_the_middle": 0.1,
+    "forehand_line": 0.12518638475003724,
+    "backhand_line": 10,
+    "forehand_inside_in_out": 10,
+    "volleys": 0.41933372905873567,
+    "backhand_from_the_middle": 0.11696208446952742,
+    "drop_shots": 0.4715189623676719
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0815799248914584,
+     "neutral": 1.0445824547832965,
+     "cold": 1.0021533681349768
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0794886746001482,
+     "neutral": 1.0094672407552059,
+     "cold": 1.0370189659195912
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.065009117825342,
+     "neutral": 1.0231499022923323,
+     "cold": 1.0317596297567069
+    },
+    "forehand_line": {
+     "hot": 1.151530457000283,
+     "neutral": 0.9971648552251089,
+     "cold": 1.0668891515063168
+    },
+    "backhand_line": {
+     "hot": 1.0501293730458425,
+     "neutral": 1.0298306958148584,
+     "cold": 1.0813104437537389
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.1659052403871826,
+     "neutral": 1.0757038205245957,
+     "cold": 1.270093110046656
+    },
+    "volleys": {
+     "hot": 1.178172360114734,
+     "neutral": 1.0912504664069413,
+     "cold": 0.9844683506740619
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.2568401786521062,
+     "neutral": 1.0996999928090356,
+     "cold": 1.2292173809866205
+    },
+    "drop_shots": {
+     "hot": 1.1710194886940457,
+     "neutral": 0.8244869762200769,
+     "cold": 1.108134001757519
+    }
+   }
+  },
+  "34060": {
+   "thirdFH": {
+    "deuce": 0.764064137935264,
+    "ad": 1.175380904709065
+   },
+   "playMult": {
+    "backhand_crosscourt": 1.4285023202804026,
+    "forehand_crosscourt": 0.5240634754362741,
+    "forehand_from_the_middle": 1.021831564828774,
+    "forehand_line": 0.5651539125593746,
+    "backhand_line": 1.4261869049939602,
+    "backhand_from_the_middle": 1.0054511412545906,
+    "volleys": 1.0365239376434272,
+    "forehand_inside_in_out": 2.1220125826324394,
+    "drop_shots": 1.3025001419659212
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.1132108761935688,
+     "neutral": 1.0276496947224263,
+     "cold": 0.9726793150585684
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0610008476500519,
+     "neutral": 1.0224090948020967,
+     "cold": 1.0245472621997183
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.2589026891179282,
+     "neutral": 1.0361514168544392,
+     "cold": 1.1291156644183011
+    },
+    "forehand_line": {
+     "hot": 1.0657708700343198,
+     "neutral": 0.9834842602711591,
+     "cold": 1.1920540042852845
+    },
+    "backhand_line": {
+     "hot": 1.1325517234289002,
+     "neutral": 1.099456310022459,
+     "cold": 1.0757901012955566
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1393964900093076,
+     "neutral": 0.9950309436799682,
+     "cold": 1.0515121567582715
+    },
+    "volleys": {
+     "hot": 1.3080525543817656,
+     "neutral": 1.121899763412862,
+     "cold": 0.9986451222249279
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.156071853951968,
+     "neutral": 1.2570942240879774,
+     "cold": 1.5558025671947817
+    },
+    "drop_shots": {
+     "hot": 1.0748943217942741,
+     "neutral": 0.7254200991854098,
+     "cold": 1.2596753106690608
+    }
+   }
+  },
+  "35753": {
+   "thirdFH": {
+    "deuce": 1.7447092854351365,
+    "ad": 0.893937465911793
+   },
+   "playMult": {
+    "forehand_crosscourt": 0.15663141752060994,
+    "forehand_from_the_middle": 1.3411153807859946,
+    "volleys": 1.4582043681959482,
+    "backhand_crosscourt": 3.4317271800135116,
+    "forehand_line": 0.16538124639956908,
+    "forehand_inside_in_out": 7.5492857370670245,
+    "backhand_line": 3.6304558894055634,
+    "drop_shots": 0.8392861645470974,
+    "backhand_from_the_middle": 1.2771984319444207
+   },
+   "corr": {
+    "forehand_crosscourt": {
+     "hot": 1.16264963416043,
+     "neutral": 1.0380325342456147,
+     "cold": 1.1352001403088752
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.3529685919221441,
+     "neutral": 1.0496620000272863,
+     "cold": 1.086324482441252
+    },
+    "volleys": {
+     "hot": 1.12479985056615,
+     "neutral": 1.0391902294804953,
+     "cold": 1.1250796715533429
+    },
+    "backhand_crosscourt": {
+     "hot": 1.133080606947743,
+     "neutral": 1.1324209428067902,
+     "cold": 1.189472637932981
+    },
+    "forehand_line": {
+     "hot": 1.1297981930264929,
+     "neutral": 1.0748460878396142,
+     "cold": 1.5501451730913536
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.0867290650041075,
+     "neutral": 1.0500534288431205,
+     "cold": 1.3065134424770388
+    },
+    "backhand_line": {
+     "hot": 1.7683557623818138,
+     "neutral": 1.0903295887155457,
+     "cold": 1.1011938437501596
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.088768089007899,
+     "neutral": 1.015451655270536,
+     "cold": 0.8813103577069897
+    }
+   }
+  },
+  "35789": {
+   "thirdFH": {
+    "deuce": 0.8815232193241274,
+    "ad": 4.287800801614319
+   },
+   "playMult": {
+    "forehand_crosscourt": 1.1485448394244822,
+    "forehand_from_the_middle": 0.1,
+    "backhand_crosscourt": 2.5424433835998697,
+    "backhand_line": 2.5696559575402125,
+    "forehand_inside_in_out": 4.102299418932663,
+    "forehand_line": 1.3249473788149067,
+    "volleys": 0.6535467240826038,
+    "drop_shots": 0.8723274159729689
+   },
+   "corr": {
+    "forehand_crosscourt": {
+     "hot": 1.1452038146073402,
+     "neutral": 1.1931934364894152,
+     "cold": 0.9964202948793438
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1124851405624794,
+     "neutral": 1.0156303868283192,
+     "cold": 1.1632480853728406
+    },
+    "backhand_crosscourt": {
+     "hot": 1.1419724027540268,
+     "neutral": 1.1164534829572437,
+     "cold": 1.2203799785301148
+    },
+    "backhand_line": {
+     "hot": 1.1980847109738897,
+     "neutral": 1.0719653770894357,
+     "cold": 1.0641263012534714
+    },
+    "forehand_inside_in_out": {
+     "hot": 0.9455842617666885,
+     "neutral": 1.2119977041997816,
+     "cold": 1.3686524241902565
+    },
+    "forehand_line": {
+     "hot": 1.1973548291917397,
+     "neutral": 0.9807403008535995,
+     "cold": 1.3992087523022119
+    },
+    "volleys": {
+     "hot": 1.2030492390507808,
+     "neutral": 1.1527787715196423,
+     "cold": 1.1694611696056199
+    }
+   }
+  },
+  "35871": {
+   "thirdFH": {
+    "deuce": 0.799416077501087,
+    "ad": 4.297450133754703
+   },
+   "playMult": {
+    "backhand_crosscourt": 1.9131785293041896,
+    "forehand_crosscourt": 6.931438941750976,
+    "forehand_line": 6.284280862545626,
+    "backhand_line": 1.820797579733852,
+    "forehand_from_the_middle": 0.1,
+    "backhand_from_the_middle": 0.1,
+    "volleys": 0.45127564340879023,
+    "drop_shots": 0.6279161712948752
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0547168730267145,
+     "neutral": 1.0129725025339786,
+     "cold": 1.122132339462347
+    },
+    "forehand_crosscourt": {
+     "hot": 1.2050158769461423,
+     "neutral": 1.080764093675968,
+     "cold": 0.9866926113630751
+    },
+    "forehand_line": {
+     "hot": 1.126397970107622,
+     "neutral": 1.076208589319134,
+     "cold": 0.9509781126873533
+    },
+    "backhand_line": {
+     "hot": 1.138122786546568,
+     "neutral": 0.9859936975187373,
+     "cold": 1.2577325229655638
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.2041081204079178,
+     "neutral": 1.0307758628437904,
+     "cold": 0.8666713893398899
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1631361661987476,
+     "neutral": 1.0601227580163028,
+     "cold": 1.0483833118737573
+    },
+    "volleys": {
+     "hot": 1.1853315767915096,
+     "neutral": 1.2266034582404888,
+     "cold": 0.8985745641751288
+    },
+    "drop_shots": {
+     "hot": 1.2633520923112826,
+     "neutral": 1.0377846280370597,
+     "cold": 0.9680214803855298
+    }
+   }
+  },
+  "35874": {
+   "thirdFH": {
+    "deuce": 0.5760369775033606,
+    "ad": 0.39222685255244044
+   },
+   "playMult": {
+    "backhand_crosscourt": 5.505414884449429,
+    "forehand_from_the_middle": 0.1,
+    "forehand_crosscourt": 0.654110258718678,
+    "forehand_line": 0.6477082226694704,
+    "volleys": 0.27385207760279207,
+    "forehand_inside_in_out": 10,
+    "backhand_line": 5.596814592992631,
+    "backhand_from_the_middle": 0.1,
+    "drop_shots": 0.4395260593737357
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0336054961703431,
+     "neutral": 1.0047906258143204,
+     "cold": 0.9917885913724176
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.041278557360349,
+     "neutral": 0.9727276106643001,
+     "cold": 1.0601352221629414
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0397843002319636,
+     "neutral": 0.9752059551216654,
+     "cold": 1.0503140423069706
+    },
+    "forehand_line": {
+     "hot": 1.023752953648475,
+     "neutral": 1.011494379559829,
+     "cold": 1.021092893029649
+    },
+    "volleys": {
+     "hot": 1.1796615176095182,
+     "neutral": 0.9988477677572347,
+     "cold": 0.8472417026276768
+    },
+    "forehand_inside_in_out": {
+     "hot": 0.9870760106493855,
+     "neutral": 1.0011033903363642,
+     "cold": 1.2305049149898597
+    },
+    "backhand_line": {
+     "hot": 1.0374315408452373,
+     "neutral": 1.037931600436982,
+     "cold": 0.9696794534460715
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.0112440926885318,
+     "neutral": 1.0510809843833369,
+     "cold": 0.9595101834026133
+    },
+    "drop_shots": {
+     "hot": 1.0790776220085116,
+     "neutral": 1.233004824470812,
+     "cold": 1.2209509300081094
+    }
+   }
+  },
+  "36387": {
+   "thirdFH": {
+    "deuce": 0.4707766469100398,
+    "ad": 0.16564331157773862
+   },
+   "playMult": {
+    "forehand_crosscourt": 6.6976780848840285,
+    "backhand_crosscourt": 0.32578558246391065,
+    "forehand_from_the_middle": 0.2780430475849017,
+    "forehand_line": 7.2319647008873496,
+    "volleys": 0.40173832311277324,
+    "backhand_line": 0.3550589094148284,
+    "backhand_from_the_middle": 0.18080251033738892,
+    "drop_shots": 0.7708073258724589
+   },
+   "corr": {
+    "forehand_crosscourt": {
+     "hot": 1.2753856346619046,
+     "neutral": 1.0381366534296725,
+     "cold": 1.1993946345352984
+    },
+    "backhand_crosscourt": {
+     "hot": 1.1316221267582967,
+     "neutral": 1.1417784242921734,
+     "cold": 1.0891677926006689
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1347035018049998,
+     "neutral": 1.0631055613999958,
+     "cold": 1.3734935708259168
+    },
+    "forehand_line": {
+     "hot": 1.0245175092341707,
+     "neutral": 1.0868315710814311,
+     "cold": 1.3494747645151026
+    },
+    "volleys": {
+     "hot": 1.055897453352149,
+     "neutral": 1.2622023388866006,
+     "cold": 1.1431917244381626
+    },
+    "backhand_line": {
+     "hot": 1.4062471681901174,
+     "neutral": 1.0373278400830495,
+     "cold": 1.2370202176153364
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.032735061153714,
+     "neutral": 1.2816673074706517,
+     "cold": 1.2301479864742466
+    }
+   }
+  },
+  "36675": {
+   "thirdFH": {
+    "deuce": 2.1683592726268794,
+    "ad": 1.1216877588523662
+   },
+   "playMult": {
+    "backhand_crosscourt": 1.5102902299080554,
+    "forehand_crosscourt": 2.3176218031631977,
+    "forehand_from_the_middle": 0.16683057125536105,
+    "forehand_line": 2.2651014981922493,
+    "backhand_line": 1.4275578154982365,
+    "volleys": 0.8060535924632557,
+    "backhand_from_the_middle": 0.2055665975332095,
+    "forehand_inside_in_out": 2.175999119391464,
+    "drop_shots": 1.0323959959065683
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0045677643279658,
+     "neutral": 1.044444233202478,
+     "cold": 1.06218485798842
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0520346506613951,
+     "neutral": 1.0994075255569986,
+     "cold": 1.2328492504784825
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0440948879667966,
+     "neutral": 1.1242993562145591,
+     "cold": 1.0133360977649652
+    },
+    "forehand_line": {
+     "hot": 1.0805246556154855,
+     "neutral": 1.0829706191329873,
+     "cold": 1.0135273416213775
+    },
+    "backhand_line": {
+     "hot": 1.289025311519996,
+     "neutral": 0.966231750496958,
+     "cold": 1.2254341151602017
+    },
+    "volleys": {
+     "hot": 1.1917171920588117,
+     "neutral": 1.094526351374196,
+     "cold": 0.7494558247325558
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1389777810497563,
+     "neutral": 1.0831948247093413,
+     "cold": 1.2657243606293966
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.0103056126011112,
+     "neutral": 1.0751999316465755,
+     "cold": 1.459136822236688
+    },
+    "drop_shots": {
+     "hot": 1.1724610619404983,
+     "neutral": 1.1027640369257266,
+     "cold": 1.0796253376753162
+    }
+   }
+  },
+  "37415": {
+   "thirdFH": {
+    "deuce": 2.3412930982356728,
+    "ad": 3.097567982253948
+   },
+   "playMult": {
+    "backhand_crosscourt": 3.3240166858572726,
+    "forehand_crosscourt": 0.20320712330339885,
+    "forehand_from_the_middle": 0.3952824777501128,
+    "backhand_line": 3.304257810416189,
+    "forehand_inside_in_out": 4.031412667927646,
+    "forehand_line": 0.2064910733595699,
+    "backhand_from_the_middle": 0.5024621745902684,
+    "volleys": 1.1512110183009912,
+    "drop_shots": 1.2764940300997507
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.3852847658349015,
+     "neutral": 1.0134575953212408,
+     "cold": 1.0542725574910918
+    },
+    "forehand_crosscourt": {
+     "hot": 1.2435877787776435,
+     "neutral": 1.0498797200364736,
+     "cold": 1.129400739835946
+    },
+    "forehand_from_the_middle": {
+     "hot": 0.9768596256871735,
+     "neutral": 1.1310243505448392,
+     "cold": 0.9369589678964788
+    },
+    "backhand_line": {
+     "hot": 1.1648396922021835,
+     "neutral": 1.0530672842815854,
+     "cold": 1.195167935912308
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.147989847054708,
+     "neutral": 1.0544132014595655,
+     "cold": 1.1680418173038076
+    },
+    "forehand_line": {
+     "hot": 1.1366794765806139,
+     "neutral": 0.9704899812947568,
+     "cold": 1.2176547774298323
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.4304604868373798,
+     "neutral": 1.0494777163674571,
+     "cold": 1.3133292677414663
+    },
+    "volleys": {
+     "hot": 1.2192222384244367,
+     "neutral": 1.2003659520033307,
+     "cold": 0.9487982236351568
+    },
+    "drop_shots": {
+     "hot": 1.0069141557608239,
+     "neutral": 1.037276158038681,
+     "cold": 1.209195505938336
+    }
+   }
+  },
+  "37422": {
+   "thirdFH": {
+    "deuce": 3.2749556281796464,
+    "ad": 1.9131087582359927
+   },
+   "playMult": {
+    "forehand_crosscourt": 2.738451789315548,
+    "backhand_crosscourt": 10,
+    "forehand_line": 2.6657297313156905,
+    "backhand_line": 10,
+    "forehand_from_the_middle": 0.1,
+    "forehand_inside_in_out": 10,
+    "backhand_from_the_middle": 0.1,
+    "drop_shots": 0.6327228296088342
+   },
+   "corr": {
+    "forehand_crosscourt": {
+     "hot": 1.2520121068859689,
+     "neutral": 1.0595306697240023,
+     "cold": 0.9197771387488296
+    },
+    "backhand_crosscourt": {
+     "hot": 1.1133878628557072,
+     "neutral": 1.0653029765518263,
+     "cold": 1.0961803640136065
+    },
+    "forehand_line": {
+     "hot": 1.2382111412037755,
+     "neutral": 0.8979798232768575,
+     "cold": 1.5277653440968402
+    },
+    "backhand_line": {
+     "hot": 1.4711796000927053,
+     "neutral": 1.1776142081771805,
+     "cold": 0.9933842682635127
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1388096743007963,
+     "neutral": 1.0366162959952534,
+     "cold": 1.1465577413588632
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.1550543929010066,
+     "neutral": 1.1293005858972687,
+     "cold": 1.3885456713377535
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.3919377151231276,
+     "neutral": 0.9822848177127932,
+     "cold": 1.3635771186690553
+    },
+    "drop_shots": {
+     "hot": 1.1664359196887752,
+     "neutral": 1.1829848419517652,
+     "cold": 1.3790727912864957
+    }
+   }
+  },
+  "37429": {
+   "thirdFH": {
+    "deuce": 0.8543821221307821,
+    "ad": 0.3164819373696227
+   },
+   "playMult": {
+    "backhand_line": 10,
+    "forehand_crosscourt": 0.1,
+    "backhand_crosscourt": 10,
+    "forehand_from_the_middle": 0.1,
+    "forehand_inside_in_out": 10,
+    "forehand_line": 0.1,
+    "volleys": 0.1292207410218923,
+    "drop_shots": 0.22326431787572942,
+    "backhand_from_the_middle": 0.1
+   },
+   "corr": {
+    "backhand_line": {
+     "hot": 1.1388201775868902,
+     "neutral": 1.0079331655360908,
+     "cold": 1.2545879803965323
+    },
+    "forehand_crosscourt": {
+     "hot": 1.2949055975587527,
+     "neutral": 1.0672506134922297,
+     "cold": 1.0342265785354032
+    },
+    "backhand_crosscourt": {
+     "hot": 1.3986523613717066,
+     "neutral": 1.1135913404339586,
+     "cold": 1.00806479930893
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1606670805541983,
+     "neutral": 1.0786029807073396,
+     "cold": 0.9095215264829727
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.2807578788525267,
+     "neutral": 1.0501100410490536,
+     "cold": 1.3447417238299237
+    },
+    "forehand_line": {
+     "hot": 1.1969695864313092,
+     "neutral": 1.0039706331960256,
+     "cold": 1.268038487945356
+    },
+    "volleys": {
+     "hot": 1.3009661529069547,
+     "neutral": 1.0014912259008697,
+     "cold": 0.8850241825190953
+    },
+    "drop_shots": {
+     "hot": 1.5624414530758608,
+     "neutral": 1.1731310574033762,
+     "cold": 1.0037579216067756
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.5616995735353605,
+     "neutral": 1.0875929926242405,
+     "cold": 0.9620365918317567
+    }
+   }
+  },
+  "38090": {
+   "thirdFH": {
+    "deuce": 0.4435282274451118,
+    "ad": 0.8954146853129558
+   },
+   "playMult": {
+    "backhand_crosscourt": 2.2068186196293067,
+    "forehand_from_the_middle": 0.7383112012045413,
+    "forehand_crosscourt": 0.42961161429122374,
+    "forehand_line": 0.4162995430594161,
+    "backhand_line": 2.326855447675359,
+    "volleys": 0.6537362677439421,
+    "backhand_from_the_middle": 0.667559066561727,
+    "forehand_inside_in_out": 3.2999708567129233,
+    "drop_shots": 1.0582318639422899
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0936710778493766,
+     "neutral": 1.0194332137860336,
+     "cold": 1.140363338835199
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.2164390165982224,
+     "neutral": 1.0481961783763547,
+     "cold": 0.991569891514924
+    },
+    "forehand_crosscourt": {
+     "hot": 1.1095830977034555,
+     "neutral": 1.0453640421726387,
+     "cold": 1.0018641039662595
+    },
+    "forehand_line": {
+     "hot": 1.1004189069219381,
+     "neutral": 1.1010167832491233,
+     "cold": 1.3311170304115822
+    },
+    "backhand_line": {
+     "hot": 1.3097436903544428,
+     "neutral": 1.1759339148853354,
+     "cold": 1.072738551777754
+    },
+    "volleys": {
+     "hot": 1.1116175216215807,
+     "neutral": 1.0736384961365149,
+     "cold": 1.5415815790264054
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1817062394539304,
+     "neutral": 1.2962535984591537,
+     "cold": 1.2547899610443818
+    },
+    "forehand_inside_in_out": {
+     "hot": 0.9880190512653325,
+     "neutral": 1.1709637289526549,
+     "cold": 1.4742832689558931
+    }
+   }
+  },
+  "38108": {
+   "thirdFH": {
+    "deuce": 0.8213861301461403,
+    "ad": 3.1171775654738503
+   },
+   "playMult": {
+    "backhand_crosscourt": 4.270501236066609,
+    "forehand_crosscourt": 0.4877282346808203,
+    "forehand_from_the_middle": 0.19151331127322727,
+    "forehand_line": 0.4781389121101219,
+    "volleys": 0.8555588100039623,
+    "forehand_inside_in_out": 7.072491118258037,
+    "backhand_line": 4.08727122009494,
+    "backhand_from_the_middle": 0.2104020125389607,
+    "drop_shots": 0.8071079669845134
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0527855412477105,
+     "neutral": 1.006230367815573,
+     "cold": 1.122784260590688
+    },
+    "forehand_crosscourt": {
+     "hot": 1.1306162706497653,
+     "neutral": 0.9877679671029177,
+     "cold": 1.1611115272150696
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.189599960037085,
+     "neutral": 0.9771598576352871,
+     "cold": 0.9021928412220047
+    },
+    "forehand_line": {
+     "hot": 1.1112544973154672,
+     "neutral": 1.0495144874246676,
+     "cold": 1.0366006303327273
+    },
+    "volleys": {
+     "hot": 1.2256296402343958,
+     "neutral": 1.0441721643326423,
+     "cold": 0.9866244459923917
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.30040268226463,
+     "neutral": 1.0374166145239503,
+     "cold": 1.187397318570231
+    },
+    "backhand_line": {
+     "hot": 1.1965233720383155,
+     "neutral": 1.0693092113260056,
+     "cold": 1.0011761084232709
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.3255288779150074,
+     "neutral": 1.1320865735423193,
+     "cold": 1.1239089877942594
+    },
+    "drop_shots": {
+     "hot": 1.3044224001548679,
+     "neutral": 1.0134677727659265,
+     "cold": 1.0931256961500628
+    }
+   }
+  },
+  "38111": {
+   "thirdFH": {
+    "deuce": 4.302848082795477,
+    "ad": 10
+   },
+   "playMult": {
+    "backhand_crosscourt": 0.6283831076181812,
+    "forehand_crosscourt": 2.5992749104916926,
+    "forehand_line": 2.6793507343881,
+    "backhand_line": 0.6750469558830896,
+    "forehand_from_the_middle": 0.2040904812695155,
+    "backhand_from_the_middle": 0.484895750710406,
+    "volleys": 1.4578381854611877,
+    "drop_shots": 1.431017392891468
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.4198279176788224,
+     "neutral": 1.010319488058423,
+     "cold": 1.2547293637963375
+    },
+    "forehand_crosscourt": {
+     "hot": 1.2651058102927195,
+     "neutral": 1.0591755653196118,
+     "cold": 0.9766331675579772
+    },
+    "forehand_line": {
+     "hot": 1.1316170237236396,
+     "neutral": 0.9825880593856499,
+     "cold": 1.2409228128188572
+    },
+    "backhand_line": {
+     "hot": 1.1796891715405728,
+     "neutral": 1.0220458487331676,
+     "cold": 1.0906012877246303
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.2416331127049236,
+     "neutral": 1.166254586063855,
+     "cold": 0.8063665008348782
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.259390610250118,
+     "neutral": 1.0860368671178664,
+     "cold": 1.1399783212718806
+    },
+    "volleys": {
+     "hot": 1.1831591606047895,
+     "neutral": 1.0484427433024461,
+     "cold": 1.0564160031030316
+    },
+    "drop_shots": {
+     "hot": 1.1075505000693235,
+     "neutral": 1.0375816309461203,
+     "cold": 1.0667271627266686
+    }
+   }
+  },
+  "38537": {
+   "thirdFH": {
+    "deuce": 3.3563286740637013,
+    "ad": 5.240801427436926
+   },
+   "playMult": {
+    "backhand_crosscourt": 6.789299782208454,
+    "forehand_crosscourt": 0.8228405764795216,
+    "forehand_from_the_middle": 0.1,
+    "backhand_line": 6.781976602488418,
+    "forehand_line": 0.8025951644180754,
+    "backhand_from_the_middle": 0.1,
+    "forehand_inside_in_out": 7.436932163914389,
+    "volleys": 0.8462816608022131,
+    "drop_shots": 0.7114818886478381
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0050878651312551,
+     "neutral": 1.0211820590674643,
+     "cold": 1.0671333082629548
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0679188284445909,
+     "neutral": 1.0305568696485514,
+     "cold": 1.0174894794066098
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0709033308170899,
+     "neutral": 0.9707558020735303,
+     "cold": 1.03665503905512
+    },
+    "backhand_line": {
+     "hot": 0.9760473867037146,
+     "neutral": 1.0557565115319834,
+     "cold": 1.2224238682585837
+    },
+    "forehand_line": {
+     "hot": 1.019192504291155,
+     "neutral": 1.018990328434041,
+     "cold": 1.0729434184409365
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1852433696245777,
+     "neutral": 1.051154815231289,
+     "cold": 1.2313442668848427
+    },
+    "forehand_inside_in_out": {
+     "hot": 0.9495507568418379,
+     "neutral": 1.1213359223961903,
+     "cold": 1.2107570214264418
+    },
+    "volleys": {
+     "hot": 1.1946180150042518,
+     "neutral": 1.101638995458858,
+     "cold": 1.0468831212543188
+    },
+    "drop_shots": {
+     "hot": 1.0054031551491818,
+     "neutral": 1.1255382473687454,
+     "cold": 1.224576031050399
+    }
+   }
+  },
+  "38578": {
+   "thirdFH": {
+    "deuce": 2.656258754829711,
+    "ad": 1.5798264022391078
+   },
+   "playMult": {
+    "backhand_crosscourt": 2.2688833428815998,
+    "backhand_line": 2.2089098087710877,
+    "forehand_from_the_middle": 0.10434281046230222,
+    "forehand_crosscourt": 1.0503255399723754,
+    "forehand_line": 1.0429410837984099,
+    "forehand_inside_in_out": 3.3711551459102416,
+    "volleys": 0.988540658074621,
+    "backhand_from_the_middle": 0.1373687479524218,
+    "drop_shots": 0.9406549800935041
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0120553536062702,
+     "neutral": 1.0308350695055464,
+     "cold": 0.9672515985220166
+    },
+    "backhand_line": {
+     "hot": 0.9949586698190321,
+     "neutral": 1.0610211166954353,
+     "cold": 1.0796381917732165
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0679852948323256,
+     "neutral": 0.9895911303687305,
+     "cold": 1.012767487141332
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0547121636921148,
+     "neutral": 1.0010008977030076,
+     "cold": 1.0386416349175571
+    },
+    "forehand_line": {
+     "hot": 0.9869662529631434,
+     "neutral": 1.0087973834404231,
+     "cold": 1.1079932728343294
+    },
+    "forehand_inside_in_out": {
+     "hot": 0.9874511033101072,
+     "neutral": 1.0240863318488023,
+     "cold": 1.2660590840480386
+    },
+    "volleys": {
+     "hot": 1.1147504875281131,
+     "neutral": 0.9283911673842357,
+     "cold": 1.043030665211212
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.089203239469184,
+     "neutral": 1.0609757012460674,
+     "cold": 1.0240970850211353
+    },
+    "drop_shots": {
+     "hot": 1.1290958028820688,
+     "neutral": 0.8719033095737113,
+     "cold": 1.2988972635961609
+    }
+   }
+  },
+  "38686": {
+   "thirdFH": {
+    "deuce": 0.5341806608412115,
+    "ad": 1.083197660820239
+   },
+   "playMult": {
+    "backhand_crosscourt": 10,
+    "forehand_crosscourt": 0.2825222584489262,
+    "forehand_line": 0.35027164148346485,
+    "backhand_line": 10,
+    "forehand_from_the_middle": 0.1,
+    "forehand_inside_in_out": 10,
+    "volleys": 0.3824800156950424,
+    "backhand_from_the_middle": 0.1,
+    "drop_shots": 0.5202743532236818
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0667891216208327,
+     "neutral": 1.005754364485298,
+     "cold": 1.1323665639641443
+    },
+    "forehand_crosscourt": {
+     "hot": 1.2137789028759802,
+     "neutral": 1.1498770756758798,
+     "cold": 0.8798121972963626
+    },
+    "forehand_line": {
+     "hot": 1.266255006692172,
+     "neutral": 1.0321086560984338,
+     "cold": 1.145801970501915
+    },
+    "backhand_line": {
+     "hot": 1.1841130718131843,
+     "neutral": 1.1923435501884954,
+     "cold": 1.246055578974767
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.3000028550385847,
+     "neutral": 1.0687457114161623,
+     "cold": 1.0387681963630557
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.2430894332413132,
+     "neutral": 1.2480458918917856,
+     "cold": 1.1962729886337462
+    },
+    "volleys": {
+     "hot": 1.4635000635337951,
+     "neutral": 1.0721759799654198,
+     "cold": 0.8025500330633264
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.3420826729186426,
+     "neutral": 1.0773393306890178,
+     "cold": 1.209936871708207
+    },
+    "drop_shots": {
+     "hot": 1.4420655990423519,
+     "neutral": 1.1077180146110963,
+     "cold": 1.0681887247725304
+    }
+   }
+  },
+  "39578": {
+   "thirdFH": {
+    "deuce": 0.8047105270076051,
+    "ad": 2.449862014677142
+   },
+   "playMult": {
+    "backhand_crosscourt": 4.311860937599842,
+    "forehand_crosscourt": 0.4834361318436176,
+    "backhand_line": 4.19450964668011,
+    "forehand_from_the_middle": 0.11038675662221478,
+    "backhand_from_the_middle": 0.13246345685801464,
+    "forehand_line": 0.5029968079366428,
+    "volleys": 0.6286555108766337,
+    "forehand_inside_in_out": 6.093174519262047,
+    "drop_shots": 0.7191107128354213
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0202560941110153,
+     "neutral": 1.0067915632586026,
+     "cold": 1.0032110511128594
+    },
+    "forehand_crosscourt": {
+     "hot": 1.06034566150402,
+     "neutral": 0.9913205580360479,
+     "cold": 0.9540746375727874
+    },
+    "backhand_line": {
+     "hot": 1.0342843581575734,
+     "neutral": 0.9818812881367389,
+     "cold": 1.0427546921235396
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0203101356984983,
+     "neutral": 0.9962035705989478,
+     "cold": 1.0157838788906135
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.0329673615586956,
+     "neutral": 1.0057066266509138,
+     "cold": 1.047140280527581
+    },
+    "forehand_line": {
+     "hot": 1.1167372646001619,
+     "neutral": 0.9591658614572894,
+     "cold": 1.0041018786985938
+    },
+    "volleys": {
+     "hot": 1.1024932806948442,
+     "neutral": 0.9367782494679971,
+     "cold": 0.8855535258099102
+    },
+    "forehand_inside_in_out": {
+     "hot": 0.9628527943590862,
+     "neutral": 1.023536010299012,
+     "cold": 1.2893495838710909
+    },
+    "drop_shots": {
+     "hot": 0.9789367248614282,
+     "neutral": 1.0454029195634769,
+     "cold": 1.0949828401203785
+    }
+   }
+  },
+  "39743": {
+   "thirdFH": {
+    "deuce": 4.328738220700363,
+    "ad": 9.77238585750465
+   },
+   "playMult": {
+    "backhand_crosscourt": 1.318235224214652,
+    "forehand_crosscourt": 1.3916895165939407,
+    "forehand_line": 1.4719518101036766,
+    "forehand_from_the_middle": 0.1991949138139215,
+    "backhand_line": 1.296692664188739,
+    "forehand_inside_in_out": 1.5579079631297228,
+    "drop_shots": 1.6967111014689462,
+    "backhand_from_the_middle": 0.3442467918815113,
+    "volleys": 1.4527410317837197
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.2137264482419112,
+     "neutral": 1.0316318531563444,
+     "cold": 1.0367013047478608
+    },
+    "forehand_crosscourt": {
+     "hot": 1.1949277849920465,
+     "neutral": 1.022725520011088,
+     "cold": 1.0125866209300538
+    },
+    "forehand_line": {
+     "hot": 1.0601015503502207,
+     "neutral": 1.0970676238967065,
+     "cold": 1.2104475103652745
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0774322957673461,
+     "neutral": 1.0277279292431751,
+     "cold": 1.1605604311213724
+    },
+    "backhand_line": {
+     "hot": 1.1806430809463537,
+     "neutral": 1.2649238772169966,
+     "cold": 1.099860559346535
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.1955559625271062,
+     "neutral": 1.1769497299296385,
+     "cold": 1.1356934643071608
+    },
+    "drop_shots": {
+     "hot": 1.1812993283646165,
+     "neutral": 1.1774068389580747,
+     "cold": 1.1933938778789999
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.073156476117375,
+     "neutral": 1.279927842591257,
+     "cold": 1.4338498374958542
+    },
+    "volleys": {
+     "hot": 1.1451934775975523,
+     "neutral": 0.9420048855559058,
+     "cold": 1.1733207001741894
+    }
+   }
+  },
+  "39932": {
+   "thirdFH": {
+    "deuce": 0.645890901679014,
+    "ad": 0.7595988998776472
+   },
+   "playMult": {
+    "forehand_crosscourt": 3.453509957546502,
+    "forehand_from_the_middle": 0.6339794716238727,
+    "backhand_crosscourt": 0.454391070676398,
+    "backhand_line": 0.41101469482433933,
+    "volleys": 0.9503277753967946,
+    "backhand_from_the_middle": 0.6564882695548548,
+    "forehand_inside_in_out": 0.8717807680036245,
+    "forehand_line": 3.2470589303267046,
+    "drop_shots": 0.937495731601078
+   },
+   "corr": {
+    "forehand_crosscourt": {
+     "hot": 1.0665954896965801,
+     "neutral": 1.0748256607564384,
+     "cold": 1.0641211832647495
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.1002656076850594,
+     "neutral": 0.9736009661189655,
+     "cold": 1.1785617625632527
+    },
+    "backhand_crosscourt": {
+     "hot": 1.4957588797045314,
+     "neutral": 1.073576982275891,
+     "cold": 1.0483337423381645
+    },
+    "backhand_line": {
+     "hot": 1.2667357691078367,
+     "neutral": 0.9863558432741688,
+     "cold": 1.2297570808808758
+    },
+    "volleys": {
+     "hot": 1.3304664889689142,
+     "neutral": 1.161047450866303,
+     "cold": 1.0775193545547535
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.3120438451386447,
+     "neutral": 1.2235273993369722,
+     "cold": 1.0263599450102392
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.0650877631570048,
+     "neutral": 1.1067473227530031,
+     "cold": 1.4241827201323014
+    },
+    "forehand_line": {
+     "hot": 1.0657377987599368,
+     "neutral": 1.2338919262552537,
+     "cold": 1.2547590905270358
+    }
+   }
+  },
+  "41939": {
+   "thirdFH": {
+    "deuce": 0.6024657436892771,
+    "ad": 0.8685077368261082
+   },
+   "playMult": {
+    "forehand_crosscourt": 2.8239781959990387,
+    "backhand_crosscourt": 1.5762979075328498,
+    "forehand_line": 2.980901954987194,
+    "forehand_from_the_middle": 0.1,
+    "backhand_line": 1.6066649911683717,
+    "backhand_from_the_middle": 0.1,
+    "drop_shots": 0.6328439250243179,
+    "forehand_inside_in_out": 2.943256615919459,
+    "volleys": 0.45223477604708007
+   },
+   "corr": {
+    "forehand_crosscourt": {
+     "hot": 1.0542206852172118,
+     "neutral": 1.0495358804518033,
+     "cold": 1.2554829427703231
+    },
+    "backhand_crosscourt": {
+     "hot": 1.152855219623524,
+     "neutral": 1.0772492239305624,
+     "cold": 0.9825079598906714
+    },
+    "forehand_line": {
+     "hot": 1.0656350893577595,
+     "neutral": 1.0400228340539805,
+     "cold": 1.3500050527679066
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.2971843635317881,
+     "neutral": 1.0596289496286488,
+     "cold": 1.1320483845139384
+    },
+    "backhand_line": {
+     "hot": 1.1738646873742056,
+     "neutral": 1.1141693577365082,
+     "cold": 1.9313964078771133
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.2704412674360364,
+     "neutral": 1.176710498009286,
+     "cold": 1.0359052899809016
+    },
+    "drop_shots": {
+     "hot": 1.2082955191975893,
+     "neutral": 1.1344528675898808,
+     "cold": 1.1952323295586547
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.370020838881117,
+     "neutral": 0.9313422891715011,
+     "cold": 1.3080968915715043
+    },
+    "volleys": {
+     "hot": 1.0621892411059135,
+     "neutral": 1.0466769429858165,
+     "cold": 0.9398080374204831
+    }
+   }
+  },
+  "42741": {
+   "thirdFH": {
+    "deuce": 4.672191435855971,
+    "ad": 10
+   },
+   "playMult": {
+    "backhand_crosscourt": 3.247734616107791,
+    "forehand_crosscourt": 0.8227134512891814,
+    "forehand_from_the_middle": 0.1,
+    "forehand_line": 0.807736070232808,
+    "backhand_line": 3.0524169418523766,
+    "volleys": 1.7444231074630645,
+    "forehand_inside_in_out": 3.1365032104641153,
+    "backhand_from_the_middle": 0.20525003092581237,
+    "drop_shots": 1.0776232840794044
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.2154987639737092,
+     "neutral": 1.014382260597286,
+     "cold": 1.109103208372915
+    },
+    "forehand_crosscourt": {
+     "hot": 1.4113140990878705,
+     "neutral": 1.0828116517717465,
+     "cold": 1.1328031610783824
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.175477409889586,
+     "neutral": 1.0406566770164374,
+     "cold": 1.0577170220788745
+    },
+    "forehand_line": {
+     "hot": 0.9968766658345445,
+     "neutral": 1.1263280410184542,
+     "cold": 1.112936123828984
+    },
+    "backhand_line": {
+     "hot": 1.3286633166216537,
+     "neutral": 0.9913235116996828,
+     "cold": 1.2552982187425672
+    },
+    "volleys": {
+     "hot": 1.230673087823983,
+     "neutral": 0.9593884732805005,
+     "cold": 1.01222437677157
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.2801529426718745,
+     "neutral": 1.1225060877066857,
+     "cold": 1.510079042777388
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.1275965965664525,
+     "neutral": 1.0836779122082414,
+     "cold": 1.466156403267674
+    },
+    "drop_shots": {
+     "hot": 1.0388936818240921,
+     "neutral": 0.8227777106910297,
+     "cold": 1.12358918406462
+    }
+   }
+  },
+  "151648": {
+   "thirdFH": {
+    "deuce": 1.3199627632126845,
+    "ad": 0.7900103651490733
+   },
+   "playMult": {
+    "backhand_crosscourt": 10,
+    "forehand_crosscourt": 0.17454366574100208,
+    "forehand_from_the_middle": 0.17416599201144053,
+    "backhand_line": 10,
+    "forehand_line": 0.1724933382895637,
+    "drop_shots": 0.5108887161822109,
+    "backhand_from_the_middle": 0.15111934109167974,
+    "volleys": 0.3623809853452345,
+    "forehand_inside_in_out": 1.1731003156267839
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.3481267174333236,
+     "neutral": 1.0786067169744136,
+     "cold": 1.0499677049712137
+    },
+    "forehand_crosscourt": {
+     "hot": 1.2868898733929208,
+     "neutral": 1.0650788539976546,
+     "cold": 1.1213250442738827
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0937340794705268,
+     "neutral": 1.2060534839416375,
+     "cold": 1.0665766499521716
+    },
+    "backhand_line": {
+     "hot": 1.001392358815312,
+     "neutral": 1.190626431446327,
+     "cold": 1.3415379236472793
+    },
+    "forehand_line": {
+     "hot": 1.2080884012976127,
+     "neutral": 1.0771129210668886,
+     "cold": 1.1234287705885242
+    },
+    "drop_shots": {
+     "hot": 1.0348586864946323,
+     "neutral": 1.0371137926033682,
+     "cold": 1.3305253704896978
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.2494556587387433,
+     "neutral": 1.1159914191965237,
+     "cold": 1.2866600882573318
+    },
+    "volleys": {
+     "hot": 1.29151204407438,
+     "neutral": 0.9425190831352382,
+     "cold": 0.9844690362921347
+    }
+   }
+  },
+  "152351": {
+   "thirdFH": {
+    "deuce": 10,
+    "ad": 5.776244214853452
+   },
+   "playMult": {
+    "forehand_from_the_middle": 0.2501226822815661,
+    "forehand_crosscourt": 2.242455446839827,
+    "backhand_crosscourt": 0.942793320276816,
+    "forehand_line": 2.2173216612483677,
+    "backhand_line": 1.0723913911983889,
+    "volleys": 1.8327480161982206,
+    "backhand_from_the_middle": 0.5440570550192646,
+    "forehand_inside_in_out": 1.0056861065512308,
+    "drop_shots": 1.3885590315588103
+   },
+   "corr": {
+    "forehand_from_the_middle": {
+     "hot": 1.0675577076476648,
+     "neutral": 1.0096102060624734,
+     "cold": 1.2185086815997856
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0250973387013131,
+     "neutral": 1.157198393852401,
+     "cold": 1.2420722274191969
+    },
+    "backhand_crosscourt": {
+     "hot": 1.0126486450558274,
+     "neutral": 1.125196893219119,
+     "cold": 1.0704581086399318
+    },
+    "forehand_line": {
+     "hot": 0.9674108768645275,
+     "neutral": 1.0536418072851428,
+     "cold": 1.4381865140705277
+    },
+    "backhand_line": {
+     "hot": 1.2509305187017339,
+     "neutral": 1.1534067952227292,
+     "cold": 1.1061321082246445
+    },
+    "volleys": {
+     "hot": 1.0735146485217144,
+     "neutral": 1.1071030952682337,
+     "cold": 1.375144622518245
+    },
+    "backhand_from_the_middle": {
+     "hot": 0.9743385251294067,
+     "neutral": 1.1621560948523482,
+     "cold": 1.3127778355812028
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.2998354293512102,
+     "neutral": 1.0509088555277781,
+     "cold": 1.3570950789657115
+    }
+   }
+  },
+  "152504": {
+   "thirdFH": {
+    "deuce": 8.220783662399079,
+    "ad": 5.198144169924597
+   },
+   "playMult": {
+    "backhand_crosscourt": 4.005521571980049,
+    "forehand_from_the_middle": 0.2297785870849233,
+    "forehand_crosscourt": 0.48805786324120465,
+    "volleys": 2.0781813101662774,
+    "forehand_inside_in_out": 4.047528057234205,
+    "forehand_line": 0.4847409340410113,
+    "backhand_line": 3.932177698124934,
+    "backhand_from_the_middle": 0.359107607131897,
+    "drop_shots": 1.383718086117902
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 0.9921014372472773,
+     "neutral": 1.0169752497278572,
+     "cold": 1.0417883211991121
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0715048185975826,
+     "neutral": 0.9750326428942784,
+     "cold": 1.0048174870703956
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0282547306695833,
+     "neutral": 1.0067185280670765,
+     "cold": 1.031889401053439
+    },
+    "volleys": {
+     "hot": 1.0582088094058197,
+     "neutral": 0.9775203688199358,
+     "cold": 1.1088034854794961
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.0978560750281956,
+     "neutral": 0.9783995777366932,
+     "cold": 1.1566215335477716
+    },
+    "forehand_line": {
+     "hot": 1.0594342533839536,
+     "neutral": 0.9817844491543231,
+     "cold": 1.0324641909494714
+    },
+    "backhand_line": {
+     "hot": 1.073700422826749,
+     "neutral": 0.9758677213743217,
+     "cold": 1.0901356401709534
+    },
+    "backhand_from_the_middle": {
+     "hot": 0.9767970588934084,
+     "neutral": 1.0994052304787567,
+     "cold": 1.0062627815738654
+    },
+    "drop_shots": {
+     "hot": 1.120517497981028,
+     "neutral": 1.0536519045595116,
+     "cold": 1.179227180249767
+    }
+   }
+  },
+  "155476": {
+   "thirdFH": {
+    "deuce": 1.0197511260772292,
+    "ad": 1.0863154691416363
+   },
+   "playMult": {
+    "backhand_crosscourt": 0.888466644366578,
+    "forehand_crosscourt": 4.240586355339357,
+    "forehand_line": 4.184692760183203,
+    "volleys": 0.6843098781252928,
+    "forehand_from_the_middle": 0.13201771562890438,
+    "backhand_line": 0.914643449949664,
+    "forehand_inside_in_out": 1.4318445397952082,
+    "backhand_from_the_middle": 0.15073849838766012,
+    "drop_shots": 0.8994403733793862
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 0.970899997217115,
+     "neutral": 1.0261657093086933,
+     "cold": 1.025679579567733
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0598332782582922,
+     "neutral": 0.9963911787800914,
+     "cold": 1.0843456725727851
+    },
+    "forehand_line": {
+     "hot": 1.0828309767435094,
+     "neutral": 1.0007700720196573,
+     "cold": 1.0447672193998396
+    },
+    "volleys": {
+     "hot": 1.1270839761825473,
+     "neutral": 0.9776187198908758,
+     "cold": 0.8817988090506648
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0592460664589367,
+     "neutral": 0.9981601249936263,
+     "cold": 1.054552505311771
+    },
+    "backhand_line": {
+     "hot": 1.01999671610536,
+     "neutral": 1.0428806291859978,
+     "cold": 1.1742585529397271
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.149635855395918,
+     "neutral": 1.0982145125921605,
+     "cold": 1.2869077280535748
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.0887239591389801,
+     "neutral": 1.0591081828120124,
+     "cold": 1.0304562940634454
+    },
+    "drop_shots": {
+     "hot": 1.098454196540752,
+     "neutral": 1.2756942969918796,
+     "cold": 1.1713681906588098
+    }
+   }
+  },
+  "165445": {
+   "thirdFH": {
+    "deuce": 1.8650975268958185,
+    "ad": 3.197846729426537
+   },
+   "playMult": {
+    "backhand_crosscourt": 4.795080161147135,
+    "forehand_from_the_middle": 0.10820003126402838,
+    "forehand_crosscourt": 0.5599346565170108,
+    "forehand_line": 0.5847616570044711,
+    "backhand_line": 4.779980986296828,
+    "forehand_inside_in_out": 5.639837196208835,
+    "volleys": 0.614605409467183,
+    "drop_shots": 0.7295834838339185,
+    "backhand_from_the_middle": 0.19893060802926746
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 0.9908826319790531,
+     "neutral": 1.0375616586401075,
+     "cold": 1.1800682369828708
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0393756796704074,
+     "neutral": 1.0435030436359476,
+     "cold": 1.3438689574637304
+    },
+    "forehand_crosscourt": {
+     "hot": 1.0802539638641424,
+     "neutral": 0.9856123602740107,
+     "cold": 1.3334191169406358
+    },
+    "forehand_line": {
+     "hot": 1.0206905196292515,
+     "neutral": 1.0901007955871167,
+     "cold": 1.1655526304555988
+    },
+    "backhand_line": {
+     "hot": 0.9763214809502624,
+     "neutral": 1.0835180466060081,
+     "cold": 1.1564877461096588
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.1522202219931141,
+     "neutral": 1.1314628451458058,
+     "cold": 1.236396007165973
+    },
+    "volleys": {
+     "hot": 1.1128342286606103,
+     "neutral": 1.2724145006168515,
+     "cold": 1.2427478137484835
+    },
+    "drop_shots": {
+     "hot": 1.2013520861317886,
+     "neutral": 1.1320199374660491,
+     "cold": 1.7465507974965795
+    },
+    "backhand_from_the_middle": {
+     "hot": 1.2235478621134395,
+     "neutral": 1.0820307164006466,
+     "cold": 1.4103750590527275
+    }
+   }
+  },
+  "168736": {
+   "thirdFH": {
+    "deuce": 1.1870678477299614,
+    "ad": 2.3817437196108457
+   },
+   "playMult": {
+    "backhand_crosscourt": 2.8579767732869716,
+    "forehand_crosscourt": 1.7316201762599375,
+    "forehand_line": 1.7251062226938956,
+    "forehand_from_the_middle": 0.1,
+    "backhand_line": 2.8398482078666842,
+    "backhand_from_the_middle": 0.1,
+    "volleys": 0.4787678992973252,
+    "forehand_inside_in_out": 3.7156429602171026,
+    "drop_shots": 0.6076935082267413
+   },
+   "corr": {
+    "backhand_crosscourt": {
+     "hot": 1.0339813316721647,
+     "neutral": 0.9896916702627587,
+     "cold": 1.0308848005362616
+    },
+    "forehand_crosscourt": {
+     "hot": 1.054687204562481,
+     "neutral": 1.011946761485418,
+     "cold": 0.9510772759171341
+    },
+    "forehand_line": {
+     "hot": 1.0388485985270146,
+     "neutral": 0.9887238003440104,
+     "cold": 1.0587844781902969
+    },
+    "forehand_from_the_middle": {
+     "hot": 1.0447470037530613,
+     "neutral": 1.0104797665080374,
+     "cold": 0.951716035945425
+    },
+    "backhand_line": {
+     "hot": 0.9989027019372712,
+     "neutral": 1.023937607296841,
+     "cold": 1.0477680424135334
+    },
+    "backhand_from_the_middle": {
+     "hot": 0.9491330514621645,
+     "neutral": 0.9949075811634015,
+     "cold": 1.1692752776559001
+    },
+    "volleys": {
+     "hot": 1.1007559218072938,
+     "neutral": 1.066472704482251,
+     "cold": 1.0015719685565112
+    },
+    "forehand_inside_in_out": {
+     "hot": 1.0034191433571709,
+     "neutral": 1.0315134283806155,
+     "cold": 1.0604670115587254
+    },
+    "drop_shots": {
+     "hot": 1.1436012354562952,
+     "neutral": 1.138383434091664,
+     "cold": 1.146526307759492
+    }
+   }
+  }
+ }
+}

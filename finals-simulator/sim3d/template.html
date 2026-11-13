@@ -1,0 +1,1715 @@
+<title>ATP Finals Simulator</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,700&family=Barlow:wght@400;500;600;800&display=swap">
+<style>
+/* Layout: full-screen 3D scene; TV-style graphics anchored to the edges (score bottom left, controls top right). */
+:root {
+  color-scheme: dark;
+  --night: #050b18;        /* arena background */
+  --bar: #0d2238;          /* scoreboard bar */
+  --bar-2: #3c556f;        /* points box */
+  --mint: #14d8c4;         /* graphics aqua green */
+  --ink: #06182a;          /* text on aqua green */
+  --white: #f3f6fb;
+  --dim: #9fb2c8;
+  --red: #ff6b6b;
+  --display: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --text: "Barlow", "Helvetica Neue", Arial, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+html, body { height: 100%; }
+body { background: var(--night); color: var(--white); font-family: var(--text); overflow: hidden; }
+#app { position: relative; width: 100%; height: 100%; overflow: hidden; background: var(--night); }
+#stage { position: absolute; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+#leaders { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+#leaders line { stroke: var(--white); stroke-width: 1.5; opacity: .75; }
+
+.hud { position: absolute; font-family: var(--display); text-transform: uppercase; letter-spacing: .04em; }
+
+/* Score, bottom left */
+#bug { left: max(16px, env(safe-area-inset-left, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 2px; font-weight: 600; font-size: clamp(15px, 2.1vw, 22px); font-variant-numeric: tabular-nums; }
+#bug { transform-origin: 0 100%; transition: left .6s ease, bottom .6s ease, transform .6s ease; }
+#bug .row { display: flex; }
+#bug .name { min-width: 7.2em; }
+#bug .set { width: 1.7em; background: var(--bar); color: var(--dim); text-align: center; padding: .28em 0; }
+#bug .set.won { color: var(--white); }
+#bug .games { width: 1.9em; }
+#bug .pts { width: 2.3em; }
+#bug .name { background: var(--bar); padding: .28em .7em .28em 1.5em; position: relative; white-space: nowrap; }
+#bug .row.serving .name::before { content: ""; position: absolute; left: .6em; top: 50%; width: .36em; height: .36em; margin-top: -.18em; border-radius: 50%; background: var(--mint); }
+#bug .games { background: var(--mint); color: var(--ink); text-align: center; padding: .28em 0; font-weight: 700; }
+#bug .pts { background: var(--bar-2); text-align: center; padding: .28em 0; }
+
+/* Controls, top right */
+#controls { z-index: 6; right: max(16px, env(safe-area-inset-right, 0px)); top: calc(12px + env(safe-area-inset-top, 0px)); display: flex; flex-wrap: wrap; gap: 8px; justify-content: flex-end; max-width: calc(100% - 32px); }
+.seg { display: flex; background: rgba(13, 34, 56, .88); }
+.seg button, #menuBtn, #simBtn { font: 600 14px/1 var(--display); letter-spacing: .06em; text-transform: uppercase; color: var(--white); background: transparent; border: 0; padding: 10px 12px; cursor: pointer; min-height: 36px; }
+.seg button[aria-pressed="true"] { background: var(--mint); color: var(--ink); }
+#menuBtn { background: rgba(13, 34, 56, .88); }
+#simBtn { background: var(--mint); color: var(--ink); }
+#simBtn:disabled { opacity: .5; cursor: default; }
+/* Simulating the rest of the match: court in the background, scoreboard centred and larger */
+#stage { transition: filter .6s ease; }
+body.sim #stage { filter: blur(7px) brightness(.4) saturate(.8); }
+body.sim #bug { left: 50%; bottom: 50%; transform: translate(-50%, 50%) scale(1.7); transform-origin: 50% 50%; }
+body.sim #prompt, body.sim #choices, body.sim #leaders, body.sim #feed, body.sim #controls .seg { display: none; }
+#simTitle { left: 50%; transform: translateX(-50%); top: calc(50% - 150px); font-weight: 600; font-size: clamp(15px, 2.2vw, 21px); letter-spacing: .12em; color: var(--mint); white-space: nowrap; }
+/* End-of-match statistics */
+#stats { position: absolute; inset: 0; z-index: 6; display: flex; flex-direction: column; align-items: center; padding-block: 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: rgba(5, 11, 24, .55); overflow-y: auto; }
+#stats .sp { flex-shrink: 0; margin-block: auto; width: min(100%, 780px); background: rgba(9, 24, 42, .97); border-top: 4px solid var(--mint); padding: 18px clamp(14px, 3vw, 26px) 20px; display: grid; gap: 16px; font-family: var(--display); text-transform: uppercase; letter-spacing: .04em; font-variant-numeric: tabular-nums; }
+#stats h2 { margin: 0; font: italic 700 clamp(24px, 5vw, 32px)/1 var(--display); color: var(--white); text-align: center; }
+#stats .sc { display: grid; gap: 2px; }
+#stats .sc .r { display: flex; align-items: stretch; gap: 2px; font-weight: 600; font-size: clamp(17px, 3.2vw, 24px); }
+#stats .sc .n { flex: 1; background: var(--bar); padding: .25em .6em; color: var(--dim); }
+#stats .sc .r.win .n { color: var(--mint); }
+#stats .sc .s { width: 1.8em; background: var(--bar); text-align: center; padding: .25em 0; color: var(--dim); }
+#stats .sc .s.w { color: var(--white); }
+#stats .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
+#stats .blk h3 { margin: 0 0 6px; font: 600 15px var(--display); letter-spacing: .12em; color: var(--white); background: var(--bar-2); padding: .4em .6em; text-align: center; }
+#stats table { width: 100%; border-collapse: collapse; font-size: 15px; }
+#stats td { padding: .32em .4em; border-bottom: 1px solid rgba(159, 178, 200, .15); }
+#stats td.l { color: var(--dim); font-size: 13px; letter-spacing: .08em; }
+#stats td.v { text-align: right; font-weight: 600; color: var(--white); width: 30%; }
+#stats td.v.hi { color: var(--mint); }
+#stats tr.tot td { font-size: 18px; border-bottom: 0; }
+#stats .bar { display: block; height: 3px; background: rgba(159, 178, 200, .2); margin-top: 3px; }
+#stats .bar i { display: block; height: 100%; background: var(--mint); }
+#stats .note { margin: 0; font: 400 12px/1.4 var(--text); text-transform: none; letter-spacing: 0; color: var(--dim); text-align: center; }
+#stats .cta { min-width: 220px; }
+#stats .endrow { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; justify-content: center; }
+#stats .endrow a { font: 600 15px var(--display); letter-spacing: .08em; color: var(--mint); text-decoration: underline; text-underline-offset: 4px; }
+#howBody { display: grid; gap: 14px; text-transform: none; letter-spacing: 0; }
+#howBody h3 { margin: 0; font: 600 15px var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--white); background: var(--bar-2); padding: .4em .6em; }
+#howBody p, #howBody li { margin: 0; font: 400 14px/1.5 var(--text); color: var(--white); }
+#howBody ol { margin: 0; padding-left: 1.3em; display: grid; gap: 6px; }
+#howBody b { color: var(--mint); font-weight: 600; }
+#howBody .src { font-size: 12px; color: var(--dim); }
+@media (max-width: 560px) { #stats .two { grid-template-columns: 1fr; } }
+/* Invitation to simulate: dark veil, highlighted button, arrow and text */
+#hint { position: absolute; inset: 0; z-index: 8; background: rgba(3, 8, 18, .55); cursor: pointer; }
+#hint svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+#hint svg path { fill: none; stroke: var(--white); stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+#hintText { position: absolute; margin: 0; max-width: 230px; font: italic 700 clamp(20px, 3vw, 26px)/1.05 var(--display); text-transform: uppercase; color: var(--white); text-align: right; }
+#hintText small { display: block; margin-top: 8px; font: 500 13px var(--text); font-style: normal; text-transform: none; color: var(--dim); }
+body.hint #controls { z-index: 9; }
+body.hint #controls .seg { opacity: .2; }
+body.hint #simBtn { box-shadow: 0 0 0 3px var(--white), 0 0 24px rgba(20, 216, 196, .8); }
+/* Tutorial */
+#tut { position: absolute; inset: 0; z-index: 7; display: flex; flex-direction: column; align-items: center; padding-block: 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: rgba(5, 11, 24, .72); }
+#tut .panel { width: min(100%, 440px); }
+#tut .step { font: 600 13px var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--mint); margin: 0; }
+#tut h2.t { font: italic 700 clamp(26px, 6vw, 34px)/1 var(--display); text-transform: uppercase; color: var(--white); letter-spacing: 0; margin: 0; }
+#tut p.b { margin: 0; font-size: 15px; line-height: 1.5; color: var(--white); }
+#tut .row2 { display: flex; gap: 8px; justify-content: space-between; align-items: center; }
+#tut .row2 button { font: 600 15px var(--display); letter-spacing: .06em; text-transform: uppercase; border: 0; padding: 10px 14px; cursor: pointer; }
+#tutSkip { background: transparent; color: var(--dim); }
+#tutPrev { background: var(--bar-2); color: var(--white); }
+#tutNext { background: var(--mint); color: var(--ink); }
+.linkbtn { font: 600 14px var(--display); letter-spacing: .06em; text-transform: uppercase; background: transparent; border: 0; color: var(--mint); cursor: pointer; padding: 4px 0; justify-self: start; }
+button:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
+
+/* What to do and rally phase */
+#prompt { left: 50%; transform: translateX(-50%); top: calc(60px + env(safe-area-inset-top, 0px)); display: flex; gap: 2px; align-items: stretch; font-weight: 600; font-size: clamp(14px, 1.9vw, 19px); white-space: nowrap; }
+#prompt span { background: var(--white); color: var(--ink); padding: .35em .8em; box-shadow: 0 2px 10px rgba(0, 0, 0, .35); }
+#prompt #phase { background: var(--bar-2); color: var(--white); }
+#prompt #phase.attack, #prompt #phase.xattack { background: var(--mint); color: var(--ink); }
+#prompt #phase.defence, #prompt #phase.xdefence { background: var(--red); color: #2a0808; }
+
+/* Point outcome, bottom centre */
+#caption { left: 50%; transform: translateX(-50%); bottom: calc(18% + env(safe-area-inset-bottom, 0px)); text-align: center; display: grid; gap: 2px; justify-items: center; pointer-events: none; }
+#caption .big { background: var(--mint); color: var(--ink); font-weight: 700; font-style: italic; font-size: clamp(22px, 4vw, 40px); padding: .1em .6em; }
+#caption .small { background: var(--bar); font-weight: 600; font-size: clamp(13px, 1.8vw, 18px); padding: .3em .8em; }
+
+/* Shot commentary (detailed mode only) */
+#feed { right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px)); display: grid; gap: 2px; justify-items: end; font-weight: 500; font-size: 13px; max-width: 46%; pointer-events: none; }
+#feed div { background: rgba(13, 34, 56, .85); padding: .3em .7em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+#feed div:not(:last-child) { opacity: .6; }
+body.tv #feed { right: auto; left: var(--feed-left, 280px); justify-items: start; max-width: 40%; }
+body:not(.detail) #feed, body:not(.detail) #phase, body:not(.detail) .opt small { display: none; }
+
+/* Targets: clickable labels anchored to the court */
+#choices { position: absolute; inset: 0; pointer-events: none; }
+.stack { position: absolute; display: grid; gap: 3px; transform: translate(-50%, -100%); pointer-events: auto; }
+.opt { font: 600 13px/1.15 var(--display); letter-spacing: .04em; text-transform: uppercase; color: var(--white); background: var(--bar); border: 0; border-left: 4px solid var(--mint); padding: 7px 9px; text-align: left; cursor: pointer; min-height: 34px; }
+.opt:hover, .opt:focus-visible { background: var(--mint); color: var(--ink); }
+.opt small { display: block; font: 500 11px/1.2 var(--text); letter-spacing: 0; text-transform: none; opacity: .85; margin-top: 2px; font-variant-numeric: tabular-nums; }
+
+/* Start and end menu */
+#menu { z-index: 5; position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; padding-block: 16px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); background: linear-gradient(rgba(5, 11, 24, .35), rgba(5, 11, 24, .8)); overflow-y: auto; }
+.panel { flex-shrink: 0; margin-block: auto; width: min(100%, 460px); background: rgba(9, 24, 42, .94); border-top: 4px solid var(--mint); padding: 22px 22px 18px; display: grid; gap: 16px; }
+.panel .eyebrow { font: 600 13px var(--display); letter-spacing: .14em; text-transform: uppercase; color: var(--mint); margin: 0; }
+.panel h1 { font: italic 700 clamp(34px, 9vw, 46px)/.95 var(--display); text-transform: uppercase; margin: 0; text-wrap: balance; }
+.panel h2 { font: 600 13px var(--display); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); margin: 0 0 6px; }
+.chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; }
+.chips button { font: 600 16px var(--display); letter-spacing: .04em; text-transform: uppercase; color: var(--white); background: var(--bar-2); border: 0; padding: 10px 8px; cursor: pointer; min-width: 0; }
+.chips button[aria-pressed="true"] { background: var(--mint); color: var(--ink); }
+.chips button:disabled { opacity: .3; cursor: default; }
+.cta:disabled { opacity: .5; cursor: default; }
+.cta { font: italic 700 22px var(--display); letter-spacing: .06em; text-transform: uppercase; background: var(--mint); color: var(--ink); border: 0; padding: 12px; cursor: pointer; }
+.panel p { margin: 0; font-size: 13px; line-height: 1.45; color: var(--dim); }
+.langsel { display: flex; gap: 6px; justify-self: start; }
+.langsel button { display: inline-flex; align-items: center; gap: 7px; font: 600 14px var(--display); letter-spacing: .08em; color: var(--white); background: var(--bar-2); border: 0; padding: 8px 12px; cursor: pointer; min-height: 36px; }
+.langsel button[aria-pressed="true"] { background: var(--mint); color: var(--ink); }
+.langsel svg { width: 20px; height: 10px; display: block; }
+.panel p.credit { font-size: 12px; opacity: .85; }
+.panel .result { font: 600 18px var(--display); letter-spacing: .04em; text-transform: uppercase; color: var(--white); }
+
+@media (max-width: 560px) {
+  #prompt { top: calc(104px + env(safe-area-inset-top, 0px)); }
+  #feed, body.tv #feed { left: auto; right: max(16px, env(safe-area-inset-right, 0px)); justify-items: end; bottom: calc(88px + env(safe-area-inset-bottom, 0px)); max-width: 70%; }
+  .opt { font-size: 12px; padding: 6px 7px; }
+}
+</style>
+
+<div id="app">
+  <canvas id="stage" data-ta="court3d"></canvas>
+  <svg id="leaders" aria-hidden="true"></svg>
+  <div id="choices"></div>
+
+  <div id="prompt" class="hud" hidden><span id="promptText"></span><span id="phase"></span></div>
+  <div id="caption" class="hud" hidden><div class="big" id="capBig"></div><div class="small" id="capSmall"></div></div>
+  <div id="feed" class="hud" aria-live="polite"></div>
+
+  <div id="simTitle" class="hud" data-t="simTitle" hidden></div>
+  <div id="bug" class="hud" hidden>
+    <div class="row" id="rowA"></div>
+    <div class="row" id="rowB"></div>
+  </div>
+
+  <div id="controls" class="hud">
+    <div class="seg" role="group" data-ta="camera">
+      <button id="camPov" aria-pressed="false">POV</button><button id="camTv" aria-pressed="true">TV</button>
+    </div>
+    <div class="seg" role="group" data-ta="mode">
+      <button id="modeNormal" aria-pressed="true" data-t="normal"></button><button id="modeDetail" aria-pressed="false" data-t="detailed"></button>
+    </div>
+    <button id="simBtn" data-t="simBtn" hidden></button>
+  </div>
+
+  <div id="menu">
+    <div class="panel">
+      <h1>ATP Finals Simulator</h1>
+      <!-- language: chosen only here, before the first match (same order as the website: EN first, then IT) -->
+      <div class="langsel" id="langSel" role="group" data-ta="language">
+        <button type="button" data-lang="en"><svg viewBox="0 0 60 30" aria-hidden="true"><rect width="60" height="30" fill="#B22234"/><g fill="#FFFFFF"><rect y="2.31" width="60" height="2.31"/><rect y="6.92" width="60" height="2.31"/><rect y="11.54" width="60" height="2.31"/><rect y="16.15" width="60" height="2.31"/><rect y="20.77" width="60" height="2.31"/><rect y="25.38" width="60" height="2.31"/></g><rect width="24" height="16.15" fill="#3C3B6E"/></svg>EN</button>
+        <button type="button" data-lang="it"><svg viewBox="0 0 60 30" aria-hidden="true"><rect width="20" height="30" fill="#008C45"/><rect x="20" width="20" height="30" fill="#F4F5F0"/><rect x="40" width="20" height="30" fill="#CD212A"/></svg>IT</button>
+      </div>
+      <p class="result" id="result" hidden></p>
+      <div><h2 data-t="yourPlayer"></h2><div class="chips" id="pickMe"></div></div>
+      <div><h2 data-t="opponent"></h2><div class="chips" id="pickOp"></div></div>
+      <button class="cta" id="startBtn"></button>
+      <button class="linkbtn" id="tutBtn" type="button" data-t="howToPlay"></button>
+      <p data-t="intro"></p>
+      <p class="credit" data-t="credit"></p>
+    </div>
+  </div>
+
+  <div id="stats" hidden><div class="sp" role="dialog" aria-labelledby="statsTitle">
+    <h2 id="statsTitle" data-t="statsTitle"></h2>
+    <div id="statsBody"></div>
+    <p class="note" data-t="statsNote"></p>
+    <div class="endrow"><button class="cta" id="replayBtn" type="button" data-t="replay"></button><a href="#" id="howLink" data-t="howLink"></a></div>
+  </div>
+  <div class="sp" id="howPanel" role="dialog" aria-labelledby="howTitle" hidden>
+    <h2 id="howTitle" data-t="howTitle"></h2>
+    <div id="howBody"></div>
+    <div class="endrow"><a href="#" id="howBack" data-t="howBack"></a><button class="cta" id="replayBtn2" type="button" data-t="replay"></button></div>
+  </div></div>
+
+  <div id="hint" hidden><svg aria-hidden="true"><path id="hintArrow"></path><path id="hintHead"></path></svg><p id="hintText"><span data-t="hint"></span><small data-t="hintSmall"></small></p></div>
+
+  <div id="tut" hidden>
+    <div class="panel" role="dialog" aria-modal="true" aria-labelledby="tutTitle">
+      <p class="step" id="tutStep"></p>
+      <h2 class="t" id="tutTitle"></h2>
+      <p class="b" id="tutBody"></p>
+      <div class="row2"><button id="tutSkip" type="button" data-t="skip"></button><span style="display:flex;gap:8px"><button id="tutPrev" type="button" data-t="back"></button><button id="tutNext" type="button"></button></span></div>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/utils/SkeletonUtils.js"></script>
+<script>
+/*MODEL*/
+/*ENGINE*/
+</script>
+<script>
+(() => {
+'use strict';
+const T3 = THREE, V3 = T3.Vector3;
+const $ = id => document.getElementById(id);
+const rand = (a, b) => a + Math.random() * (b - a);
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const lerp = (a, b, t) => a + (b - a) * t;
+const ease = t => (t < .5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2);
+const pct = x => Math.round(x * 100) + '%';
+const G_ACC = 4.905; // half of gravity (m/s²)
+
+// ---------- Language ----------
+// Same rule as the website: a language chosen by hand (saved as "ddr-lang") wins; otherwise Italian if the browser's
+// first language is Italian, English in every other case. It can be changed only in the menu, before the first match.
+let lang = (() => {
+  let saved = null;
+  try { saved = localStorage.getItem('ddr-lang'); } catch (e) { /* storage blocked */ }
+  if (saved === 'it' || saved === 'en') return saved;
+  const first = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+  return /^it(-|$)/i.test(first) ? 'it' : 'en';
+})();
+let langLocked = false; // true once the first match has started
+const I18N = {
+  it: {
+    court3d: 'Campo da tennis in 3D', camera: 'Telecamera', mode: 'Modalità', language: 'Lingua', normal: 'Normale', detailed: 'Dettagliata',
+    simBtn: 'Simula il resto della partita', simTitle: 'Simulazione della partita', yourPlayer: 'Il tuo giocatore', opponent: 'Avversario',
+    credit: 'Dati su concessione di TennisViz e Courtside Advantage',
+    play: 'Gioca', loading: 'Carico i giocatori…', howToPlay: 'Come si gioca',
+    intro: 'Gioca una partita delle ATP Finals simulando di essere uno degli 8 giocatori. Ad ogni punto potrai scegliere che colpo giocare, e la probabilità di vincere è calcolata sui dati reali dei giocatori negli ultimi tornei sul cemento del 2026.',
+    statsTitle: 'Statistiche della partita', statsNote: 'Statistiche della partita giocata e simulata in questa sessione, non di una partita reale.',
+    replay: 'Rigioca', howLink: 'Come funziona questo gioco?', howTitle: 'Come funziona questo gioco', howBack: 'Torna alle statistiche',
+    hint: 'Se vuoi vedere come finisce clicca qui', hintSmall: 'Tocca un punto qualsiasi per continuare a giocare',
+    skip: 'Salta', back: 'Indietro', next: 'Avanti', start: 'Inizia', tutStep: (i, n) => `Come si gioca · ${i} di ${n}`,
+    plays: { forehand_crosscourt: 'Dritto incrociato', forehand_line: 'Dritto lungolinea', forehand_from_the_middle: 'Dritto dal centro', forehand_inside_in_out: 'Dritto inside-in/out',
+      backhand_crosscourt: 'Rovescio incrociato', backhand_line: 'Rovescio lungolinea', backhand_from_the_middle: 'Rovescio dal centro', volleys: 'Volée', drop_shots: 'Palla corta' },
+    zones: { wide: 'Esterno', body: 'Al corpo', t: 'Alla T' }, feedZone: z => ({ wide: 'esterno', body: 'al corpo', t: 'alla t' }[z]),
+    phases: { attack: 'Attacco', neutral: 'Neutro', defence: 'Difesa', xattack: 'Attacco netto', xdefence: 'Difesa estrema' },
+    retDirs: { cross: 'Incrociato', middle: 'Centrale', line: 'Lungolinea' },
+    serveDetail: (a, b) => `ace/vincente ${a} · in campo ${b}`, returnDetail: (a, b) => `errore ${a} · vinti ${b}`, rallyDetail: (a, b) => `pos. ${a} · neg. ${b}`,
+    towards: { M: 'al centro', fh: 'verso il dritto', bh: 'verso il rovescio' },
+    insideOut: 'Dritto inside-out', insideMiddle: 'Dritto al centro', insideIn: 'Dritto inside-in', fhPrefix: 'Dritto ', bhPrefix: 'Rovescio ',
+    intoNet: 'In rete', out: 'Fuori', serveFirst: 'Prima di servizio: scegli la zona', serveSecond: 'Seconda di servizio: scegli la zona',
+    feedServe: (n, first, z, kmh) => `${n} · ${first ? 'prima' : 'seconda'} ${z} · ${kmh} km/h`,
+    faultNet: 'A rete', faultLong: 'Lunga', doubleFault: 'Doppio fallo', firstServe: 'Prima di servizio', ace: 'Ace',
+    returnPrompt: 'Risposta: scegli la direzione', feedReturn: (n, d) => `${n} · risposta ${d.toLowerCase()}`, returnError: 'Errore in risposta', returnWinner: 'Risposta vincente',
+    pickVolley: 'Scegli il colpo: puoi giocare la volée', pick: 'Scegli il colpo',
+    what: { winner: () => 'vincente', error: () => 'errore', to_attack: (me, op) => `${me} in attacco`, to_defence: (me, op) => `${me} in difesa`, neutral: () => 'colpo neutro', opp_trouble: (me, op) => `${op} in grande difficoltà`, opp_edge: (me, op) => `${op} in grande vantaggio` },
+    winner: 'Vincente', error: 'Errore', point: n => `Punto ${n}`, pointSmall: (s, n) => `${s} · punto ${n}`, match: 'Partita', wins: (n, sets) => `${n} vince ${sets}`,
+    rows: { FH: 'Dritto', BH: 'Rovescio', V: 'Volée e palle corte', S: 'Servizio' }, total: 'Totale', winners: 'Vincenti', unforced: 'Errori gratuiti',
+    mUnret: 'Servizi vincenti', mServe: 'Punti vinti al servizio', mBase: 'Punti vinti da fondo', mNet: 'Punti vinti a rete', mTotal: 'Punti totali vinti',
+    tut: [
+      ['Servizio', 'Quando servi, sul campo avversario compaiono tre bersagli: esterno, al corpo e alla T. Il gioco resta fermo finché non scegli.'],
+      ['Risposta', 'Quando rispondi, vedi dove arriva il servizio e scegli la direzione: incrociato, centrale o lungolinea. Ovviamente in risposta la probabilità di fare il punto è più bassa!'],
+      ['Scambio', 'A ogni colpo scegli cosa giocare. Compaiono solo i colpi possibili da dove ti arriva la palla e da come sei messo. Il bersaglio sul campo mostra dove finirà la palla.'],
+      ['Telecamera e modalità', 'In alto a destra passi dalla vista dagli occhi del giocatore (POV) a quella televisiva (TV). In modalità Dettagliata vedi le probabilità di fare punto con ciascun colpo e se sei in attacco, neutro o difesa.'],
+      ['Simula il resto', 'Dal secondo punto compare il pulsante «Simula il resto della partita»: il computer gioca tutti i punti mancanti e in pochi secondi vedi come finisce.'],
+    ],
+  },
+  en: {
+    court3d: '3D tennis court', camera: 'Camera', mode: 'Mode', language: 'Language', normal: 'Normal', detailed: 'Detailed',
+    simBtn: 'Simulate the rest of the match', simTitle: 'Match simulation', yourPlayer: 'Your player', opponent: 'Opponent',
+    credit: 'Data courtesy of TennisViz and Courtside Advantage',
+    play: 'Play', loading: 'Loading players…', howToPlay: 'How to play',
+    intro: "Play an ATP Finals match as one of the 8 players. On every point you choose which shot to play, and the chance of winning it is computed from the players' real data in the latest 2026 hard-court events.",
+    statsTitle: 'Match statistics', statsNote: 'Statistics of the match played and simulated in this session, not of a real match.',
+    replay: 'Play again', howLink: 'How does this game work?', howTitle: 'How this game works', howBack: 'Back to the statistics',
+    hint: 'Want to see how it ends? Click here', hintSmall: 'Tap anywhere to keep playing',
+    skip: 'Skip', back: 'Back', next: 'Next', start: 'Start', tutStep: (i, n) => `How to play · ${i} of ${n}`,
+    plays: { forehand_crosscourt: 'Crosscourt forehand', forehand_line: 'Down-the-line forehand', forehand_from_the_middle: 'Forehand from the middle', forehand_inside_in_out: 'Inside-in/out forehand',
+      backhand_crosscourt: 'Crosscourt backhand', backhand_line: 'Down-the-line backhand', backhand_from_the_middle: 'Backhand from the middle', volleys: 'Volley', drop_shots: 'Drop shot' },
+    zones: { wide: 'Wide', body: 'Body', t: 'T' }, feedZone: z => ({ wide: 'wide', body: 'to the body', t: 'down the T' }[z]),
+    phases: { attack: 'Attack', neutral: 'Neutral', defence: 'Defence', xattack: 'Clear attack', xdefence: 'Extreme defence' },
+    retDirs: { cross: 'Crosscourt', middle: 'Middle', line: 'Down the line' },
+    serveDetail: (a, b) => `ace/unreturned ${a} · in ${b}`, returnDetail: (a, b) => `error ${a} · won ${b}`, rallyDetail: (a, b) => `pos. ${a} · neg. ${b}`,
+    towards: { M: 'to the middle', fh: 'to the forehand', bh: 'to the backhand' },
+    insideOut: 'Inside-out forehand', insideMiddle: 'Forehand to the middle', insideIn: 'Inside-in forehand', fhPrefix: 'Forehand ', bhPrefix: 'Backhand ',
+    intoNet: 'Into the net', out: 'Out', serveFirst: 'First serve: pick the zone', serveSecond: 'Second serve: pick the zone',
+    feedServe: (n, first, z, kmh) => `${n} · ${first ? 'first' : 'second'} serve ${z} · ${kmh} km/h`,
+    faultNet: 'Net', faultLong: 'Long', doubleFault: 'Double fault', firstServe: 'First serve', ace: 'Ace',
+    returnPrompt: 'Return: pick the direction', feedReturn: (n, d) => `${n} · return ${d.toLowerCase()}`, returnError: 'Return error', returnWinner: 'Return winner',
+    pickVolley: 'Pick the shot: you can volley', pick: 'Pick the shot',
+    what: { winner: () => 'winner', error: () => 'error', to_attack: (me, op) => `${me} in attack`, to_defence: (me, op) => `${me} on defence`, neutral: () => 'neutral shot', opp_trouble: (me, op) => `${op} in big trouble`, opp_edge: (me, op) => `${op} with a big edge` },
+    winner: 'Winner', error: 'Error', point: n => `Point ${n}`, pointSmall: (s, n) => `${s} · point ${n}`, match: 'Match', wins: (n, sets) => `${n} wins ${sets}`,
+    rows: { FH: 'Forehand', BH: 'Backhand', V: 'Volleys and drop shots', S: 'Serve' }, total: 'Total', winners: 'Winners', unforced: 'Unforced errors',
+    mUnret: 'Unreturned serves', mServe: 'Service points won', mBase: 'Baseline points won', mNet: 'Net points won', mTotal: 'Total points won',
+    tut: [
+      ['Serve', 'When you serve, three targets appear on the other side: wide, body and T. The game waits until you choose.'],
+      ['Return', 'When you return, you see where the serve lands and pick the direction: crosscourt, middle or down the line. Of course, the chance of winning the point is lower on return!'],
+      ['Rally', 'On every shot you choose what to play. Only the shots possible from where the ball reaches you and from your position appear. The target on the court shows where the ball will land.'],
+      ['Camera and mode', "Top right, you switch between the player's-eye view (POV) and the TV view. In Detailed mode you see the chance of winning the point with each shot and whether you are in attack, neutral or defence."],
+      ['Simulate the rest', 'From the second point, the «Simulate the rest of the match» button appears: the computer plays all the remaining points and in a few seconds you see how it ends.'],
+    ],
+  },
+};
+const tr = k => I18N[lang][k];
+// Applies the language to the static texts (data-t: text, data-ta: aria-label) and to the language buttons
+function applyLang() {
+  document.documentElement.lang = lang;
+  for (const el of document.querySelectorAll('[data-t]')) el.textContent = tr(el.dataset.t);
+  for (const el of document.querySelectorAll('[data-ta]')) el.setAttribute('aria-label', tr(el.dataset.ta));
+  for (const b of document.querySelectorAll('#langSel button')) b.setAttribute('aria-pressed', b.dataset.lang === lang);
+  const sb = $('startBtn'); if (sb && !sb.disabled) sb.textContent = tr('play');
+}
+const col = hex => new THREE.Color(hex).convertSRGBToLinear(); // sRGB colours -> linear for the materials
+
+// Court measures (metres). x axis: width, z: length. You play on the positive z side.
+const C = { halfW: 4.115, halfWD: 5.485, halfL: 11.885, service: 6.4, floorX: 12, floorZ: 21 };
+const COL = { outer: '#8db8ea', inner: '#6a7997', line: 0xf4f7fb, board: '#141a36', stands: '#040b1c' };
+
+// ---------- Renderer and scene ----------
+const canvas = $('stage');
+const renderer = new T3.WebGLRenderer({ canvas, antialias: true });
+const mobile = Math.min(innerWidth, innerHeight) < 600;
+renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+renderer.outputEncoding = T3.sRGBEncoding;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = T3.PCFSoftShadowMap;
+const scene = new T3.Scene();
+scene.background = new T3.Color(0x02060f);
+const camera = new T3.PerspectiveCamera(60, 1, 0.05, 200);
+scene.add(camera);
+
+scene.add(new T3.HemisphereLight(0xe6efff, 0x5a6e90, 0.5));
+const sun = new T3.DirectionalLight(0xffffff, 0.58);
+sun.position.set(7, 30, 9);
+sun.castShadow = true;
+sun.shadow.mapSize.set(mobile ? 1024 : 2048, mobile ? 1024 : 2048);
+Object.assign(sun.shadow.camera, { left: -14, right: 14, top: 20, bottom: -20, near: 5, far: 60 });
+sun.shadow.bias = -0.0004;
+scene.add(sun);
+
+// ---------- Textures drawn on canvas ----------
+function makeCanvas(w, h, draw) {
+  const c = document.createElement('canvas'); c.width = w; c.height = h;
+  draw(c.getContext('2d'), w, h);
+  const t = new T3.CanvasTexture(c); t.encoding = T3.sRGBEncoding; t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  return t;
+}
+function wideText(ctx, text, x, y, size, stretch, color, weight = 800) {
+  ctx.save(); ctx.translate(x, y); ctx.scale(stretch, 1);
+  ctx.font = `${weight} ${size}px Barlow, Arial, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = color; ctx.fillText(text, 0, 0); ctx.restore();
+}
+
+function buildArena() {
+  // Floor: light blue outside, slate-blue court, TORINO lettering behind the baselines
+  const fw = C.floorX * 2, fl = C.floorZ * 2, ppm = 44; // pixels per metre
+  const floorTex = makeCanvas(fw * ppm, fl * ppm, (ctx, w, h) => {
+    ctx.fillStyle = COL.outer; ctx.fillRect(0, 0, w, h);
+    const px = x => (x + C.floorX) * ppm, pz = z => (z + C.floorZ) * ppm;
+    ctx.fillStyle = COL.inner; ctx.fillRect(px(-C.halfWD), pz(-C.halfL), C.halfWD * 2 * ppm, C.halfL * 2 * ppm);
+    // grain and wear marks
+    for (let i = 0; i < 26000; i++) {
+      ctx.fillStyle = Math.random() < .5 ? 'rgba(255,255,255,.025)' : 'rgba(0,10,40,.03)';
+      ctx.fillRect(Math.random() * w, Math.random() * h, 2, 2);
+    }
+    ctx.strokeStyle = 'rgba(255,255,255,.05)'; ctx.lineWidth = 2;
+    for (let i = 0; i < 90; i++) {
+      const x = px(rand(-5, 5)), z = pz((Math.random() < .5 ? -1 : 1) * rand(9, 12.8)), a = rand(0, Math.PI);
+      ctx.beginPath(); ctx.moveTo(x, z); ctx.lineTo(x + Math.cos(a) * rand(8, 40), z + Math.sin(a) * rand(4, 14)); ctx.stroke();
+    }
+    wideText(ctx, 'TORINO', px(0), pz(-13.6), 38, 1.9, 'rgba(255,255,255,.92)');
+    wideText(ctx, 'TORINO', px(0), pz(15.2), 46, 1.9, 'rgba(255,255,255,.95)');
+  });
+  const floor = new T3.Mesh(new T3.PlaneGeometry(fw, fl), new T3.MeshStandardMaterial({ map: floorTex, roughness: .82, metalness: 0 }));
+  floor.rotation.x = -Math.PI / 2; floor.receiveShadow = true; scene.add(floor);
+
+  // Court lines
+  const lineMat = new T3.MeshBasicMaterial({ color: col(COL.line) });
+  const line = (x0, z0, x1, z1, w) => {
+    const horiz = Math.abs(z1 - z0) < 1e-6, len = horiz ? Math.abs(x1 - x0) : Math.abs(z1 - z0);
+    const m = new T3.Mesh(new T3.PlaneGeometry(horiz ? len + w : w, horiz ? w : len), lineMat);
+    m.rotation.x = -Math.PI / 2; m.position.set((x0 + x1) / 2, 0.004, (z0 + z1) / 2); scene.add(m);
+  };
+  for (const s of [-1, 1]) {
+    line(-C.halfWD, s * C.halfL, C.halfWD, s * C.halfL, .1);            // baseline
+    line(-C.halfW, s * C.service, C.halfW, s * C.service, .05);         // service line
+    line(s * C.halfWD, -C.halfL, s * C.halfWD, C.halfL, .05);           // doubles alley
+    line(s * C.halfW, -C.halfL, s * C.halfW, C.halfL, .05);             // singles sideline
+    line(0, s * C.halfL, 0, s * (C.halfL - .12), .05);                  // centre mark
+  }
+  line(0, -C.service, 0, C.service, .05);
+
+  // Net
+  const netTex = makeCanvas(256, 64, (ctx, w, h) => {
+    ctx.fillStyle = 'rgba(10,14,28,.42)'; ctx.fillRect(0, 0, w, h);
+    ctx.strokeStyle = 'rgba(8,10,20,.9)'; ctx.lineWidth = 1.2;
+    for (let x = 0; x <= w; x += 8) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+    for (let y = 0; y <= h; y += 8) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
+  });
+  netTex.wrapS = netTex.wrapT = T3.RepeatWrapping; netTex.repeat.set(12, 1);
+  const postX = 6.4, netH = 1.0;
+  const net = new T3.Mesh(new T3.PlaneGeometry(postX * 2, netH), new T3.MeshBasicMaterial({ map: netTex, transparent: true, side: T3.DoubleSide }));
+  net.position.set(0, netH / 2, 0); scene.add(net);
+  const tape = new T3.Mesh(new T3.BoxGeometry(postX * 2, .07, .03), new T3.MeshBasicMaterial({ color: col(0xf5f7fa) }));
+  tape.position.set(0, netH, 0); scene.add(tape);
+  const strap = new T3.Mesh(new T3.BoxGeometry(.06, netH, .032), new T3.MeshBasicMaterial({ color: col(0xf5f7fa) }));
+  strap.position.set(0, netH / 2, 0); scene.add(strap);
+  const dark = new T3.MeshStandardMaterial({ color: col(0x10131c), roughness: .6 });
+  for (const s of [-1, 1]) {
+    const post = new T3.Mesh(new T3.CylinderGeometry(.05, .05, 1.1, 12), dark);
+    post.position.set(s * postX, .55, 0); post.castShadow = true; scene.add(post);
+  }
+
+  // Back and side boards, with neutral lettering
+  const boardTex = (words, w = 2048, h = 128, size = 62, italic = false) => makeCanvas(w, h, (ctx) => {
+    ctx.fillStyle = COL.board; ctx.fillRect(0, 0, w, h);
+    ctx.fillStyle = '#1f4a63'; ctx.fillRect(0, 0, w, 4);
+    ctx.font = `${italic ? 'italic ' : ''}700 ${size}px "Barlow Condensed", Arial, sans-serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#f2f5fa';
+    words.forEach((t, i) => ctx.fillText(t, (i + .5) * w / words.length, h / 2 + 4));
+  });
+  const wallH = 1.15;
+  const wall = (tex, len, x, z, ry, h = wallH, y = 0) => {
+    const m = new T3.Mesh(new T3.PlaneGeometry(len, h), new T3.MeshBasicMaterial({ map: tex }));
+    m.position.set(x, y + h / 2, z); m.rotation.y = ry; scene.add(m);
+  };
+  const endTex = boardTex(['ATP FINALS SIMULATOR', 'ATP FINALS SIMULATOR', 'ATP FINALS SIMULATOR'], 2048, 128, 60);
+  const sideTex = boardTex(['FINALS', 'TORINO', 'FINALS', 'TORINO', 'FINALS', 'TORINO', 'FINALS', 'TORINO'], 2048, 64, 34);
+  wall(endTex, C.floorX * 2, 0, -C.floorZ, 0); wall(endTex, C.floorX * 2, 0, C.floorZ, Math.PI);
+  wall(sideTex, C.floorZ * 2, -C.floorX, 0, Math.PI / 2); wall(sideTex, C.floorZ * 2, C.floorX, 0, -Math.PI / 2);
+  // second board, higher and further back, with the title
+  const titleTex = boardTex(['ATP FINALS SIMULATOR'], 2048, 150, 96, true);
+
+
+  // Stands: four slopes meeting at the corners, with the crowd in half-light
+  const crowdTex = makeCanvas(1024, 512, (ctx, w, h) => {
+    // heads are drawn on a helper canvas, copied once with a blur (blurring each head would be very slow)
+    const tmp = document.createElement('canvas'); tmp.width = w; tmp.height = h; const c = tmp.getContext('2d');
+    const pal = ['#081530', '#0b1c3d', '#0e2349', '#122b57', '#163466'];
+    for (let y = 8; y < h; y += 13) for (let x = 4; x < w; x += 10) {
+      if ((x % 256) < 14 || Math.random() < .1) continue; // stairs and empty seats
+      const r = Math.random();
+      c.fillStyle = r < .93 ? pal[(Math.random() * pal.length) | 0] : r < .985 ? '#35568c' : r < .996 ? '#6f8fc0' : '#7d3b44';
+      c.globalAlpha = rand(.5, .9);
+      c.beginPath(); c.arc(x + rand(-2, 2), y + rand(-2, 2), rand(3, 4.4), 0, 7); c.fill();
+      c.fillRect(x - 4, y + 3, 8, 7);
+    }
+    ctx.fillStyle = COL.stands; ctx.fillRect(0, 0, w, h);
+    try { ctx.filter = 'blur(1.1px)'; } catch (e) { /* not supported: stays sharp */ }
+    ctx.drawImage(tmp, 0, 0); ctx.filter = 'none';
+    ctx.globalAlpha = .8; ctx.fillStyle = '#b9cdf5';
+    for (let x = 6; x < w; x += 256) for (let y = 6; y < h; y += 14) ctx.fillRect(x, y, 2, 2); // stair lights
+  });
+  crowdTex.wrapS = T3.RepeatWrapping;
+  const ledTex = makeCanvas(1024, 64, (ctx, w, h) => {
+    const g = ctx.createLinearGradient(0, 0, 0, h); g.addColorStop(0, '#0b46de'); g.addColorStop(1, '#062a9a');
+    ctx.fillStyle = g; ctx.fillRect(0, 0, w, h);
+    ctx.font = 'italic 700 34px "Barlow Condensed", Arial, sans-serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillStyle = '#eef3ff';
+    ctx.fillText('FINALS SIMULATOR', w / 4, h / 2 + 2); ctx.fillText('TORINO', w * 3 / 4, h / 2 + 2);
+  });
+  ledTex.wrapS = T3.RepeatWrapping;
+  // rectangular ring between two outlines (inner at the bottom, outer at the top)
+  const ring = (ix, iz, y0, ox, oz, y1, tex, metersPerTile) => {
+    const pos = [], uv = [], idx = [];
+    const corners = (hx, hz, y) => [[-hx, y, -hz], [hx, y, -hz], [hx, y, hz], [-hx, y, hz]];
+    const a = corners(ix, iz, y0), b = corners(ox, oz, y1);
+    for (let k = 0; k < 4; k++) {
+      const k2 = (k + 1) % 4, len = Math.hypot(a[k2][0] - a[k][0], a[k2][2] - a[k][2]), rep = len / metersPerTile, n = pos.length / 3;
+      pos.push(...a[k], ...a[k2], ...b[k2], ...b[k]);
+      uv.push(0, 0, rep, 0, rep, 1, 0, 1);
+      idx.push(n, n + 2, n + 1, n, n + 3, n + 2);
+    }
+    const g = new T3.BufferGeometry();
+    g.setAttribute('position', new T3.Float32BufferAttribute(pos, 3)); g.setAttribute('uv', new T3.Float32BufferAttribute(uv, 2)); g.setIndex(idx);
+    scene.add(new T3.Mesh(g, new T3.MeshBasicMaterial({ map: tex, side: T3.DoubleSide })));
+  };
+  const bx = C.floorX + .4, bz = C.floorZ + 1.6;
+  const base = new T3.MeshBasicMaterial({ color: col(0x050a16), side: T3.DoubleSide });
+  ring(bx, bz, 2.3, bx + 9, bz + 9, 7.4, crowdTex, 14);          // first ring
+  ring(bx + 9, bz + 9, 7.4, bx + 9, bz + 9, 8.3, ledTex, 16);    // light band
+  ring(bx + 9.6, bz + 9.6, 8.3, bx + 22, bz + 22, 17, crowdTex, 16); // second ring
+  // dark closures below and above the stands
+  const skirt = (ix, iz, y0, ox, oz, y1) => { const s = scene.children.length; ring(ix, iz, y0, ox, oz, y1, crowdTex, 14); scene.children[s].material = base; };
+  skirt(C.floorX, C.floorZ, 0, bx, bz, 2.3); skirt(bx + 22, bz + 22, 17, bx + 22, bz + 22, 30);
+
+  // Roof lights
+  const lp = [];
+  for (let i = 0; i < 14; i++) { lp.push(-13 + i * 2, 21, -15, -13 + i * 2, 21, 15); }
+  for (let i = 0; i < 12; i++) { lp.push(-15, 21, -11 + i * 2, 15, 21, -11 + i * 2); }
+  const lg = new T3.BufferGeometry(); lg.setAttribute('position', new T3.Float32BufferAttribute(lp, 3));
+  const dot = makeCanvas(64, 64, (ctx) => { const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32); g.addColorStop(0, 'rgba(255,255,255,1)'); g.addColorStop(.35, 'rgba(220,235,255,.8)'); g.addColorStop(1, 'rgba(200,220,255,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, 64, 64); });
+  scene.add(new T3.Points(lg, new T3.PointsMaterial({ map: dot, size: .9, sizeAttenuation: true, transparent: true, depthWrite: false })));
+
+  // Umpire chair and benches
+  const white = new T3.MeshStandardMaterial({ color: col(0xe9edf3), roughness: .7 }), navy = new T3.MeshStandardMaterial({ color: col(0x1a2147), roughness: .7 });
+  const chair = new T3.Mesh(new T3.CylinderGeometry(.42, .95, 1.9, 4), white); chair.rotation.y = Math.PI / 4; chair.position.set(7.9, .95, 0); chair.castShadow = true; scene.add(chair);
+  const chairIn = new T3.Mesh(new T3.CylinderGeometry(.3, .8, 1.5, 4), navy); chairIn.rotation.y = Math.PI / 4; chairIn.position.set(7.86, .8, 0); scene.add(chairIn);
+  const seat = new T3.Mesh(new T3.BoxGeometry(.7, .5, .7), navy); seat.position.set(7.9, 2.15, 0); seat.castShadow = true; scene.add(seat);
+  const ump = new T3.Mesh(new T3.SphereGeometry(.12, 12, 10), new T3.MeshStandardMaterial({ color: col(0xcfae93) })); ump.position.set(7.8, 2.75, 0); scene.add(ump);
+  const umpB = new T3.Mesh(new T3.CylinderGeometry(.16, .2, .5, 10), new T3.MeshStandardMaterial({ color: col(0x1b2030) })); umpB.position.set(7.8, 2.42, 0); scene.add(umpB);
+  for (const s of [-1, 1]) {
+    const bench = new T3.Mesh(new T3.BoxGeometry(.7, .5, 1.8), white); bench.position.set(9.2, .25, s * 3.6); bench.castShadow = true; scene.add(bench);
+    const box = new T3.Mesh(new T3.BoxGeometry(1.1, .8, .5), navy); box.position.set(s * 10.6, .4, -C.floorZ + .6); scene.add(box);
+  }
+}
+
+// ---------- Realistic racket ----------
+const gripTex = makeCanvas(64, 64, (ctx, w, h) => {
+  ctx.fillStyle = '#ecebe6'; ctx.fillRect(0, 0, w, h); ctx.strokeStyle = 'rgba(0,0,0,.22)'; ctx.lineWidth = 3;
+  for (let i = -h; i < w + h; i += 16) { ctx.beginPath(); ctx.moveTo(i, 0); ctx.lineTo(i + h * .6, h); ctx.stroke(); }
+});
+gripTex.wrapS = gripTex.wrapT = T3.RepeatWrapping; gripTex.repeat.set(2, 5);
+const cellTex = makeCanvas(32, 32, (ctx, w, h) => { ctx.clearRect(0, 0, w, h); ctx.fillStyle = 'rgba(244,241,225,.95)'; ctx.fillRect(0, 0, w, 2.4); ctx.fillRect(0, 0, 2.4, h); });
+cellTex.wrapS = cellTex.wrapT = T3.RepeatWrapping; cellTex.repeat.set(1 / .0155, 1 / .0175);
+// Origin at the butt of the handle; the racket extends along -y (68.5 cm), the string bed faces z
+function makeRacket(color) {
+  const g = new T3.Group(), A = .127, B = .168, CY = -.515;
+  const frame = new T3.MeshStandardMaterial({ color: col(color), roughness: .32, metalness: .25 });
+  const black = new T3.MeshStandardMaterial({ color: col(0x121316), roughness: .5, metalness: .1 });
+  const tube = (pts, closed, r, m) => { const t = new T3.Mesh(new T3.TubeGeometry(new T3.CatmullRomCurve3(pts, closed), 72, r, 8, closed), m); t.scale.z = 1.75; t.castShadow = true; g.add(t); return t; };
+  const ell = (a0, a1, n, da = 0, db = 0) => { const p = []; for (let i = 0; i <= n; i++) { const a = lerp(a0, a1, i / n); p.push(new V3(Math.sin(a) * (A + da), CY - Math.cos(a) * (B + db), 0)); } return p; };
+  tube(ell(0, Math.PI * 2, 48).slice(0, -1), true, .0062, frame);                       // head
+  tube(ell(Math.PI - .95, Math.PI + .95, 20, .0012, .0012), false, .0072, black);       // head guard
+  for (const s of [-1, 1]) {                                                             // two-arm throat
+    const a = s * .62, top = new V3(Math.sin(a) * A, CY + Math.cos(a) * B, 0);
+    tube([top, new V3(s * .05, -.3, 0), new V3(s * .017, -.235, 0), new V3(s * .012, -.2, 0)], false, .0066, frame);
+  }
+  const shape = new T3.Shape(); shape.absellipse(0, CY, A - .004, B - .004, 0, Math.PI * 2, false, 0);
+  const strings = new T3.Mesh(new T3.ShapeGeometry(shape, 40), new T3.MeshBasicMaterial({ map: cellTex, transparent: true, side: T3.DoubleSide, depthWrite: false }));
+  g.add(strings);
+  const handle = new T3.Mesh(new T3.CylinderGeometry(.0165, .0172, .2, 8), new T3.MeshStandardMaterial({ map: gripTex, roughness: .95 }));
+  handle.position.y = -.1; handle.castShadow = true; g.add(handle);
+  const cap = new T3.Mesh(new T3.CylinderGeometry(.0205, .0195, .014, 8), black); cap.position.y = -.007; g.add(cap);
+  const collar = new T3.Mesh(new T3.CylinderGeometry(.0185, .0185, .012, 8), black); collar.position.y = -.205; g.add(collar);
+  return g;
+}
+
+// ---------- Player with skeleton (animated human model) ----------
+// Player frame for a right-hander: [right, up, forward], in metres for a height of 1.85 m.
+// Each stroke: key moments with hand position, racket direction and torso twist.
+const K = (u, hand, rdir, twist) => ({ u, hand: hand && new V3(...hand), rdir: new V3(...rdir).normalize(), twist });
+const STROKES = {
+  ready: { hand: new V3(.1, 1.0, .36), rdir: new V3(-.3, .72, .62).normalize() },
+  fh: { dur: .8, uc: .62, prep: .46, keys: [K(0, [.12, 1.02, .36], [-.3, .72, .62], 0), K(.3, [.55, 1.25, -.1], [.3, .9, -.3], 1.0), K(.46, [.78, 1.0, -.42], [.35, -.15, -.92], 1.25), K(.62, null, [.86, .12, .5], .1), K(.8, [-.05, 1.45, .55], [-.6, .6, .5], -.8), K(1, [-.35, 1.5, .15], [-.5, .6, -.6], -1.0)],
+    off: [[0, [-.2, 1.05, .4]], [.46, [-.3, 1.3, .5]], [.7, [-.32, 1.15, .22]], [1, [-.3, 1.2, .2]]] },
+  bh: { dur: .8, uc: .62, prep: .46, two: true, keys: [K(0, [.12, 1.02, .36], [-.3, .72, .62], 0), K(.3, [-.3, 1.15, -.02], [-.5, .8, -.3], -1.0), K(.46, [-.5, .95, -.3], [-.4, -.15, -.9], -1.3), K(.62, null, [-.86, .12, .5], -.15), K(.8, [.15, 1.4, .5], [.5, .7, .5], .8), K(1, [.4, 1.5, .1], [.5, .6, -.6], 1.0)] },
+  vfh: { dur: .5, uc: .55, prep: .3, keys: [K(0, [.12, 1.05, .36], [-.3, .72, .62], 0), K(.3, [.5, 1.4, .2], [.35, .9, 0], .35), K(.55, null, [.72, .62, .3], .1), K(1, [.35, 1.15, .7], [.6, .5, .6], -.15)],
+    off: [[0, [-.2, 1.05, .4]], [.55, [-.35, 1.2, .35]], [1, [-.3, 1.1, .3]]] },
+  vbh: { dur: .5, uc: .55, prep: .3, two: false, keys: [K(0, [.12, 1.05, .36], [-.3, .72, .62], 0), K(.3, [-.3, 1.35, .15], [-.45, .88, 0], -.5), K(.55, null, [-.72, .62, .3], -.15), K(1, [-.1, 1.15, .7], [-.6, .5, .6], .15)],
+    off: [[0, [-.2, 1.05, .4]], [.3, [-.38, 1.5, .1]], [1, [-.5, 1.2, -.1]]] },
+  serve: { dur: 1.5, uc: .7, keys: [K(0, [.2, 1.0, .35], [0, .6, .8], 0), K(.3, [.45, 1.0, -.2], [.2, -.6, -.7], .4), K(.5, [.5, 1.75, -.2], [-.1, .95, -.2], .9), K(.62, [.36, 1.72, -.15], [.1, -.95, -.25], .7), K(.7, null, [0, 1, .14], -.2), K(.85, [-.2, 1.3, .6], [-.3, -.6, .7], -.7), K(1, [-.4, .95, .3], [-.5, -.5, .5], -.9)],
+    off: [[0, [-.1, 1.05, .4]], [.3, [-.15, 1.45, .5]], [.45, [-.15, 2.12, .45]], [.62, [-.2, 1.9, .4]], [.78, [-.28, 1.2, .3]], [1, [-.25, 1.1, .25]]], jump: [[0, 0], [.55, 0], [.7, .14], [.9, 0], [1, 0]], contact: new V3(.12, 2.82, .32) },
+};
+const track = (keys, u) => { // piecewise linear interpolation of [u, value] (number or triple)
+  let i = 0; while (i < keys.length - 2 && u > keys[i + 1][0]) i++;
+  const a = keys[i], b = keys[i + 1], s = ease(clamp((u - a[0]) / (b[0] - a[0]), 0, 1));
+  return typeof a[1] === 'number' ? lerp(a[1], b[1], s) : new V3(lerp(a[1][0], b[1][0], s), lerp(a[1][1], b[1][1], s), lerp(a[1][2], b[1][2], s));
+};
+const _q = new T3.Quaternion(), _q2 = new T3.Quaternion(), _qp = new T3.Quaternion(), _v1 = new V3(), _v2 = new V3(), _v3 = new V3(), UP = new V3(0, 1, 0);
+// Rotates a bone in world space (whatever the orientation of the skeleton)
+function rotWorld(bone, qd) { bone.getWorldQuaternion(_q); _q.premultiply(qd); bone.parent.getWorldQuaternion(_qp); bone.quaternion.copy(_qp.invert().multiply(_q)); bone.updateMatrixWorld(true); }
+function aim(bone, from, to) { _q2.setFromUnitVectors(from.normalize(), to.normalize()); rotWorld(bone, _q2); }
+// Two-bone inverse kinematics: brings `end` onto `target`, with the elbow/knee on the side of `pole`
+function solve2(upper, mid, end, target, pole, w) {
+  if (w <= 0) return;
+  const qU = upper.quaternion.clone(), qM = mid.quaternion.clone();
+  const S = upper.getWorldPosition(new V3()), E0 = mid.getWorldPosition(new V3()), H0 = end.getWorldPosition(new V3());
+  const l1 = S.distanceTo(E0), l2 = E0.distanceTo(H0), d = target.clone().sub(S), L = clamp(d.length(), .05, (l1 + l2) * .995); d.normalize();
+  const a = (l1 * l1 - l2 * l2 + L * L) / (2 * L), h = Math.sqrt(Math.max(0, l1 * l1 - a * a));
+  const perp = pole.clone().addScaledVector(d, -pole.dot(d)); if (perp.lengthSq() < 1e-6) perp.set(0, -1, 0); perp.normalize();
+  const E = S.clone().addScaledVector(d, a).addScaledVector(perp, h), T = S.clone().addScaledVector(d, L);
+  aim(upper, E0.sub(S), E.clone().sub(S));
+  const Ec = mid.getWorldPosition(new V3()), Hc = end.getWorldPosition(new V3());
+  aim(mid, Hc.sub(Ec), T.sub(Ec));
+  if (w < 1) { upper.quaternion.copy(qU.slerp(upper.quaternion, w)); mid.quaternion.copy(qM.slerp(mid.quaternion, w)); upper.updateMatrixWorld(true); }
+}
+
+// "Continuous surface" body built by code on the same skeleton: elliptical sections along torso and limbs,
+// joined into a single skin that bends at the joints. N = sides of each section (few sides = faceted look).
+function buildBody(bones, skeleton, N) {
+  const wp = n => bones[n].getWorldPosition(new V3()), bi = n => skeleton.bones.indexOf(bones[n]);
+  const pos = [], reg = [], si = [], sw = [], idx = [], FRONT = new V3(0, 0, 1), sm = (a, b, x) => { const t = clamp((x - a) / (b - a), 0, 1); return t * t * (3 - 2 * t); };
+  const add = (p, region, w) => { const ws = w.filter(x => x[1] > .001).slice(0, 4), tot = ws.reduce((a, b) => a + b[1], 0); pos.push(p.x, p.y, p.z); reg.push(region); for (let k = 0; k < 4; k++) { si.push(k < ws.length ? bi(ws[k][0]) : 0); sw.push(k < ws.length ? ws[k][1] / tot : 0); } return pos.length / 3 - 1; };
+  // joins a series of sections {c, u, v, ru, rv, region, w} and closes the ends
+  const loft = secs => {
+    const first = idx.length, rings = secs.map(s => { const r = []; for (let i = 0; i < N; i++) { const a = i / N * Math.PI * 2; r.push(add(s.c.clone().addScaledVector(s.u, Math.cos(a) * s.ru).addScaledVector(s.v, Math.sin(a) * s.rv), s.region, s.w)); } return r; });
+    for (let k = 0; k < rings.length - 1; k++) for (let i = 0; i < N; i++) { const a = rings[k][i], b = rings[k][(i + 1) % N], c = rings[k + 1][i], d = rings[k + 1][(i + 1) % N]; idx.push(a, c, b, b, c, d); }
+    for (const [ring, s, flip] of [[rings[0], secs[0], false], [rings[rings.length - 1], secs[secs.length - 1], true]]) { const c = add(s.c, s.region, s.w); for (let i = 0; i < N; i++) { const a = ring[i], b = ring[(i + 1) % N]; flip ? idx.push(c, a, b) : idx.push(c, b, a); } }
+    // if the faces point inwards, flip them
+    const A = new V3().fromArray(pos, idx[first] * 3), B = new V3().fromArray(pos, idx[first + 1] * 3), C = new V3().fromArray(pos, idx[first + 2] * 3), n = B.clone().sub(A).cross(C.clone().sub(A));
+    if (n.dot(A.clone().sub(secs[0].c)) < 0) for (let t = first; t < idx.length; t += 3) { const x = idx[t + 1]; idx[t + 1] = idx[t + 2]; idx[t + 2] = x; }
+  };
+  const ball = (c, rx, ry, rz, region, w) => { const M = Math.max(4, Math.round(N * .6)), secs = []; for (let k = 1; k < M; k++) { const a = k / M * Math.PI; secs.push({ c: c.clone().add(new V3(0, Math.cos(a) * ry, 0)), u: new V3(1, 0, 0), v: FRONT, ru: Math.sin(a) * rx, rv: Math.sin(a) * rz, region, w }); } loft(secs); };
+  // limb: three joints, profile [position 0..2, radius u, radius v, region]
+  const limb = (names, profile) => {
+    const Jn = names.map(wp);
+    loft(profile.map(([t, ru, rv, region]) => { const k = t <= 1 ? 0 : 1, f = t <= 1 ? t : t - 1, d = Jn[k + 1].clone().sub(Jn[k]).normalize(), u = new V3().crossVectors(d, FRONT).normalize(), v = new V3().crossVectors(d, u).normalize(), wB = sm(.78, 1.22, t);
+      return { c: Jn[k].clone().lerp(Jn[k + 1], f), u, v, ru, rv, region, w: [[names[0], 1 - wB], [names[1], wB]] }; }));
+    return Jn;
+  };
+  for (const sd of ['Left', 'Right']) {
+    // arm (sleeve to halfway), hand
+    const a = limb([sd + 'Arm', sd + 'ForeArm', sd + 'Hand'], [[-.05, .068, .07, 1], [.2, .068, .07, 1], [.5, .062, .064, 1], [.53, .052, .054, 0], [.9, .044, .046, 0], [1.0, .045, .045, 0], [1.2, .051, .048, 0], [1.6, .039, .036, 0], [2.0, .03, .026, 0]]);
+    const dh = a[2].clone().sub(a[1]).normalize(), uh = new V3().crossVectors(dh, FRONT).normalize(), vh = new V3().crossVectors(dh, uh).normalize();
+    loft([[0, .027, .024], [.03, .04, .027], [.07, .04, .025], [.1, .022, .016]].map(([t, ru, rv]) => ({ c: a[2].clone().addScaledVector(dh, t), u: uh, v: vh, ru, rv, region: 0, w: [[sd + 'Hand', 1]] })));
+    ball(a[0], .08, .075, .08, 1, [[sd + 'Arm', .6], ['Spine2', .4]]); // shoulder
+    // leg (shorts to mid-thigh), sock, shoe
+    const l = limb([sd + 'UpLeg', sd + 'Leg', sd + 'Foot'], [[-.08, .1, .108, 2], [.3, .094, .1, 2], [.55, .084, .088, 2], [.58, .066, .07, 0], [.93, .052, .055, 0], [1.0, .05, .053, 0], [1.25, .056, .061, 0], [1.6, .044, .046, 0], [1.8, .036, .038, 0], [1.82, .041, .043, 5], [2.02, .041, .043, 5]]);
+    const toe = wp(sd + 'ToeBase'), fd = toe.clone().sub(l[2]).setY(0).normalize(), lat = new V3(1, 0, 0), up = new V3(0, 1, 0);
+    loft([[-.07, .038, .04, .05], [-.02, .048, .05, .05], [.08, .052, .04, .04], [.17, .05, .03, .03], [.24, .03, .02, .022]].map(([t, ru, rv, y]) => ({ c: new V3(l[2].x + fd.x * t, y + .005, l[2].z + fd.z * t), u: lat, v: up, ru, rv, region: 3, w: t > .12 ? [[sd + 'ToeBase', 1]] : [[sd + 'Foot', 1]] })));
+  }
+  // torso: from the crotch to the collar, then the neck
+  const H = wp('Hips'), S0 = wp('Spine'), S1 = wp('Spine1'), S2 = wp('Spine2'), Nk = wp('Neck'), Hd = wp('Head'), Top = wp('HeadTop_End'), shY = wp('LeftArm').y, half = Math.abs(wp('LeftArm').x - wp('RightArm').x) / 2, X = new V3(1, 0, 0), Zb = new V3(0, 0, -1);
+  const T = (c, rx, rz, region, w) => ({ c, u: X, v: Zb, ru: rx, rv: rz, region, w });
+  loft([T(H.clone().add(new V3(0, -.12, 0)), .1, .09, 2, [['Hips', 1]]), T(H.clone().add(new V3(0, -.03, 0)), .172, .118, 2, [['Hips', 1]]), T(H.clone().add(new V3(0, .06, 0)), .16, .108, 2, [['Hips', .6], ['Spine', .4]]),
+    T(S0.clone().add(new V3(0, .01, 0)), .15, .1, 1, [['Spine', 1]]), T(S1, .17, .112, 1, [['Spine1', 1]]), T(S2, .2, .128, 1, [['Spine2', 1]]), T(new V3(0, shY, S2.z), half + .04, .108, 1, [['Spine2', 1]]),
+    T(new V3(0, shY + .05, Nk.z), .1, .08, 1, [['Spine2', .6], ['Neck', .4]]), T(Nk.clone().add(new V3(0, .0, 0)), .06, .062, 1, [['Neck', 1]])]);
+  loft([T(Nk.clone().add(new V3(0, -.02, 0)), .052, .056, 0, [['Neck', 1]]), T(Hd.clone().add(new V3(0, .03, 0)), .05, .055, 0, [['Neck', .4], ['Head', .6]])]);
+  // head, hair, nose
+  const hc = Hd.clone().lerp(Top, .52);
+  ball(hc, .095, .12, .106, 0, [['Head', 1]]); ball(hc.clone().add(new V3(0, .03, -.02)), .1, .1, .108, 4, [['Head', 1]]); ball(hc.clone().add(new V3(0, -.015, .1)), .014, .022, .018, 0, [['Head', 1]]);
+  const g = new T3.BufferGeometry();
+  g.setAttribute('position', new T3.Float32BufferAttribute(pos, 3)); g.setAttribute('skinIndex', new T3.Uint16BufferAttribute(si, 4)); g.setAttribute('skinWeight', new T3.Float32BufferAttribute(sw, 4)); g.setIndex(idx); g.computeVertexNormals();
+  return { geometry: g, regions: Uint8Array.from(reg) };
+}
+
+const comp = (attr, i, k) => (k === 0 ? attr.getX(i) : k === 1 ? attr.getY(i) : k === 2 ? attr.getZ(i) : attr.getW(i)); // component of an attribute, whatever its format
+// Prepares the source model: bones, height and "clothes" (region of each vertex based on the bone that moves it).
+// opts.proc: adds the two code-built bodies (smooth and faceted) on the same skeleton.
+function prepSource(gltf, opts = {}) {
+  const scene0 = gltf.scene; scene0.updateMatrixWorld(true);
+  const bones = {}; let skeleton = gltf.skeleton || null; scene0.traverse(o => { if (o.isBone || /^mixamorig/.test(o.name)) bones[o.name.replace(/^mixamorig:?/, '')] = o; if (o.isSkinnedMesh && !skeleton) skeleton = o.skeleton; });
+  if (!bones.HeadTop_End) { const t = new T3.Object3D(); t.name = 'mixamorigHeadTop_End'; t.position.copy(bones.Head.worldToLocal(bones.Head.getWorldPosition(new V3()).add(new V3(0, .19, 0)))); bones.Head.add(t); bones.HeadTop_End = t; scene0.updateMatrixWorld(true); }
+  const wp = n => bones[n].getWorldPosition(new V3());
+  const head = wp('Head'), top = wp('HeadTop_End'), regions = {};
+  scene0.traverse(o => {
+    if (!o.isSkinnedMesh) return;
+    o.skeleton.update();
+    const pos = o.geometry.attributes.position, si = o.geometry.attributes.skinIndex, sw = o.geometry.attributes.skinWeight, reg = new Uint8Array(pos.count), v = new V3();
+    for (let i = 0; i < pos.count; i++) {
+      let best = 0, bw = -1; for (let k = 0; k < 4; k++) { const w = comp(sw, i, k); if (w > bw) { bw = w; best = comp(si, i, k); } }
+      const bone = o.skeleton.bones[best] || o.skeleton.bones[0], n = bone.name.replace(/^mixamorig:?/, '');
+      o.boneTransform(i, v); v.applyMatrix4(o.matrixWorld); // actual vertex position in the rest pose
+      const along = () => { if (!bone.children[0]) return 0; const a = bone.getWorldPosition(_v1), b = bone.children[0].getWorldPosition(_v2), ab = b.sub(a); return v.clone().sub(a).dot(ab) / ab.lengthSq(); };
+      let r = 0; // 0 skin, 1 shirt, 2 shorts, 3 shoes, 4 hair, 5 socks
+      if (/Head|Neck/.test(n)) r = (v.y > head.y + .6 * (top.y - head.y) || (v.z < head.z - .03 && v.y > head.y + .3 * (top.y - head.y))) ? 4 : 0;
+      else if (/Spine|Shoulder/.test(n)) r = 1;
+      else if (/^(Left|Right)Arm$/.test(n)) r = along() < .55 ? 1 : 0;
+      else if (n === 'Hips') r = 2;
+      else if (/UpLeg/.test(n)) r = along() < .5 ? 2 : 0;
+      else if (/^(Left|Right)Leg$/.test(n)) r = along() > .8 ? 5 : 0;
+      else if (/Foot|Toe/.test(n)) r = 3;
+      reg[i] = r;
+    }
+    regions[o.name] = reg;
+  });
+  if (opts.proc) for (const [name, n] of [['ProcBody', 16], ['ProcLow', 6]]) {
+    const b = buildBody(bones, skeleton, n), m = new T3.SkinnedMesh(b.geometry, new T3.MeshStandardMaterial({ skinning: true }));
+    m.name = name; scene0.add(m); m.bind(skeleton, new T3.Matrix4()); regions[name] = b.regions;
+  }
+  const clips = {}; for (const c of gltf.animations) clips[/idle/i.test(c.name) ? 'idle' : /run/i.test(c.name) ? 'run' : c.name] = c;
+  const hipsY = bones.Hips.position.y;
+  return { scene: scene0, clips, regions, height: top.y, hipsY };
+}
+// Adapts an animation to another body with the same skeleton but a different rest pose:
+// for each bone, applies to the new body's rest pose the same relative rotation as the original.
+function retarget(clip, from, to) {
+  const rest = src => { const m = {}; src.scene.traverse(o => { if (o.isBone || /^mixamorig/.test(o.name)) m[o.name] = o; }); return m; }, A = rest(from), B = rest(to), tracks = [];
+  for (const t of clip.tracks) {
+    const [node, prop] = t.name.split('.'), a = A[node], b = B[node]; if (!a || !b) continue;
+    if (prop === 'quaternion') {
+      const c = t.clone(), inv = a.quaternion.clone().invert(), q = new T3.Quaternion();
+      for (let i = 0; i < c.values.length; i += 4) { q.fromArray(c.values, i).premultiply(inv).premultiply(b.quaternion).toArray(c.values, i); }
+      tracks.push(c);
+    } else if (prop === 'position' && /Hips$/.test(node)) { // hip movement: taken to world space and then to the new body's frame
+      const c = t.clone(), qa = a.parent.getWorldQuaternion(new T3.Quaternion()), qb = b.parent.getWorldQuaternion(new T3.Quaternion()).invert(), sa = a.parent.getWorldScale(new V3()).y, sb = b.parent.getWorldScale(new V3()).y, k = to.height / from.height, v = new V3();
+      for (let i = 0; i < c.values.length; i += 3) { v.fromArray(c.values, i).sub(a.position).multiplyScalar(sa * k).applyQuaternion(qa).applyQuaternion(qb).multiplyScalar(1 / sb).add(b.position).toArray(c.values, i); }
+      tracks.push(c);
+    }
+  }
+  return new T3.AnimationClip(clip.name, clip.duration, tracks);
+}
+// Heights in metres (approximate, from public profiles)
+const HEIGHTS = { Alcaraz: 1.83, Shelton: 1.93, Zverev: 1.98, Medvedev: 1.98, Tiafoe: 1.88, Fils: 1.85, Cobolli: 1.83, Jodar: 1.91 };
+
+class Human {
+  // opts: show(name) = which surfaces to show; paint = coloured clothes (false: original materials);
+  // shape = build adjustment (base model only); clips = idle and run animations
+  constructor(src, kit, hand, height, face, opts = {}) {
+    const show = opts.show || (n => !/^Proc/.test(n)), paint = opts.paint !== false; this.shape = opts.shape ?? !opts.show;
+    this.hand = hand; this.side = hand === 'right' ? 1 : -1; this.face = face; this.h = height / 1.85;
+    this.root = new T3.Group(); this.model = T3.SkeletonUtils.clone(src.scene); this.model.scale.setScalar(height / src.height); if (opts.flip) this.model.rotation.y = Math.PI; this.root.add(this.model);
+    this.root.rotation.y = face; this.b = {};
+    const palette = [kit.skin || 0xc9a585, kit.shirt, kit.shorts, 0xf2f2f2, kit.hair, 0xf5f5f5].map(col);
+    const mat = new T3.MeshStandardMaterial({ vertexColors: true, roughness: .78, skinning: true }), flat = new T3.MeshStandardMaterial({ vertexColors: true, roughness: .85, skinning: true, flatShading: true });
+    this.model.traverse(o => {
+      if (o.isBone || /^mixamorig/.test(o.name)) this.b[o.name.replace(/^mixamorig:?/, '')] = o;
+      if (o.isSkinnedMesh) {
+        o.castShadow = true; o.frustumCulled = false; o.visible = show(o.name);
+        if (!paint || !o.visible) return;
+        o.geometry = o.geometry.clone();
+        const reg = src.regions[o.name], c = new Float32Array(reg.length * 3);
+        for (let i = 0; i < reg.length; i++) { const p = palette[reg[i]]; c[i * 3] = p.r; c[i * 3 + 1] = p.g; c[i * 3 + 2] = p.b; }
+        o.geometry.setAttribute('color', new T3.BufferAttribute(c, 3));
+        o.material = o.name === 'ProcLow' ? flat : mat;
+      }
+    });
+    this.mixer = new T3.AnimationMixer(this.model);
+    const clips = opts.clips || src.clips;
+    this.aIdle = this.mixer.clipAction(clips.idle); this.aRun = this.mixer.clipAction(clips.run); this.aIdle.play(); this.aRun.play();
+    this.racket = makeRacket(kit.racket);
+    this.mv = null; this.speed = 0; this.runAmt = 0; this.st = null; this.ballSide = this.side; this.out = null; this.blend = null; this.yaw = face;
+    this.head = new V3(); // eye position, for the POV view
+  }
+  get x() { return this.root.position.x; } get z() { return this.root.position.z; }
+  place(x, z) { this.root.position.set(x, 0, z); this.mv = null; }
+  moveTo(x, z, dur) { this.mv = { x0: this.x, z0: this.z, x, z, t: 0, dur: Math.max(.05, dur) }; }
+  setVisible(v) { this.model.visible = v; this.racket.visible = v; }
+  // from the player frame [right, up, forward] to the world
+  toWorld(p) { return this.root.localToWorld(new V3(-p.x * this.side, p.y * this.h, p.z)); }
+  dirWorld(d) { return new V3(-d.x * this.side, d.y, d.z).applyQuaternion(this.root.quaternion).normalize(); }
+  toLocal(w) { const l = this.root.worldToLocal(w.clone()); return new V3(-l.x * this.side, l.y / this.h, l.z); }
+  // Stroke preparation (stops at the end of the backswing, waiting for the contact)
+  prepare(kind) { if (this.st && this.st.kind === kind && this.st.mode !== 'done') return; this.startBlend(); this.st = { kind, u: 0, mode: 'prep', rate: STROKES[kind].prep / .38, contact: null }; }
+  // Contact in tContact seconds at point `contact` (world)
+  fire(kind, tContact, contact) {
+    const S = STROKES[kind];
+    if (!this.st || this.st.kind !== kind) { this.startBlend(); this.st = { kind, u: S.prep || 0, mode: 'prep', contact: null }; }
+    const st = this.st; st.mode = 'fire'; st.contact = contact ? this.toLocal(contact) : null;
+    st.rate = Math.max(.01, S.uc - st.u) / Math.max(.03, tContact);
+  }
+  serve() { // starts the serve; returns when and where the contact happens
+    const S = STROKES.serve; this.startBlend(); this.st = { kind: 'serve', u: 0, mode: 'fire', rate: 1 / S.dur, contact: null };
+    return { tHit: S.uc * S.dur, hit: this.toWorld(S.contact).add(new V3(0, .14, 0)), release: .42 * S.dur };
+  }
+  tossHand() { return this.b[(this.side > 0 ? 'Left' : 'Right') + 'Hand'].getWorldPosition(new V3()); }
+  startBlend() { if (this.out) this.blend = { from: this.out, t: 0 }; }
+  evalPose() {
+    const R = STROKES.ready, st = this.st;
+    if (!st) return { hand: R.hand.clone(), rdir: R.rdir.clone(), twist: 0, off: 'throat', jump: 0, wOff: 1 };
+    const S = STROKES[st.kind], ks = S.keys, u = st.u;
+    let i = 0; while (i < ks.length - 2 && u > ks[i + 1].u) i++;
+    const a = ks[i], b = ks[i + 1], s = ease(clamp((u - a.u) / (b.u - a.u), 0, 1));
+    const cl = st.contact || new V3(/bh/.test(st.kind) ? -.7 : .7, st.kind[0] === 'v' ? 1.25 : .95, .55);
+    const hp = k => k.hand || (st.kind === 'serve' ? S.contact.clone().addScaledVector(k.rdir, -.5) : new V3(clamp(cl.x, -1.1, 1.1), clamp(cl.y, .35, 2.4), clamp(cl.z, .1, 1.0)).addScaledVector(k.rdir, -.5));
+    const pose = { hand: hp(a).lerp(hp(b), s), rdir: a.rdir.clone().lerp(b.rdir, s).normalize(), twist: lerp(a.twist, b.twist, s), jump: S.jump ? track(S.jump, u) : 0 };
+    pose.off = S.two ? 'grip' : S.off ? track(S.off, u) : 'throat'; pose.wOff = S.two || st.kind === 'serve' ? 1 : .7;
+    return pose;
+  }
+  update(dt, time, ballPos) {
+    // movement
+    let dx = 0, dz = 0;
+    if (this.mv) { const m = this.mv; m.t += dt; const k = Math.min(1, m.t / m.dur), e = ease(k), px = this.x, pz = this.z; this.root.position.x = lerp(m.x0, m.x, e); this.root.position.z = lerp(m.z0, m.z, e); dx = this.x - px; dz = this.z - pz; if (k >= 1) this.mv = null; }
+    this.speed = Math.hypot(dx, dz) / Math.max(dt, 1e-4);
+    this.runAmt = lerp(this.runAmt, clamp((this.speed - .6) / 3.6, 0, 1), 1 - Math.exp(-dt * 10));
+    // orientation: when running, turn (at most sideways) towards the direction of travel, otherwise face the net
+    let want = this.face;
+    if (this.speed > 2.4 && (!this.st || this.st.mode === 'prep')) { let d = Math.atan2(dx, dz) - this.face; d = Math.atan2(Math.sin(d), Math.cos(d)); want = this.face + clamp(d, -1.5, 1.5) * .85; }
+    let dy = want - this.yaw; dy = Math.atan2(Math.sin(dy), Math.cos(dy)); this.yaw += dy * (1 - Math.exp(-dt * 9)); this.root.rotation.y = this.yaw;
+    // stroke progress
+    const st = this.st;
+    if (st) {
+      const S = STROKES[st.kind];
+      if (st.mode === 'prep') st.u = Math.min(S.prep, st.u + st.rate * dt);
+      else if (st.mode === 'fire') { st.u += st.rate * dt; if (st.u >= S.uc) { st.mode = 'follow'; st.rate = 1 / S.dur; } }
+      else { st.u += st.rate * dt; if (st.u >= 1) { this.startBlend(); this.blend && (this.blend.dur = .3); this.st = null; } }
+    }
+    let pose = this.evalPose();
+    if (this.blend) { const bl = this.blend; bl.t += dt; const k = ease(Math.min(1, bl.t / (bl.dur || .14))); pose = { ...pose, hand: bl.from.hand.clone().lerp(pose.hand, k), rdir: bl.from.rdir.clone().lerp(pose.rdir, k).normalize(), twist: lerp(bl.from.twist, pose.twist, k) }; if (k >= 1) this.blend = null; }
+    this.out = { hand: pose.hand.clone(), rdir: pose.rdir.clone(), twist: pose.twist };
+    this.root.position.y = pose.jump * this.h;
+    // captured animation: idle and run
+    const busy = !!this.st, run = this.runAmt;
+    this.aRun.setEffectiveWeight(run); this.aIdle.setEffectiveWeight(1 - run); this.aRun.timeScale = clamp(this.speed / 4.4, .7, 1.7);
+    this.mixer.update(dt);
+    // more athletic build: wider torso and shoulders, leaner thighs (scales must be reapplied after each animation step)
+    const B = this.b; if (this.shape) { B.Spine.scale.set(1.08, 1, 1.04); B.Spine2.scale.set(1.06, 1, 1.03); B.Neck.scale.set(.873, 1, .933);
+    for (const sd of ['Left', 'Right']) { B[sd + 'Arm'].scale.set(1, .873, 1); B[sd + 'UpLeg'].scale.set(.9, 1, .9); B[sd + 'Leg'].scale.set(1.11, 1, 1.11); } }
+    this.root.updateMatrixWorld(true);
+    const b = this.b, fw = new V3(0, 0, 1).applyQuaternion(this.root.quaternion);
+    // bent legs and feet planted when not running
+    const crouch = (1 - run) * (.07 + (busy ? .05 : 0)) * this.h;
+    if (crouch > .005) {
+      const fl = b.LeftFoot.getWorldPosition(new V3()), fr = b.RightFoot.getWorldPosition(new V3()), wide = (1 - run) * .09, lat = new V3(1, 0, 0).applyQuaternion(this.root.quaternion);
+      b.Hips.position.y -= crouch / b.Hips.parent.getWorldScale(_v3).y; b.Hips.updateMatrixWorld(true);
+      solve2(b.LeftUpLeg, b.LeftLeg, b.LeftFoot, fl.addScaledVector(lat, wide), fw, 1 - run); solve2(b.RightUpLeg, b.RightLeg, b.RightFoot, fr.addScaledVector(lat, -wide), fw, 1 - run);
+    }
+    // torso twist
+    const phi = -pose.twist * this.side;
+    if (Math.abs(phi) > .01) for (const n of ['Spine', 'Spine1', 'Spine2']) rotWorld(b[n], _q2.setFromAxisAngle(UP, phi / 3).clone());
+    // looking at the ball
+    if (ballPos) { let a = Math.atan2(ballPos.x - this.x, ballPos.z - this.z) - this.yaw; a = clamp(Math.atan2(Math.sin(a), Math.cos(a)), -1.1, 1.1) - phi; const qh = new T3.Quaternion().setFromAxisAngle(UP, a * .45); rotWorld(b.Neck, qh); rotWorld(b.Head, qh); }
+    // arms: the racket hand follows the pose, the other one accompanies (or grips, in the two-handed backhand)
+    const Rn = this.side > 0 ? 'Right' : 'Left', On = this.side > 0 ? 'Left' : 'Right';
+    const wArm = busy ? 1 : 1 - .8 * run;
+    solve2(b[Rn + 'Arm'], b[Rn + 'ForeArm'], b[Rn + 'Hand'], this.toWorld(pose.hand), this.dirWorld(new V3(.6, -1, -.5)), wArm);
+    const hw = b[Rn + 'Hand'].getWorldPosition(new V3()), rd = this.dirWorld(pose.rdir);
+    const offT = pose.off === 'grip' ? hw.clone().addScaledVector(rd, .1) : pose.off === 'throat' ? hw.clone().addScaledVector(rd, .26) : this.toWorld(pose.off);
+    solve2(b[On + 'Arm'], b[On + 'ForeArm'], b[On + 'Hand'], offT, this.dirWorld(new V3(-.6, -1, -.4)), (busy ? pose.wOff : 1 - run) * (pose.off === 'throat' ? 1 - run : 1));
+    // racket in hand: axis along the wanted direction, string bed facing forward
+    const Y = rd.clone().negate(), Z = fw.clone().addScaledVector(Y, -fw.dot(Y)); if (Z.lengthSq() < 1e-4) Z.copy(UP).addScaledVector(Y, -UP.dot(Y)); Z.normalize();
+    const X = new V3().crossVectors(Y, Z);
+    this.racket.quaternion.setFromRotationMatrix(new T3.Matrix4().makeBasis(X, Y, Z)); this.racket.position.copy(hw).addScaledVector(rd, -.07);
+    b.Head.getWorldPosition(this.head); this.head.y += .08;
+  }
+}
+// Loads the rig: bone hierarchy in the rest pose and the idle/run clips, extracted from the original model
+// (no mesh, no materials: the body is built by code, see buildBody)
+async function loadRig(name, opts) {
+  if (!T3.SkeletonUtils) return null;
+  try {
+    const r = await fetch(name + '.json'); if (!r.ok) return null;
+    const j = await r.json(), bones = [];
+    const make = d => { const o = d.bone ? new T3.Bone() : new T3.Group(); o.name = d.n; o.position.fromArray(d.p); o.quaternion.fromArray(d.q); o.scale.fromArray(d.s); if (d.bone) bones.push(o); for (const c of d.c) o.add(make(c)); return o; };
+    const scene = make(j.root); scene.updateMatrixWorld(true);
+    return prepSource({ scene, skeleton: new T3.Skeleton(bones), animations: j.clips.map(c => T3.AnimationClip.parse(c)) }, opts);
+  } catch (e) { console.warn('Rig not loaded:', name, e); return null; }
+}
+
+// ---------- Simple mannequin (fallback) ----------
+const stdMat = (color, rough = .75) => new T3.MeshStandardMaterial({ color: col(color), roughness: rough });
+const cyl = (rt, rb, h, m) => { const o = new T3.Mesh(new T3.CylinderGeometry(rt, rb, h, 14), m); o.castShadow = true; return o; };
+const sph = (r, m) => { const o = new T3.Mesh(new T3.SphereGeometry(r, 16, 12), m); o.castShadow = true; return o; };
+// The model faces +z; its right is -x. s = local side of the racket arm.
+class Mannequin {
+  constructor(kit, hand) {
+    this.hand = hand; this.s = hand === 'right' ? -1 : 1;
+    const skin = stdMat(kit.skin || 0xcfae93), shirt = stdMat(kit.shirt), shorts = stdMat(kit.shorts), shoe = stdMat(0xf4f4f4, .5), hair = stdMat(kit.hair, .9);
+    const root = this.root = new T3.Group(), body = this.body = new T3.Group(); root.add(body);
+    const hips = cyl(.165, .175, .26, shorts); hips.position.y = .95; hips.scale.z = .75; body.add(hips);
+    const tg = this.torso = new T3.Group(); tg.position.y = 1.06; body.add(tg);
+    const torso = cyl(.2, .165, .5, shirt); torso.position.y = .27; torso.scale.z = .68; tg.add(torso);
+    const sh = sph(.2, shirt); sh.scale.set(1.18, .42, .7); sh.position.y = .5; tg.add(sh);
+    const neck = cyl(.05, .055, .09, skin); neck.position.y = .58; tg.add(neck);
+    const head = sph(.112, skin); head.position.y = .73; tg.add(head);
+    const hr = sph(.118, hair); hr.scale.set(1, .72, 1); hr.position.set(0, .775, -.012); tg.add(hr);
+    this.arms = {};
+    for (const side of [-1, 1]) {
+      const p = new T3.Group(); p.position.set(side * .245, .47, 0); tg.add(p);
+      const up = cyl(.048, .042, .3, shirt); up.position.y = -.15; p.add(up);
+      const el = new T3.Group(); el.position.y = -.3; p.add(el);
+      const fo = cyl(.04, .034, .27, skin); fo.position.y = -.135; el.add(fo);
+      const hd = sph(.045, skin); hd.position.y = -.29; el.add(hd);
+      this.arms[side] = { p, el };
+    }
+    this.racket = makeRacket(kit.racket); this.racket.position.y = -.29; this.arms[this.s].el.add(this.racket);
+    this.legs = {};
+    for (const side of [-1, 1]) {
+      const p = new T3.Group(); p.position.set(side * .095, .93, 0); body.add(p);
+      const th = cyl(.075, .058, .44, skin); th.position.y = -.22; p.add(th);
+      const so = cyl(.088, .084, .2, shorts); so.position.y = -.1; p.add(so);
+      const kn = new T3.Group(); kn.position.y = -.44; p.add(kn);
+      const shn = cyl(.052, .04, .42, skin); shn.position.y = -.21; kn.add(shn);
+      const sho = new T3.Mesh(new T3.BoxGeometry(.09, .07, .25), shoe); sho.position.set(0, -.45, .05); sho.castShadow = true; kn.add(sho);
+      this.legs[side] = { p, kn };
+    }
+    this.mv = null; this.sw = null; this.run = 0; this.speed = 0;
+  }
+  get x() { return this.root.position.x; } get z() { return this.root.position.z; }
+  place(x, z) { this.root.position.set(x, 0, z); this.mv = null; }
+  moveTo(x, z, dur) { this.mv = { x0: this.x, z0: this.z, x, z, t: 0, dur: Math.max(.05, dur) }; }
+  swing(kind, dur) { this.sw = { kind, t: 0, dur }; }
+  update(dt, time) {
+    this.speed = 0;
+    if (this.mv) {
+      const m = this.mv; m.t += dt; const k = Math.min(1, m.t / m.dur), e = ease(k);
+      const px = this.x, pz = this.z;
+      this.root.position.x = lerp(m.x0, m.x, e); this.root.position.z = lerp(m.z0, m.z, e);
+      this.speed = Math.hypot(this.x - px, this.z - pz) / Math.max(dt, 1e-4);
+      if (k >= 1) this.mv = null;
+    }
+    // legs: running or ready position
+    const amt = Math.min(1, this.speed / 5); this.run += dt * (4 + this.speed * 2.2);
+    for (const side of [-1, 1]) {
+      const sw = Math.sin(this.run + (side > 0 ? Math.PI : 0)), L = this.legs[side];
+      L.p.rotation.x = lerp(-.28, sw * .75, amt); L.kn.rotation.x = lerp(.55, Math.max(0, -sw) * 1.1 + .15, amt);
+      L.p.rotation.z = side * .06;
+    }
+    this.body.position.y = lerp(-.06 + Math.sin(time * 5) * .012, Math.abs(Math.sin(this.run)) * .04 - .02, amt);
+    // arms: ready position or stroke gesture
+    const s = this.s, A = this.arms[s], O = this.arms[-s], T = this.torso;
+    A.p.rotation.set(-.75, 0, s * .2); A.el.rotation.x = -.7; O.p.rotation.set(-.55, 0, -s * .25); O.el.rotation.x = -.8; T.rotation.set(.12, 0, 0);
+    this.racket.rotation.set(0, 0, 0);
+    if (this.sw) {
+      const w = this.sw; w.t += dt; const k = Math.min(1, w.t / w.dur), e = ease(k);
+      if (w.kind === 'fh') {
+        T.rotation.y = lerp(s * 1.15, -s * 1.0, e); A.p.rotation.set(lerp(.2, -.5, e), 0, s * lerp(1.0, 1.25, e)); A.el.rotation.x = -.25;
+      } else if (w.kind === 'bh') {
+        T.rotation.y = lerp(-s * 1.3, s * .9, e); A.p.rotation.set(lerp(-1.35, -.3, e), 0, s * lerp(.15, 1.2, e)); A.el.rotation.x = lerp(-.6, -.1, e);
+      } else { // serve: toss, backswing, contact, follow-through
+        if (k < .5) { const u = ease(k / .5); O.p.rotation.set(-.3, 0, -s * lerp(.25, 2.8, u)); O.el.rotation.x = -.1; A.p.rotation.set(lerp(-.75, .9, u), 0, s * .4); T.rotation.x = lerp(.12, -.18, u); }
+        else if (k < .68) { const u = (k - .5) / .18; O.p.rotation.set(-.3, 0, -s * lerp(2.8, 1.2, u)); A.p.rotation.set(lerp(.9, -.2, u), 0, s * lerp(.4, 2.75, u)); A.el.rotation.x = lerp(-1.6, -.1, u); T.rotation.x = -.18; }
+        else { const u = ease((k - .68) / .32); A.p.rotation.set(lerp(-.2, -1.5, u), 0, s * lerp(2.75, .5, u)); A.el.rotation.x = -.1; T.rotation.x = lerp(-.18, .45, u); }
+      }
+      if (k >= 1) this.sw = null;
+    }
+  }
+}
+// Playing colours, taken from the kits seen in highlights (Paris 2026; Cobolli from Lyon; Shelton, Tiafoe and Jodar from other events
+// to avoid near-identical kits): colours only, no brands
+const KITS = {
+  Alcaraz: { shirt: 0x2a2752, shorts: 0x1e1c38, hair: 0x2a1d14, racket: 0xf0f0f0 },
+  Shelton: { shirt: 0xdfe8f6, shorts: 0x1c2a44, hair: 0x15100c, racket: 0x2fb7d8, skin: 0x9a6a4a }, // Shanghai: white with blue shades
+  Zverev: { shirt: 0xf0d6dc, shorts: 0x3a2030, hair: 0xc9a86a, racket: 0xd63a3a },
+  Medvedev: { shirt: 0x2b55b8, shorts: 0x1a2340, hair: 0x5a4030, racket: 0xd8d8d8 },
+  Tiafoe: { shirt: 0x7d2c3d, shorts: 0x1d2433, hair: 0x15100c, racket: 0xe8e8e8, skin: 0x5e3b28 }, // Tokyo: burgundy
+  Fils: { shirt: 0x17181c, shorts: 0x17181c, hair: 0x15100c, racket: 0xf2c230, skin: 0x8a5a3c },
+  Cobolli: { shirt: 0x2e8a62, shorts: 0x2a6e50, hair: 0x5a4030, racket: 0xd8352f },
+  Jodar: { shirt: 0xe8742a, shorts: 0x1a1e2a, hair: 0x3a2a1e, racket: 0xf2f2f2 }, // Shanghai: orange
+};
+const lastName = p => p.name.split(' ').slice(1).join(' ');
+const kitOf = p => KITS[lastName(p)] || { shirt: 0x8899aa, shorts: 0x222833, hair: 0x332211, racket: 0xf2f2f2 };
+
+// Simple mannequin: used only if the human model does not load. Same interface as Human.
+Object.assign(Mannequin.prototype, {
+  prepare() {}, fire(kind) { this.swing(/bh/.test(kind) ? 'bh' : 'fh', .46); },
+  serve() { this.swing('serve', 1.15); return { tHit: .78, hit: new V3(this.x, 2.8, this.z - Math.sign(this.z) * .3), release: .25 }; },
+  tossHand() { return new V3(this.x, 1.45, this.z - Math.sign(this.z) * .3); },
+  setVisible(v) { this.root.visible = v; },
+});
+Object.defineProperty(Mannequin.prototype, 'head', { get() { return new V3(this.x, 1.68, this.z); } });
+
+// ---------- Ball, trail, shadow, bounce marks ----------
+const ball = { pos: new V3(0, 1, 12), trail: [] };
+function buildBall() {
+  ball.mesh = new T3.Mesh(new T3.SphereGeometry(.04, 16, 12), new T3.MeshBasicMaterial({ color: col(0xdff23a) }));
+  scene.add(ball.mesh);
+  ball.shadow = new T3.Mesh(new T3.CircleGeometry(.07, 16), new T3.MeshBasicMaterial({ color: col(0x06122a), transparent: true, opacity: .4 }));
+  ball.shadow.rotation.x = -Math.PI / 2; scene.add(ball.shadow);
+  const g = new T3.BufferGeometry(); g.setAttribute('position', new T3.Float32BufferAttribute(new Float32Array(12 * 3), 3));
+  ball.trailLine = new T3.Line(g, new T3.LineBasicMaterial({ color: col(0xffffff), transparent: true, opacity: .3 })); ball.trailLine.frustumCulled = false; scene.add(ball.trailLine);
+}
+const marks = [];
+function mark(p, out = false) {
+  const m = new T3.Mesh(new T3.RingGeometry(.1, .16, 24), new T3.MeshBasicMaterial({ color: col(out ? 0xff5a5a : 0xffffff), transparent: true, opacity: .95, side: T3.DoubleSide }));
+  m.rotation.x = -Math.PI / 2; m.position.set(p.x, .008, p.z); scene.add(m); marks.push({ m, t: 0 });
+}
+
+// ---------- Timed animations (cancellable) ----------
+const ABORT = Symbol('abort');
+const tweens = new Set();
+function tween(dur, fn) { return new Promise((res, rej) => tweens.add({ t: 0, dur: Math.max(1e-4, dur), fn, res, rej })); }
+const wait = s => tween(s, () => {});
+
+// ---------- Ball physics: gravity, air drag, spin, bounce ----------
+const BALL_R = .033, KL = .036, CD = .55, DT = 1 / 120; // KL = 0.5 * air density * cross-section / mass
+// rpm > 0: topspin (the ball dips earlier); rpm < 0: slice (it floats)
+function simulate(p0, v0, rpm, stop, maxT = 4) {
+  const p = p0.clone(), v = v0.clone(), pts = [p.clone()], w = Math.abs(rpm) * Math.PI / 30, sg = Math.sign(rpm);
+  let t = 0, landed = false, netY = null;
+  while (t < maxT) {
+    const sp = v.length() || 1e-6, vh = Math.hypot(v.x, v.z) || 1e-6, cl = w > 1 ? 1 / (2 + sp / (BALL_R * w)) : 0;
+    const aL = -sg * KL * cl * sp * sp, aD = KL * CD * sp;      // lift (perpendicular to the velocity, in the vertical plane) and drag
+    v.x += (-aD * v.x - aL * v.x * v.y / (sp * vh)) * DT; v.z += (-aD * v.z - aL * v.z * v.y / (sp * vh)) * DT; v.y += (-9.81 - aD * v.y + aL * vh / sp) * DT;
+    const pz = p.z; p.addScaledVector(v, DT); t += DT;
+    if (netY === null && pz * p.z <= 0 && pz !== p.z) netY = p.y;
+    if (p.y <= BALL_R && v.y < 0) { p.y = BALL_R; pts.push(p.clone()); landed = true; break; }
+    pts.push(p.clone());
+    if (stop && stop(p, v, t)) break;
+  }
+  return { pts, T: (pts.length - 1) * DT, v, landed, netY, end: pts[pts.length - 1] };
+}
+// Finds the launch angle that lands the ball on the target; if it does not clear the net, lowers the speed
+function solveShot(p0, tx, tz, speed, rpm, minNet = 1.0) {
+  const dx = tx - p0.x, dz = tz - p0.z, D = Math.hypot(dx, dz), ux = dx / D, uz = dz / D, cross = p0.z * tz < 0;
+  const run = (sp, th) => simulate(p0, new V3(ux * Math.cos(th) * sp, Math.sin(th) * sp, uz * Math.cos(th) * sp), rpm);
+  const range = r => Math.hypot(r.end.x - p0.x, r.end.z - p0.z);
+  let sp = speed, best = null;
+  for (let it = 0; it < 18; it++) {
+    let lo = -.5, hi = .7;
+    if (range(run(sp, hi)) < D) { sp *= 1.08; continue; }
+    for (let i = 0; i < 20; i++) { const mid = (lo + hi) / 2; if (range(run(sp, mid)) < D) lo = mid; else hi = mid; }
+    best = run(sp, hi); best.speed = sp;
+    if (!cross || best.netY === null || best.netY >= minNet) break;
+    sp *= .95;
+  }
+  return best;
+}
+// Segment after the bounce, up to the receiver's contact (or for maxT seconds)
+function bounce(p1, rpm, short, stopFn, maxT) {
+  const v = p1.v.clone(), kh = short ? .45 : rpm < 0 ? .62 : .68, e = short ? .55 : rpm < 0 ? .68 : .75;
+  v.x *= kh; v.z *= kh; v.y = Math.abs(v.y) * e;
+  const tc = maxT || (short ? v.y / 9.81 : clamp(v.y / 9.81 * .8, .18, .36));
+  return simulate(p1.end.clone(), v, rpm * .3, (p, vv, t) => t >= tc || (stopFn && stopFn(p)), 2.5);
+}
+const sample = (path, t) => { const f = clamp(t / DT, 0, path.pts.length - 1), i = Math.min(path.pts.length - 2, Math.floor(f)); return path.pts.length < 2 ? path.pts[0].clone() : path.pts[i].clone().lerp(path.pts[i + 1], f - i); };
+async function playPath(path, t0 = 0, t1 = path.T) { if (t1 - t0 <= 1e-4) return; await tween(t1 - t0, k => ball.pos.copy(sample(path, lerp(t0, t1, k)))); }
+function flight(p0, p1, T) { // ball toss: simple ballistics
+  const vy = (p1.y - p0.y + 4.905 * T * T) / T;
+  return t => new V3(lerp(p0.x, p1.x, t / T), p0.y + vy * t - 4.905 * t * t, lerp(p0.z, p1.z, t / T));
+}
+const gauss = () => { let u = 0; for (let i = 0; i < 4; i++) u += Math.random(); return (u - 2) / .577; };
+const spdOf = (s, def) => (s ? clamp(s.m + gauss() * s.sd * .6, s.m * .78, s.m * 1.22) : def);
+
+// ---------- Match state ----------
+let G = null, runId = 0, view = 'pov', men = { A: null, B: null }, povRacket = null, povSwing = null, humanSrc = null;
+let activeChoice = null, choosing = false, activeHold = null;
+const sgn = k => (k === 'A' ? 1 : -1);          // court side (sign of z) and x sign of one's own right
+const other = k => (k === 'A' ? 'B' : 'A');
+const P = k => (k === 'A' ? G.me : G.op);
+const courtSide = () => sideFor(G.sc.pts.A, G.sc.pts.B);
+// Score: sets, games, points, tiebreak at 6-6. gameServer = who serves the game (in the tiebreak, who serves first)
+const newScore = () => ({ sets: [], setsWon: { A: 0, B: 0 }, games: { A: 0, B: 0 }, pts: { A: 0, B: 0 }, tb: false, gameServer: 'A', server: 'A', played: 0, over: false, winner: null });
+function serverNow(sc) {
+  if (!sc.tb) return sc.gameServer;
+  const n = sc.pts.A + sc.pts.B; // tiebreak: one point for the first server, then two each
+  return n === 0 ? sc.gameServer : Math.floor((n - 1) / 2) % 2 === 0 ? other(sc.gameServer) : sc.gameServer;
+}
+function addPoint(sc, w) {
+  const ev = {}; sc.played++; sc.pts[w]++;
+  const a = sc.pts[w], b = sc.pts[other(w)];
+  if (sc.tb ? a >= 7 && a - b >= 2 : a >= 4 && a - b >= 2) {
+    ev.game = w; sc.games[w]++; sc.pts = { A: 0, B: 0 };
+    const ga = sc.games[w], gb = sc.games[other(w)];
+    if (sc.tb || (ga >= 6 && ga - gb >= 2)) ev.set = w;
+    sc.gameServer = other(sc.gameServer);
+    if (ev.set) {
+      sc.sets.push({ A: sc.games.A, B: sc.games.B }); sc.setsWon[w]++; sc.games = { A: 0, B: 0 }; sc.tb = false;
+      if (sc.setsWon[w] === 2) { ev.match = w; sc.over = true; sc.winner = w; }
+    } else if (sc.games.A === 6 && sc.games.B === 6) sc.tb = true;
+  }
+  sc.server = serverNow(sc);
+  return ev;
+}
+// Match statistics, per player. info.end.type: W winner, UE unforced error, FE forced error
+const newStats = () => Object.fromEntries(['A', 'B'].map(k => [k, { pts: 0, servePts: 0, serveWon: 0, serveIn: 0, unret: 0, basePts: 0, baseWon: 0, netPts: 0, netWon: 0, winFH: 0, winBH: 0, winV: 0, winS: 0, ueFH: 0, ueBH: 0, ueV: 0, ueS: 0 }]));
+function tally(st, info, w) {
+  const S = info.S, R = other(S);
+  st[w].pts++; st[S].servePts++; if (w === S) st[S].serveWon++;
+  if (!info.df) st[S].serveIn++;
+  if (info.unret) st[S].unret++;
+  if (info.ace) st[S].winS++;
+  if (info.df) st[S].ueS++;
+  if (info.rally) for (const k of [S, R]) { const net = !!(info.net && info.net[k]); st[k][net ? 'netPts' : 'basePts']++; if (w === k) st[k][net ? 'netWon' : 'baseWon']++; }
+  if (info.end && info.end.play !== 'return') { // missed returns are not part of the table
+    const e = info.end, wing = e.play === 'volleys' || e.play === 'drop_shots' ? 'V' : /^backhand/.test(e.play) ? 'BH' : 'FH';
+    if (e.type === 'W') st[e.by]['win' + wing]++; else if (e.type === 'UE') st[e.by]['ue' + wing]++;
+  }
+}
+const setsLine = (sc, k) => sc.sets.map(st => `${st[k]}-${st[other(k)]}`).join(' ');
+const ZX = { L: -2.9, M: 0, R: 2.9 };            // centre of the three bands, in the receiver's frame
+const THIRD = C.halfW * 2 / 3;                    // width of a band (a third of the singles court)
+// Rectangle of band `zone` (receiver's frame) between the service line and the baseline, on `recv`'s side
+function deepRect(recv, zone) {
+  const s = Math.sign(ZX[zone] * sgn(recv)), x = zone === 'M' ? [-THIRD / 2, THIRD / 2] : [s * THIRD / 2, s * C.halfW].sort((a, b) => a - b);
+  return { x0: x[0], x1: x[1], z0: sgn(recv) * C.service, z1: sgn(recv) * C.halfL };
+}
+const rectCenter = r => new V3((r.x0 + r.x1) / 2, 0, (r.z0 + r.z1) / 2);
+const ZL = z => tr('zones')[z], PH = ph => tr('phases')[ph], PLAY = id => tr('plays')[id]; // labels in the current language
+
+function setupPlayers() {
+  for (const k of ['A', 'B']) {
+    if (men[k]) { scene.remove(men[k].root); if (men[k].racket && men[k].racket.parent === scene) scene.remove(men[k].racket); }
+    const pm = P(k), kit = kitOf(pm);
+    if (humanSrc) { men[k] = new Human(humanSrc, kit, pm.hand, HEIGHTS[lastName(pm)] || 1.85, k === 'A' ? Math.PI : 0, { show: n => n === 'ProcBody' }); scene.add(men[k].racket); } // single body (A2)
+    else { men[k] = new Mannequin(kit, pm.hand); men[k].root.rotation.y = k === 'A' ? Math.PI : 0; }
+    scene.add(men[k].root); men[k].place(0, sgn(k) * 12.6);
+  }
+  if (povRacket) camera.remove(povRacket);
+  povRacket = makeRacket(kitOf(G.me).racket); camera.add(povRacket);
+}
+
+// Landing point in band `zone` (receiver's frame) on `recv`'s side
+function landing(recv, zone, kind) {
+  let xl = ZX[zone] + (zone === 'M' ? rand(-.9, .9) : rand(-.7, .7)), d = rand(8.3, 10.6);
+  if (kind === 'short') d = rand(2.0, 3.4);
+  if (kind === 'winner') { d = rand(9.6, 11.2); if (zone !== 'M') xl = Math.sign(xl) * rand(3.2, 3.8); }
+  return new V3(xl * sgn(recv), 0, sgn(recv) * d);
+}
+const handSide = k => (P(k).hand === 'right' ? 1 : -1);
+// Stroke type: forehand or backhand (or volley), from the chosen play or from the side the ball comes to
+function strokeKind(k, playId, c, volley) {
+  let fh;
+  if (playId && playId.startsWith('forehand')) fh = true; else if (playId && playId.startsWith('backhand')) fh = false;
+  else fh = ((c.x - men[k].x) * sgn(k) >= 0 ? 1 : -1) === handSide(k);
+  return (volley ? 'v' : '') + (fh ? 'fh' : 'bh');
+}
+// The player moves beside the contact point, on the right side for the stroke
+function stance(k, c, kind, dur) {
+  const sideLocal = /fh/.test(kind) ? handSide(k) : -handSide(k);
+  men[k].moveTo(clamp(c.x - sideLocal * .72 * sgn(k), -9.5, 9.5), c.z + sgn(k) * .38, dur);
+}
+function doFire(k, kind, t, c) { men[k].fire(kind, t, c); if (k === 'A') povSwing = { kind: /bh/.test(kind) ? 'bh' : 'fh', t: 0, dur: Math.max(.3, t + .3) }; }
+// Where the player goes back after the shot: baseline, halfway (if they can follow to the net) or at the net
+function settle(k, where = 'base') { men[k].moveTo(rand(-.5, .5), sgn(k) * (where === 'net' ? 5.0 : where === 'mid' ? 9.0 : 12.7), where === 'base' ? 1.0 : .8); }
+// Point where the incoming ball can be volleyed. The player starts from where they are (usually the baseline)
+// only after choosing the volley, at time t0, at an average speed of 4.8 m/s (with acceleration and braking the peak is higher):
+// the contact point is the first one they can reach.
+const RUN_SPEED = 4.8;
+function volleyPoint(p1, k, t0 = 0) {
+  const m = men[k];
+  for (let i = 0; i < p1.pts.length; i++) {
+    const p = p1.pts[i], z = p.z * sgn(k), t = i * DT;
+    if (z < 3.5 || z > 10.5 || t < t0 + .2) continue;
+    if (p.y < .3 || p.y > 2.0) continue;
+    if (Math.hypot(p.x - m.x, p.z - m.z) <= RUN_SPEED * (t - t0) + .9) return { t, c: p.clone() };
+  }
+  return null;
+}
+
+// ---------- Graphics ----------
+// In TV view the commentary sits at the bottom, just right of the scoreboard (whose width changes with the sets)
+function placeFeed() { const r = $('bug').getBoundingClientRect(); if (r.width) document.body.style.setProperty('--feed-left', Math.round(r.right + 14) + 'px'); }
+addEventListener('resize', placeFeed);
+function updateBug() {
+  const sc = G.sc, a = sc.pts.A, b = sc.pts.B, L = ['0', '15', '30', '40'];
+  let pa, pb;
+  if (sc.tb) { pa = String(a); pb = String(b); }
+  else { pa = L[Math.min(a, 3)]; pb = L[Math.min(b, 3)]; if (a >= 3 && b >= 3) { pa = a > b ? 'AD' : '40'; pb = b > a ? 'AD' : '40'; } }
+  if (sc.over) { pa = pb = ''; }
+  for (const [k, row, pts] of [['A', $('rowA'), pa], ['B', $('rowB'), pb]]) {
+    row.classList.toggle('serving', sc.server === k && !sc.over);
+    const sets = sc.sets.map(st => `<span class="set${st[k] > st[other(k)] ? ' won' : ''}">${st[k]}</span>`).join('');
+    row.innerHTML = `<span class="name">${lastName(P(k))}</span>${sets}${sc.over ? '' : `<span class="games">${sc.games[k]}</span><span class="pts">${pts}</span>`}`;
+  }
+  placeFeed();
+}
+function setPrompt(text, phase) {
+  $('prompt').hidden = !text; $('promptText').textContent = text || '';
+  const ph = $('phase'); ph.className = phase || ''; ph.textContent = phase ? PH(phase) : ''; ph.hidden = !phase;
+}
+async function caption(big, small, secs = 1.5) {
+  $('capBig').textContent = big; $('capSmall').textContent = small || ''; $('capSmall').hidden = !small; $('caption').hidden = false;
+  try { await wait(secs); } finally { $('caption').hidden = true; }
+}
+function feed(text) {
+  const f = $('feed'), d = document.createElement('div'); d.textContent = text; f.appendChild(d);
+  while (f.children.length > 3) f.removeChild(f.firstChild);
+}
+
+// ---------- Choosing on the court: 3D targets + clickable labels ----------
+const targetGroup = new T3.Group(); scene.add(targetGroup);
+let arcLine = null;
+function choose(options, prompt, phase) {
+  return new Promise((res, rej) => {
+    setPrompt(prompt, phase); choosing = true;
+    const box = $('choices'); box.innerHTML = '';
+    const stacks = {};
+    const areas = {}; // one rectangle per area, shared by the options that end there
+    for (const o of options) {
+      const R = o.rect, key = `${R.x0},${R.x1},${R.z0},${R.z1}`;
+      let A = areas[key];
+      if (!A) {
+        const w = R.x1 - R.x0, d = Math.abs(R.z1 - R.z0), cx = (R.x0 + R.x1) / 2, cz = (R.z0 + R.z1) / 2;
+        const fill = new T3.Mesh(new T3.PlaneGeometry(w, d), new T3.MeshBasicMaterial({ color: col(0x14d8c4), transparent: true, opacity: .22, depthWrite: false }));
+        fill.rotation.x = -Math.PI / 2; fill.position.set(cx, .012, cz); targetGroup.add(fill);
+        const pts = [[R.x0, R.z0], [R.x1, R.z0], [R.x1, R.z1], [R.x0, R.z1]].map(([x, z]) => new V3(x, .016, z));
+        targetGroup.add(new T3.LineLoop(new T3.BufferGeometry().setFromPoints(pts), new T3.LineBasicMaterial({ color: col(0xffffff), transparent: true, opacity: .9 })));
+        A = areas[key] = { fill, on: 0 };
+      }
+      const fill = A.fill;
+      const st = (stacks[o.group] ??= { el: Object.assign(document.createElement('div'), { className: 'stack' }), anchor: o.pos.clone(), n: 0 });
+      if (!st.n++) box.appendChild(st.el);
+      const b = document.createElement('button'); b.className = 'opt'; b.type = 'button';
+      b.innerHTML = `${o.label}<small>${o.detail || ''}</small>`;
+      const hl = on => { A.on = Math.max(0, A.on + (on ? 1 : -1)); fill.material.opacity = A.on ? .5 : .22; showArc(on ? o.pos : null); };
+      b.onmouseenter = b.onfocus = () => hl(true); b.onmouseleave = b.onblur = () => hl(false);
+      b.onclick = () => { endChoice(); res(o.value); };
+      st.el.appendChild(b);
+    }
+    activeChoice = { stacks: Object.values(stacks), rej };
+  });
+}
+function endChoice() {
+  activeChoice = null; choosing = false; $('choices').innerHTML = ''; $('leaders').innerHTML = ''; setPrompt('');
+  while (targetGroup.children.length) { const m = targetGroup.children.pop(); m.geometry.dispose(); m.material.dispose(); }
+  showArc(null);
+}
+function showArc(to) {
+  if (arcLine) { scene.remove(arcLine); arcLine.geometry.dispose(); arcLine = null; }
+  if (!to) return;
+  const p = solveShot(ball.pos.clone(), to.x, to.z, 30, 2400), pts = p.pts.filter((q, i) => i % 3 === 0);
+  arcLine = new T3.Line(new T3.BufferGeometry().setFromPoints(pts), new T3.LineBasicMaterial({ color: col(0xffffff), transparent: true, opacity: .85 }));
+  scene.add(arcLine);
+}
+// Places the labels above the targets, spreading them when they would overlap in perspective
+function layoutChoices() {
+  if (!activeChoice) return;
+  const w = Math.min(canvas.clientWidth, innerWidth), h = Math.min(canvas.clientHeight, innerHeight), v = new V3(), svg = $('leaders');
+  const items = activeChoice.stacks.map(st => { v.copy(st.anchor).project(camera); return { st, ax: (v.x + 1) / 2 * w, ay: (1 - v.y) / 2 * h }; }).sort((a, b) => a.ax - b.ax);
+  const n = items.length, bw = Math.min(150, (w - 32 - (n - 1) * 6) / n);
+  const lift = view === 'pov' ? Math.min(h * .2, 130) : 26;
+  items.forEach(it => { it.x = it.ax; it.y = clamp(it.ay - lift, Math.min(h - 40, 112 + it.st.el.offsetHeight), h - 40); it.st.el.style.width = bw + 'px'; });
+  for (let pass = 0; pass < 4; pass++) {
+    for (let i = 1; i < n; i++) { const d = items[i].x - items[i - 1].x, need = bw + 6; if (d < need) { items[i - 1].x -= (need - d) / 2; items[i].x += (need - d) / 2; } }
+    items[0].x = Math.max(items[0].x, 16 + bw / 2); items[n - 1].x = Math.min(items[n - 1].x, w - 16 - bw / 2);
+    for (let i = 1; i < n; i++) items[i].x = Math.max(items[i].x, items[i - 1].x + bw + 6);
+    for (let i = n - 2; i >= 0; i--) items[i].x = Math.min(items[i].x, items[i + 1].x - bw - 6);
+  }
+  // last check: the whole row inside the screen
+  const over = items[n - 1].x + bw / 2 - (w - 16); if (over > 0) items.forEach(it => (it.x -= over));
+  const under = 16 - (items[0].x - bw / 2); if (under > 0) items.forEach(it => (it.x += under));
+  let lines = '';
+  for (const it of items) { it.x = Math.round(it.x); it.y = Math.round(it.y); it.st.el.style.left = it.x + 'px'; it.st.el.style.top = it.y + 'px'; lines += `<line x1="${it.x}" y1="${it.y}" x2="${it.ax}" y2="${it.ay}"/>`; }
+  svg.innerHTML = lines;
+}
+
+// ---------- Choice options ----------
+function serveOptions(sn, cs, boxSign, recv) {
+  const s = G.me.serve[sn];
+  // the service box split in three: T (near the centre line), body, wide
+  const box = z => { const k = { t: 0, body: 1, wide: 2 }[z], x = [boxSign * k * C.halfW / 3, boxSign * (k + 1) * C.halfW / 3].sort((a, b) => a - b); return { x0: x[0], x1: x[1], z0: sgn(recv) * .15, z1: sgn(recv) * C.service }; };
+  return ['wide', 'body', 't'].map(z => ({
+    label: ZL(z), group: z, value: z, rect: box(z), pos: rectCenter(box(z)),
+    detail: tr('serveDetail')(pct(Math.min(.9, s.zones[cs][z].unret * G.op.retIdx)), pct(s.pIn)),
+  }));
+}
+function returnOptions(cs, pErr) {
+  const R = G.me.ret[cs], L = returnDirLabels(cs);
+  return ['L', 'M', 'R'].map(d => ({
+    label: tr('retDirs')[L[d]], group: d, value: d, rect: deepRect('B', d), pos: rectCenter(deepRect('B', d)),
+    detail: tr('returnDetail')(pct(Math.min(.95, pErr * R.dirs[d].err / R.errAvg)), pct(R.dirs[d].win)),
+  }));
+}
+// Direction described from the opponent's point of view (zone in their frame and their hand)
+const towards = z => tr('towards')[z === 'M' ? 'M' : (z === 'R') === (G.op.hand === 'right') ? 'fh' : 'bh'];
+function rallyOptions(zone, phase, fh, canVolley, ctx) {
+  const me = G.me, out = [];
+  for (const id of Object.keys(allowedPlays(me, zone, phase, fh, canVolley))) {
+    const land = me.plays[id].land, tot = land.L + land.M + land.R, best = ['L', 'M', 'R'].reduce((a, z) => (land[z] > land[a] ? z : a));
+    // volleys in all three directions; middle and inside-in/out shots in the directions actually played (at least 25%)
+    const zones = id === 'volleys' ? ['L', 'M', 'R'] : (id.includes('middle') || id.includes('inside')) ? ['L', 'M', 'R'].filter(z => z === best || land[z] / tot >= .25) : [best];
+    for (const tz of zones) {
+      const d = outcomeDist(me, G.op, id, phase, G.k, tz, ctx); // with the correctors by shot number
+      let label = PLAY(id);
+      if (id.includes('inside')) label = tr(tz === zone ? 'insideOut' : tz === 'M' ? 'insideMiddle' : 'insideIn');
+      else if (id.includes('middle')) label = tr(id.startsWith('forehand') ? 'fhPrefix' : 'bhPrefix') + towards(tz);
+      else if (zones.length > 1) label += ' ' + towards(tz);
+      out.push({
+        label, group: id === 'drop_shots' ? 'drop' : tz, value: { playId: id, forced: tz }, detail: tr('rallyDetail')(pct(d.hot), pct(d.cold)),
+        rect: id === 'drop_shots' ? { x0: -C.halfW, x1: C.halfW, z0: sgn('B') * .4, z1: sgn('B') * C.service } : deepRect('B', tz),
+        get pos() { return rectCenter(this.rect); },
+      });
+    }
+  }
+  return out;
+}
+
+// ---------- Shot speed and spin, from the player's data ----------
+function shotParams(k, playId, phase, kind) {
+  const pm = P(k), spin = pm.spin[/bh/.test(kind) ? 'bh' : 'fh'];
+  let sp = spdOf(pm.plays[playId].spd, 30) * (isAtt(phase) ? 1.05 : isDef(phase) ? .92 : 1), rpm = spin.top || 2400;
+  if (playId === 'drop_shots') rpm = -2400; else if (playId === 'volleys') rpm = -700;
+  else if (!isAtt(phase) && Math.random() < (spin.sliceShare || 0)) { rpm = spin.slice || -2200; sp *= .82; }
+  return { sp, rpm };
+}
+// Incoming shot: trajectory to the bounce (p1) and from the bounce to the receiver's contact (p2)
+function incoming(from, target, sp, rpm, short = false) {
+  const p1 = solveShot(from, target.x, target.z, sp, rpm), p2 = bounce(p1, rpm, short);
+  return { p1, p2, c: p2.end.clone(), short, kmh: Math.round(p1.speed * 3.6) };
+}
+
+// ---------- End-of-point animations ----------
+async function errorShot(k, from, sp = 28, rpm = 1500) { // k's shot goes into the net or out
+  const o = other(k), r = Math.random();
+  if (r < .45) {
+    const p = solveShot(from, lerp(from.x, 0, .5) + rand(-1.5, 1.5), sgn(o) * .6, Math.min(sp, 27), rpm, 0);
+    const i = p.pts.findIndex(q => q.z * sgn(o) >= -.02), tn = (i < 0 ? p.pts.length - 1 : i) * DT, hit = sample(p, tn);
+    await playPath(p, 0, tn); await tween(.35, q => ball.pos.set(hit.x, lerp(hit.y, BALL_R, q * q), hit.z + sgn(k) * .5 * q)); return tr('intoNet');
+  }
+  const t = r < .8 ? new V3(rand(-3.2, 3.2), 0, sgn(o) * rand(12.4, 13.8)) : new V3((Math.random() < .5 ? -1 : 1) * rand(4.6, 5.6), 0, sgn(o) * rand(7, 11));
+  const p = solveShot(from, t.x, t.z, sp, rpm); await playPath(p); mark(p.end, true); await playPath(bounce(p, rpm, false, null, .5)); return tr('out');
+}
+async function winnerShot(k, from, zone, sp, rpm, short = false) { // winner by k towards the opponent's band `zone`
+  const o = other(k);
+  if (short) { // drop shot: bounces before the service line and bounces again before the opponent gets there
+    const t = landing(o, zone, 'short'), p = solveShot(from, t.x, t.z, Math.min(sp, 16), -2400), b1 = bounce(p, -2400, true, null, 1.5), b2 = bounce(b1, -800, true, null, .8);
+    // the opponent sprints to the ball but stops about two and a half metres from the second bounce
+    const end = b1.end, dx = end.x - men[o].x, dz = end.z - men[o].z, d = Math.hypot(dx, dz) || 1, stop = Math.max(0, d - 2.6);
+    men[o].moveTo(men[o].x + dx / d * stop, men[o].z + dz / d * stop, p.T + b1.T + .15);
+    await playPath(p); mark(p.end); await playPath(b1); mark(b1.end); await playPath(b2);
+    return Math.round(p.speed * 3.6);
+  }
+  const t = landing(o, zone, 'winner'), p = solveShot(from, t.x, t.z, sp * 1.08, rpm), b = bounce(p, rpm, false, q => Math.abs(q.z) > 19, .9);
+  men[o].moveTo(lerp(men[o].x, b.end.x, .15), men[o].z, p.T + .2); // just a step towards the ball: it must look unreachable
+  await playPath(p); mark(p.end); await playPath(b);
+  return Math.round(p.speed * 3.6);
+}
+
+// ---------- One point ----------
+async function playPoint() {
+  const S = G.sc.server, R = other(S), sv = P(S), rt = P(R), cs = courtSide(), lat = cs === 'deuce' ? 1 : -1;
+  const sx = lat * 1.1 * sgn(S), rx = lat * 3.3 * sgn(R), boxSign = Math.sign(rx);
+  men[S].moveTo(sx, sgn(S) * 12.35, .9); men[R].moveTo(rx, sgn(R) * 13.0, .9);
+  updateBug();
+  await tween(1.0, () => ball.pos.copy(men[S].tossHand()));
+
+  // --- serve ---
+  let sn = '1', r, zone, land, hit, sp, rpm;
+  for (;;) {
+    if (S === 'A') { activeHold = () => ball.pos.copy(men[S].tossHand()); zone = await choose(serveOptions(sn, cs, boxSign, R), tr(sn === '1' ? 'serveFirst' : 'serveSecond')); activeHold = null; }
+    else { await tween(.7, () => ball.pos.copy(men[S].tossHand())); zone = cpuServeZone(sv, sn, cs); }
+    r = resolveServe(sv, rt, sn, cs, zone);
+    land = new V3(boxSign * ({ wide: 3.45, body: 2.2, t: .6 }[zone] + rand(-.22, .22)), 0, sgn(R) * rand(4.8, 6.0));
+    sp = spdOf(sv.speed.serve[sn], sn === '1' ? 53 : 45); rpm = sn === '1' ? 1200 : 3000;
+    const info = men[S].serve(); hit = info.hit; if (S === 'A') povSwing = { kind: 'serve', t: 0, dur: info.tHit + .45 };
+    await tween(info.release, () => ball.pos.copy(men[S].tossHand()));          // the ball stays in the hand until the toss
+    const p0 = ball.pos.clone(), toss = flight(p0, hit, info.tHit - info.release);
+    await tween(info.tHit - info.release, (k, t) => ball.pos.copy(toss(Math.min(t, info.tHit - info.release))));
+    feed(tr('feedServe')(lastName(sv), sn === '1', tr('feedZone')(zone), Math.round(sp * 3.6)));
+    if (r.type === 'fault' || r.type === 'double_fault') {
+      const inNet = Math.random() < .5, how = tr(inNet ? 'faultNet' : 'faultLong');
+      if (inNet) {
+        const p = solveShot(hit, land.x, sgn(R) * .5, sp, rpm, 0), i = p.pts.findIndex(q => q.z * sgn(R) >= -.02), tn = (i < 0 ? p.pts.length - 1 : i) * DT, h0 = sample(p, tn);
+        await playPath(p, 0, tn); await tween(.3, q => ball.pos.set(h0.x, lerp(h0.y, BALL_R, q * q), h0.z + sgn(S) * .5 * q));
+      } else { const p = solveShot(hit, land.x + boxSign * rand(0, .5), sgn(R) * rand(6.7, 7.6), sp, rpm); await playPath(p); mark(p.end, true); await playPath(bounce(p, rpm, false, null, .45)); }
+      if (r.type === 'double_fault') return endPoint(R, tr('doubleFault'), how, { S, df: true });
+      await caption(how, tr('firstServe'), .9); sn = '2'; continue;
+    }
+    break;
+  }
+  const s1 = solveShot(hit, land.x, land.z, sp, rpm, .95), depth = Math.abs(men[R].z) - .4;
+  const s2 = bounce(s1, rpm, false, q => Math.abs(q.z) >= depth, 1.2), c0 = s2.end.clone();
+  settle(S, 'base');
+  if (r.type === 'ace') {
+    men[R].moveTo(lerp(men[R].x, c0.x, .3), men[R].z, s1.T + .1);
+    await playPath(s1); mark(s1.end); await playPath(bounce(s1, rpm, false, q => Math.abs(q.z) > 19, 1.0));
+    return endPoint(S, tr('ace'), `${Math.round(s1.speed * 3.6)} km/h`, { S, ace: true, unret: true });
+  }
+  // --- return ---
+  const rk = strokeKind(R, null, c0, false);
+  stance(R, c0, rk, s1.T + s2.T - .08); men[R].prepare(rk);
+  await playPath(s1); mark(s1.end);
+  let dir;
+  if (R === 'A') { await playPath(s2, 0, s2.T * .35); dir = await choose(returnOptions(cs, r.pErr), tr('returnPrompt')); doFire(R, rk, s2.T * .65, c0); await playPath(s2, s2.T * .35, s2.T); }
+  else { const tf = Math.max(0, s2.T - .16); await playPath(s2, 0, tf); dir = cpuReturnDir(rt, cs); doFire(R, rk, s2.T - tf, c0); await playPath(s2, tf, s2.T); }
+  const rr = resolveReturn(sv, rt, sn, cs, dir, r.pErr), rsp = spdOf(rt.speed.ret[sn], 26);
+  feed(tr('feedReturn')(lastName(rt), tr('retDirs')[returnDirLabels(cs)[dir]]));
+  if (rr.type === 'return_error') { const how = await errorShot(R, c0, rsp, 1500); return endPoint(S, how, tr('returnError'), { S, unret: true, end: { type: Math.random() < (rt.retUE?.[sn] ?? .3) ? 'UE' : 'FE', by: R, play: 'return' } }); }
+  if (rr.type === 'return_winner') { await winnerShot(R, c0, dir, rsp, 1500); return endPoint(R, tr('returnWinner'), null, { S, end: { type: 'W', by: R, play: rk === 'bh' ? 'backhand_return' : 'forehand_return' } }); }
+
+  // --- rally: `inc` is the shot coming towards `hitter` ---
+  let ctrl = rr.serverPhase === 'attack' ? S : rr.serverPhase === 'defence' ? R : null;
+  let hitter = S, zoneIn = dir, third = true, nShot = 3, inc = incoming(c0, landing(S, dir, 'deep'), rsp, 1500); // nShot: shot number in the point
+  const prev = { [S]: { kind: 'serve' }, [R]: { kind: 'return' } };
+  let ext = null; // extreme defence / clear attack for the single shot after a very strong or very weak opponent shot
+  const net = { A: false, B: false }, I = extra => ({ S, rally: true, net, ...extra }); // point data for the statistics
+  // whoever just hit goes back into position: immediately, or after the choice if it comes while the ball is in flight
+  let pendingSettle = () => settle(R, 'base');
+  const runSettle = () => { if (pendingSettle) { pendingSettle(); pendingSettle = null; } };
+  for (;;) {
+    const opp = other(hitter), pm = P(hitter), phase = phaseFor(ctrl, ext, hitter), fh = third ? (pm.thirdFH?.[cs] ?? 1) : 1;
+    // volley allowed only in the given cases and if the ball can be reached in the air
+    const { p1, p2 } = inc;
+    // for the user: the choice comes when the ball is just before the net; the computer decides when the opponent hits
+    const iN = p1.pts.findIndex(q => q.z * sgn(opp) <= .6), tN0 = Math.max(.08, (iN < 0 ? 0 : iN) * DT);
+    const vp = !inc.short && volleyAllowed(phase, prev[hitter], prev[opp]) ? volleyPoint(p1, hitter, hitter === 'A' ? tN0 : 0) : null;
+    let playId = null, forced = null, t = 0, kind, c;
+    if (hitter === 'A' && vp) { // early choice (deciding whether to go to the net): the ball stops just before the net, in the opponent's half
+      const tN = clamp(tN0, .08, Math.max(.08, vp.t - .2));
+      await playPath(p1, 0, tN); t = tN;
+      ({ playId, forced } = await choose(rallyOptions(zoneIn, phase, fh, true, { n: nShot, sn }), tr('pickVolley'), phase));
+      runSettle();
+    } else { runSettle(); if (hitter === 'B') playId = cpuPlay(pm, zoneIn, phase, Math.random, fh, !!vp); }
+    const volley = playId === 'volleys' && !!vp; if (volley) net[hitter] = true;
+    if (volley) { // volley contact
+      c = vp.c; kind = strokeKind(hitter, playId, c, true);
+      stance(hitter, c, kind, Math.max(.25, vp.t - t - .05)); men[hitter].prepare(kind);
+      const tf = Math.max(t, vp.t - .16); await playPath(p1, t, tf); doFire(hitter, kind, vp.t - tf, c); await playPath(p1, tf, vp.t);
+    } else {
+      c = inc.c; kind = strokeKind(hitter, playId, c, false);
+      stance(hitter, c, kind, Math.max(.2, p1.T + p2.T - t - .12));
+      await playPath(p1, t, Math.max(t, p1.T * .5)); men[hitter].prepare(kind); await playPath(p1, Math.max(t, p1.T * .5), p1.T); mark(p1.end);
+      if (hitter === 'A' && !playId) { // choice after the bounce, with the ball coming
+        await playPath(p2, 0, p2.T * .35);
+        ({ playId, forced } = await choose(rallyOptions(zoneIn, phase, fh, false, { n: nShot, sn }), tr('pick'), phase));
+        const k2 = strokeKind(hitter, playId, c, false); if (k2 !== kind) { kind = k2; stance(hitter, c, kind, .16); }
+        doFire(hitter, kind, p2.T * .65, c); await playPath(p2, p2.T * .35, p2.T);
+      } else { const tf = Math.max(0, p2.T - .17); await playPath(p2, 0, tf); doFire(hitter, kind, p2.T - tf, c); await playPath(p2, tf, p2.T); }
+    }
+    const o = resolveShot(pm, P(opp), playId, phase, G.k, Math.random, forced, { n: nShot, sn }), sh = shotParams(hitter, playId, phase, kind), isShort = playId === 'drop_shots';
+    third = false; prev[hitter] = { kind: 'shot', play: playId, attack: o.control === 'hitter' };
+    const wf = tr('what')[o.reason], what = wf ? wf(lastName(pm), lastName(P(opp))) : o.reason;
+    const say = kmh => feed(`${lastName(pm)} · ${PLAY(playId).toLowerCase()} · ${kmh} km/h → ${what}`);
+    if (o.result === 'continue') {
+      ctrl = nextCtrl(ctrl, hitter, o.control, MODEL.persist ?? 1);
+      ext = o.strong ? { who: opp, kind: o.control === 'hitter' ? 'xdefence' : 'xattack' } : null;
+      inc = incoming(c, landing(opp, o.zone, isShort ? 'short' : 'deep'), sh.sp, sh.rpm, isShort); say(inc.kmh);
+      { const h = hitter, where = playId === 'volleys' ? 'net' : 'base'; pendingSettle = () => settle(h, where); }
+      zoneIn = o.zone; hitter = opp; nShot++; continue;
+    }
+    if (o.reason === 'winner') { say(await winnerShot(hitter, c, o.zone, sh.sp, sh.rpm, isShort)); return endPoint(hitter, tr('winner'), null, I({ end: { type: 'W', by: hitter, play: playId } })); }
+    if (o.reason === 'error') { say(Math.round(sh.sp * 3.6)); const how = await errorShot(hitter, c, sh.sp, sh.rpm); return endPoint(opp, how, tr('error'), I({ end: { type: endType(o, phase, pm), by: hitter, play: playId } })); }
+  }
+}
+
+async function endPoint(w, big, small, info) {
+  if (info) tally(G.st, info, w);
+  const ev = addPoint(G.sc, w); updateBug(); updateSimBtn();
+  feed(tr('point')(lastName(P(w))));
+  await caption(big, small ? tr('pointSmall')(small, lastName(P(w))) : tr('point')(lastName(P(w))));
+  settle('A'); settle('B');
+  if (ev.match) await caption(tr('match'), tr('wins')(lastName(P(w)), setsLine(G.sc, w)), 2.2);
+  else if (ev.set) await caption('Set', `${lastName(P(w))} · ${setsLine(G.sc, w)}`, 1.6);
+  else if (ev.game) await caption('Game', lastName(P(w)), 1.1);
+}
+function updateSimBtn() { const b = $('simBtn'); b.hidden = !G || !G.sc || G.sc.over || G.sc.played < 1 || !!G.simulating; }
+
+// Simulates the remaining points with the engine: the scoreboard moves to the centre, the pace speeds up
+async function simulateRest() {
+  G.simulating = true; updateSimBtn(); setPrompt(''); endChoice();
+  document.body.classList.add('sim'); $('simTitle').hidden = false;
+  const tmp = JSON.parse(JSON.stringify(G.sc)), winners = [], infos = [];
+  while (!tmp.over && winners.length < 2000) {
+    const S = tmp.server, R = other(S), r = simPoint(P(S), P(R), sideFor(tmp.pts.A, tmp.pts.B), G.k, Math.random, MODEL.persist ?? 1), map = x => (x === 'A' ? S : R), i = r.info;
+    const w = map(r.winner); winners.push(w); addPoint(tmp, w);
+    infos.push({ S, df: i.df, ace: i.ace, unret: i.unret, rally: i.rally, net: { [S]: i.net.A, [R]: i.net.B }, end: i.end && { ...i.end, by: map(i.end.by) } });
+  }
+  // constant pace: 0.45 s per point, or less if there are many points (8 seconds at most overall).
+  // Wall clock, not game time: so the limit holds on a slow device too
+  const step = Math.min(.45, 8 / Math.max(1, winners.length)), cum = winners.map((w, i) => (i + 1) * step);
+  const my = runId, sleep = ms => new Promise(r => setTimeout(r, ms));
+  await sleep(300); if (my !== runId) throw ABORT;
+  let idx = 0; const t0 = performance.now();
+  await new Promise((res, rej) => {
+    const step = () => {
+      if (my !== runId) return rej(ABORT);
+      const el = (performance.now() - t0) / 1000; let ch = false;
+      while (idx < winners.length && cum[idx] <= el) { tally(G.st, infos[idx], winners[idx]); addPoint(G.sc, winners[idx++]); ch = true; }
+      if (ch) updateBug();
+      if (idx >= winners.length) return res();
+      requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  });
+  updateBug(); $('simTitle').textContent = `${lastName(P(G.sc.winner))} vince ${setsLine(G.sc, G.sc.winner)}`;
+  await sleep(1400); if (my !== runId) throw ABORT;
+}
+
+async function runMatch(me, op) {
+  const my = ++runId;
+  document.body.classList.remove('sim'); $('simTitle').hidden = true; $('simTitle').textContent = tr('simTitle');
+  G = { me: MODEL.players[me], op: MODEL.players[op], sc: newScore(), st: newStats(), k: MODEL.phaseK, simulating: false, simReq: false };
+  $('stats').hidden = true;
+  setupPlayers(); $('feed').innerHTML = ''; $('bug').hidden = false; $('menu').hidden = true; updateBug(); updateSimBtn();
+  try {
+    if (!tutDone()) await showTutorial();
+    while (!G.sc.over) { await playPoint(); if (G.sc.played === 2 && !G.sc.over && !G.simReq) await showSimHint(); if (G.simReq) throw ABORT; await wait(.6); }
+  } catch (e) {
+    if (e !== ABORT) { console.error('Error in point:', e && e.stack || e); throw e; }
+    if (my !== runId) return;
+    if (G.simReq) { try { await simulateRest(); } catch (e2) { if (e2 !== ABORT) throw e2; return; } }
+    else return;
+  }
+  if (my !== runId) return;
+  const w = G.sc.winner;
+  $('result').textContent = `${lastName(P(w))} batte ${lastName(P(other(w)))} ${setsLine(G.sc, w)}`; $('result').hidden = false;
+  $('simTitle').hidden = true; updateSimBtn(); setPrompt('');
+  document.body.classList.add('sim'); $('bug').hidden = true; showStats();
+}
+// Final screen: result and main statistics, like the end-of-match TV graphic
+function showStats() {
+  const sc = G.sc, st = G.st, w = sc.winner, K = ['A', 'B'], nm = k => lastName(P(k));
+  const score = K.map(k => `<div class="r${k === w ? ' win' : ''}"><span class="n">${nm(k)}</span>${sc.sets.map(x => `<span class="s${x[k] > x[other(k)] ? ' w' : ''}">${x[k]}</span>`).join('')}</div>`).join('');
+  const cell = (v, o, frac) => `<td class="v${v > o ? ' hi' : ''}">${frac || v}</td>`;
+  const blk = (title, pre) => {
+    const rows = ['FH', 'BH', 'V', 'S'].map(c => [tr('rows')[c], c]);
+    const tot = k => rows.reduce((a, r) => a + st[k][pre + r[1]], 0);
+    return `<div class="blk"><h3>${title}</h3><table><tr><td class="l"></td><td class="v">${nm('A')}</td><td class="v">${nm('B')}</td></tr>` +
+      rows.map(([l, c]) => `<tr><td class="l">${l}</td>${cell(st.A[pre + c], st.B[pre + c])}${cell(st.B[pre + c], st.A[pre + c])}</tr>`).join('') +
+      `<tr class="tot"><td class="l">${tr('total')}</td>${cell(tot('A'), tot('B'))}${cell(tot('B'), tot('A'))}</tr></table></div>`;
+  };
+  const ratio = (k, a, b) => { const x = st[k][a], y = st[k][b], p = y ? x / y : 0; return { p, html: `${x}/${y}<span class="bar"><i style="width:${Math.round(p * 100)}%"></i></span>` }; };
+  const metric = (l, a, b) => { const ra = ratio('A', a, b), rb = ratio('B', a, b); return `<tr><td class="l">${l}</td>${cell(ra.p, rb.p, ra.html)}${cell(rb.p, ra.p, rb.html)}</tr>`; };
+  const totPts = st.A.pts + st.B.pts; st.A.all = st.B.all = totPts;
+  $('statsBody').innerHTML = `<div class="sc">${score}</div><div class="two">${blk(tr('winners'), 'win')}${blk(tr('unforced'), 'ue')}</div>` +
+    `<div class="blk"><table><tr><td class="l"></td><td class="v">${nm('A')}</td><td class="v">${nm('B')}</td></tr>` +
+    metric(tr('mUnret'), 'unret', 'serveIn') + metric(tr('mServe'), 'serveWon', 'servePts') + metric(tr('mBase'), 'baseWon', 'basePts') +
+    metric(tr('mNet'), 'netWon', 'netPts') + metric(tr('mTotal'), 'pts', 'all') + `</table></div>`;
+  $('howPanel').hidden = true; $('statsTitle').parentElement.hidden = false;
+  $('stats').hidden = false; $('stats').scrollTop = 0; $('replayBtn').focus({ preventScroll: true });
+}
+// Stops the current point (animations and open choice)
+function stopPoint() {
+  activeHold = null;
+  for (const tw of tweens) tw.rej(ABORT); tweens.clear();
+  if (activeChoice) { const rej = activeChoice.rej; endChoice(); rej(ABORT); }
+  $('caption').hidden = true; setPrompt('');
+}
+function abortRun() { runId++; stopPoint(); hideTutorial(); hideSimHint(); document.body.classList.remove('sim'); $('simTitle').hidden = true; $('stats').hidden = true; if (G) G.simulating = false; $('simBtn').hidden = true; }
+
+// ---------- Invitation to simulate (once per match, after the second point) ----------
+let hintRes = null;
+function showSimHint() {
+  const b = $('simBtn'); if (b.hidden) return Promise.resolve();
+  document.body.classList.add('hint'); $('hint').hidden = false;
+  const r = b.getBoundingClientRect(), W = innerWidth, tx = $('hintText');
+  // text below and left of the button, curved arrow from the text to the button
+  const bx = r.left + r.width * .35, by = r.bottom + 6, txR = Math.max(250, Math.min(W - 16, r.left + r.width * .25)), txT = by + Math.min(150, innerHeight * .22);
+  tx.style.right = (W - txR) + 'px'; tx.style.top = txT + 'px';
+  const sx = txR - Math.min(190, txR - 40), sy = txT - 12;
+  $('hintArrow').setAttribute('d', `M ${sx} ${sy} C ${sx - 10} ${by + 50}, ${bx - 70} ${by + 70}, ${bx} ${by + 6}`);
+  $('hintHead').setAttribute('d', `M ${bx - 13} ${by + 13} L ${bx} ${by + 6} L ${bx + 3} ${by + 21}`);
+  return new Promise(res => { hintRes = res; });
+}
+function hideSimHint() { if ($('hint').hidden) return; $('hint').hidden = true; document.body.classList.remove('hint'); const r = hintRes; hintRes = null; if (r) r(); }
+$('hint').onclick = () => hideSimHint();
+
+// ---------- Tutorial ----------
+const TUT = () => tr('tut');
+let tutI = 0, tutRes = null;
+const tutDone = () => { try { return localStorage.getItem('fs_tutorial_v1') === '1'; } catch (e) { return false; } };
+function tutRender() {
+  const T = TUT();
+  $('tutStep').textContent = tr('tutStep')(tutI + 1, T.length); $('tutTitle').textContent = T[tutI][0]; $('tutBody').textContent = T[tutI][1];
+  $('tutPrev').hidden = tutI === 0; $('tutNext').textContent = tr(tutI === T.length - 1 ? 'start' : 'next');
+}
+function showTutorial() { tutI = 0; tutRender(); $('tut').hidden = false; $('tutNext').focus(); return new Promise(res => { tutRes = res; }); }
+function hideTutorial(done) {
+  if ($('tut').hidden) return;
+  $('tut').hidden = true; if (done) { try { localStorage.setItem('fs_tutorial_v1', '1'); } catch (e) { /* not available */ } }
+  const r = tutRes; tutRes = null; if (r) r();
+}
+$('tutNext').onclick = () => { if (tutI < TUT().length - 1) { tutI++; tutRender(); } else hideTutorial(true); };
+$('tutPrev').onclick = () => { if (tutI > 0) { tutI--; tutRender(); } };
+$('tutSkip').onclick = () => hideTutorial(true);
+$('tutBtn').onclick = () => showTutorial();
+// Explanation of the game, with numbers from the two players of this match
+function showHow() {
+  const me = G.me, op = G.op, a = lastName(me), b = lastName(op), s1 = me.serve['1'], z = s1.zones.deuce.wide;
+  const unret = Math.min(.9, z.unret * op.retIdx), after = s1.afterReturn, pAce = unret * s1.aceShare, pErr = (unret - pAce) / (1 - pAce);
+  const c3 = { n: 3, sn: '1' }, d = outcomeDist(me, op, 'forehand_crosscourt', 'neutral', G.k, null, c3), da = outcomeDist(me, op, 'forehand_crosscourt', 'attack', G.k, null, c3), ret = op.ret.deuce.dirs;
+  const retErr = pct(Math.min(.95, pErr * ret.R.err / op.ret.deuce.errAvg));
+  $('howBody').innerHTML = lang === 'it' ? `
+    <h3>Da dove arrivano i dati</h3>
+    <p>I numeri vengono dal tracciamento delle partite fornito da TennisViz (portale Courtside Advantage): per ogni colpo ci sono il punto d'impatto, il punto di rimbalzo, la velocità e l'esito. Il gioco usa tutte le partite degli 8 giocatori nei tornei sul cemento tra settembre e novembre 2026 (Tokyo, Pechino, Shanghai, Almaty, Lione, Bruxelles, Vienna, Basilea, Parigi): <b>88 partite</b>. Quando un dato è raro, viene mescolato con la media del giocatore nelle ultime 52 settimane, per non fidarsi di pochi casi.</p>
+    <h3>Come funziona il motore</h3>
+    <p>Ogni momento del punto è un dado truccato: le facce pesano quanto dicono i dati del giocatore. C'è un dado per il servizio (entra? è vincente o la risposta rimane in campo?), uno per la risposta e uno per ciascun colpo di scambio, diverso a seconda della direzione. Ogni colpo può essere <b>positivo</b> (vincente, oppure mette l'avversario in difficoltà), <b>neutro</b> o <b>negativo</b> (errore, oppure dà all'avversario il vantaggio).</p>
+    <p>Un semaforo segue chi comanda lo scambio: se un giocatore è in attacco, l'altro è in difesa; in attacco i colpi positivi diventano più probabili, in difesa i negativi. Anche l'avversario conta: contro un grande difensore o un grande ribattitore i dadi si restringono. La forza del semaforo è tarata finché le partite simulate somigliano a quelle vere (punti vinti al servizio, punti vinti partendo in attacco o in difesa).</p>
+    <h3>Uno scambio tipo, con i giocatori di questa partita</h3>
+    <ol>
+      <li><b>${a}</b> serve la prima esterna da destra: entra il ${pct(s1.pIn)} delle volte e, se entra, è vincente (ace o risposta che non rimane in campo) il ${pct(unret)} delle volte.</li>
+      <li>Se ${b} risponde (per esempio incrociato, che su quel servizio sbaglia il ${pct(Math.min(.95, pErr * ret.R.err / op.ret.deuce.errAvg))} delle volte), ${a} parte in attacco il ${pct(after.attack)} delle volte, neutro il ${pct(after.neutral)}, in difesa il ${pct(after.defence)}.</li>
+      <li>Sul terzo colpo ${a} gioca un dritto incrociato: in situazione neutra è positivo, ovvero lo porta in attacco, il ${pct(d.hot)} delle volte e negativo il ${pct(d.cold)}; se è in attacco, positivo il ${pct(da.hot)}.</li>
+      <li>Se il colpo non fa terminare lo scambio si continua e il dado passa a ${b}, con i suoi numeri. Lo scambio va avanti finché un dado non chiude il punto.</li>
+    </ol>
+    <p class="src">${tr('credit')}.</p>
+    <p class="src">Progetto personale, non ufficiale. Le partite del gioco sono simulate: i risultati non prevedono quelli reali.</p>` : `
+    <h3>Where the data come from</h3>
+    <p>The numbers come from the match tracking provided by TennisViz (Courtside Advantage portal): for every shot there are the contact point, the bounce point, the speed and the outcome. The game uses all the matches of the 8 players in the hard-court events between September and November 2026 (Tokyo, Beijing, Shanghai, Almaty, Lyon, Brussels, Vienna, Basel, Paris): <b>88 matches</b>. When a figure is rare, it is blended with the player's average over the last 52 weeks, so as not to trust a handful of cases.</p>
+    <h3>How the engine works</h3>
+    <p>Every moment of the point is a loaded die: the faces weigh as much as the player's data say. There is a die for the serve (is it in? is it an ace, or does the return stay in play?), one for the return and one for each rally shot, different for each direction. Every shot can be <b>positive</b> (a winner, or it puts the opponent in trouble), <b>neutral</b> or <b>negative</b> (an error, or it hands the opponent the advantage).</p>
+    <p>A traffic light follows who is leading the rally: if one player is in attack, the other is on defence; in attack the positive shots become more likely, on defence the negative ones. The opponent matters too: against a great defender or a great returner the dice tighten. The strength of the traffic light is calibrated until the simulated matches look like the real ones (serve points won, points won starting in attack or on defence).</p>
+    <h3>A typical rally, with the players of this match</h3>
+    <ol>
+      <li><b>${a}</b> hits a first serve out wide from the deuce side: it goes in ${pct(s1.pIn)} of the time and, when it does, it is an ace or an unreturned serve ${pct(unret)} of the time.</li>
+      <li>If ${b} returns it (for example crosscourt, which on that serve is missed ${retErr} of the time), ${a} starts in attack ${pct(after.attack)} of the time, neutral ${pct(after.neutral)}, on defence ${pct(after.defence)}.</li>
+      <li>On the third shot ${a} plays a crosscourt forehand: in a neutral situation it is positive, meaning it takes them into attack, ${pct(d.hot)} of the time and negative ${pct(d.cold)}; when in attack, positive ${pct(da.hot)}.</li>
+      <li>If the shot does not end the rally, play goes on and the die passes to ${b}, with their own numbers. The rally continues until a die ends the point.</li>
+    </ol>
+    <p class="src">${tr('credit')}.</p>
+    <p class="src">Personal, unofficial project. The matches in the game are simulated: the results do not predict real ones.</p>`;
+  $('statsTitle').parentElement.hidden = true; $('howPanel').hidden = false; $('stats').scrollTop = 0; $('howBack').focus({ preventScroll: true });
+}
+$('howLink').onclick = e => { e.preventDefault(); showHow(); };
+$('howBack').onclick = e => { e.preventDefault(); $('howPanel').hidden = true; $('statsTitle').parentElement.hidden = false; $('howLink').focus(); };
+$('replayBtn2').onclick = () => $('replayBtn').onclick();
+$('replayBtn').onclick = () => { $('stats').hidden = true; document.body.classList.remove('sim'); $('bug').hidden = true; $('startBtn').textContent = tr('play'); $('menu').hidden = false; };
+$('simBtn').onclick = () => { if (!G || G.simulating || G.sc.over) return; G.simReq = true; hideSimHint(); stopPoint(); };
+
+// ---------- Menu and controls ----------
+let sel = { me: null, op: null }; // player selection in the menu (do not call it pick: that is the engine function)
+function buildMenu() {
+  const ids = Object.keys(MODEL.players);
+  sel.me = ids.find(i => /Alcaraz/.test(MODEL.players[i].name)) || ids[0];
+  sel.op = ids.find(i => /Shelton/.test(MODEL.players[i].name)) || ids[1];
+  const render = () => {
+    for (const [box, key] of [[$('pickMe'), 'me'], [$('pickOp'), 'op']]) {
+      box.innerHTML = '';
+      for (const id of ids) {
+        const b = document.createElement('button'); b.type = 'button'; b.textContent = lastName(MODEL.players[id]);
+        b.setAttribute('aria-pressed', sel[key] === id); b.disabled = key === 'op' && id === sel.me;
+        b.onclick = () => { sel[key] = id; if (sel.op === sel.me) sel.op = ids.find(i => i !== sel.me); render(); };
+        box.appendChild(b);
+      }
+    }
+  };
+  render();
+  $('startBtn').onclick = () => { langLocked = true; $('langSel').hidden = true; abortRun(); runMatch(sel.me, sel.op); }; // from now on the language is fixed
+  for (const b of document.querySelectorAll('#langSel button')) b.onclick = () => {
+    if (langLocked) return;
+    lang = b.dataset.lang; try { localStorage.setItem('ddr-lang', lang); } catch (e) { /* storage blocked: the choice lasts for this visit */ }
+    applyLang();
+  };
+}
+function setView(v) { view = v; document.body.classList.toggle('tv', v === 'tv'); placeFeed(); $('camPov').setAttribute('aria-pressed', v === 'pov'); $('camTv').setAttribute('aria-pressed', v === 'tv'); }
+function setDetail(on) { document.body.classList.toggle('detail', on); $('modeNormal').setAttribute('aria-pressed', !on); $('modeDetail').setAttribute('aria-pressed', on); }
+$('camPov').onclick = () => setView('pov'); $('camTv').onclick = () => setView('tv');
+setView('tv'); // starting view: TV
+$('modeNormal').onclick = () => setDetail(false); $('modeDetail').onclick = () => setDetail(true);
+
+// ---------- Cameras ----------
+const camPos = new V3(0, 10.5, 43.4), camLook = new V3(0, 0, 1.9), tmpA = new V3(), tmpB = new V3();
+let camFov = 16, firstFrame = true, povHold = null;
+function updateCamera(dt, time) {
+  const aspect = camera.aspect, inMenu = !$('menu').hidden;
+  let tp = tmpA, tl = tmpB, fov, near = .05;
+  if (view === 'tv' || inMenu || !G) {
+    // TV view: behind and above the court; higher on portrait screens, to fit the whole court
+    const u = clamp((1.45 - aspect) / .95, 0, 1), y = lerp(10.5, 30, u), z = lerp(43.4, 31.5, u);
+    tp.set(inMenu ? Math.sin(time * .12) * 2.5 : 0, y, z); tl.set(0, 0, lerp(1.9, .5, u));
+    const dist = Math.hypot(y, z - C.halfL), hf = 2 * Math.atan(7.4 / dist);
+    fov = Math.max(lerp(16, 40, u), T3.MathUtils.radToDeg(2 * Math.atan(Math.tan(hf / 2) / aspect)));
+    near = lerp(24, 1, u);
+  } else {
+    // POV: from your player's eyes
+    const m = men.A; if (!choosing || !povHold) povHold = m.head.clone(); tp.copy(choosing ? povHold : m.head);
+    const focus = tl.set(m.x * .25, 1.0, -5.5);
+    if (!choosing) { const d = Math.hypot(ball.pos.x - m.x, ball.pos.z - m.z), w = clamp((d - 2.5) / 9, 0, .6); focus.lerp(ball.pos, w); }
+    fov = aspect < 1 ? 80 : 62;
+  }
+  const a = firstFrame ? 1 : 1 - Math.exp(-dt * 7);
+  camPos.lerp(tp, a); camLook.lerp(tl, firstFrame ? 1 : 1 - Math.exp(-dt * 5)); camFov = lerp(camFov, fov, a);
+  camera.position.copy(camPos); camera.lookAt(camLook); camera.fov = camFov; camera.near = near; camera.updateProjectionMatrix();
+  firstFrame = false;
+  // in POV your mannequin disappears and the racket stays in the foreground
+  const pov = view === 'pov' && !inMenu && !!G;
+  if (men.A) men.A.setVisible(!pov);
+  const D = window.__dbgCam; if (D && D.follow && men[D.follow]) { const r = men[D.follow].root.position; D.p = [r.x + D.o[0], D.o[1], r.z + D.o[2]]; D.l = [r.x, 1.15, r.z]; }
+  if (D) { camera.position.set(...D.p); camera.lookAt(...D.l); camera.fov = D.f || 40; camera.near = .05; camera.updateProjectionMatrix(); if (men.A) men.A.setVisible(true); }
+  if (povRacket) {
+    povRacket.visible = pov;
+    const hs = G && G.me.hand === 'right' ? 1 : -1;
+    let px = hs * .62, py = -.6, pz = -.9, rx = -.5, ry = 0, rz = Math.PI + hs * .6;
+    if (povSwing) {
+      povSwing.t += dt; const k = Math.min(1, povSwing.t / povSwing.dur), e = ease(k), bump = Math.sin(k * Math.PI);
+      if (povSwing.kind === 'fh') { px = hs * lerp(.75, -.25, e); ry = hs * lerp(-1.1, 1.0, e); py += bump * .12; }
+      else if (povSwing.kind === 'bh') { px = hs * lerp(-.45, .65, e); ry = hs * lerp(1.2, -.9, e); py += bump * .12; }
+      else { px = hs * .3; py = lerp(-.6, .25, Math.sin(Math.min(1, k / .68) * Math.PI / 2)) - (k > .68 ? (k - .68) * 2.2 : 0); rx = lerp(-.45, -1.6, e); }
+      if (k >= 1) povSwing = null;
+    }
+    povRacket.position.set(px, py, pz); povRacket.rotation.set(rx, ry, rz);
+  }
+}
+
+// ---------- Render loop ----------
+function resize() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (canvas.width !== Math.round(w * renderer.getPixelRatio()) || canvas.height !== Math.round(h * renderer.getPixelRatio())) { renderer.setSize(w, h, false); camera.aspect = w / h; }
+}
+let last = performance.now();
+function frame(now) {
+  const dt = Math.min(.05, (now - last) / 1000), time = now / 1000; last = now;
+  resize();
+  for (const tw of [...tweens]) {
+    tw.t += dt; const k = Math.min(1, tw.t / tw.dur);
+    try { tw.fn(k, tw.t); } catch (e) { tweens.delete(tw); tw.rej(e); continue; }
+    if (k >= 1) { tweens.delete(tw); tw.res(); }
+  }
+  if (activeHold) activeHold();
+  for (const k of ['A', 'B']) if (men[k]) men[k].update(dt, time, ball.pos);
+  // ball, shadow and trail
+  ball.mesh.position.copy(ball.pos); ball.mesh.scale.setScalar(view === 'tv' ? 1.5 : 1);
+  ball.mesh.visible = ball.shadow.visible = ball.trailLine.visible = !(view === 'pov' && activeHold && $('menu').hidden);
+  ball.shadow.position.set(ball.pos.x, .006, ball.pos.z); ball.shadow.scale.setScalar(clamp(1.6 - ball.pos.y * .25, .6, 1.6)); ball.shadow.material.opacity = clamp(.5 - ball.pos.y * .08, .12, .5);
+  ball.trail.push(ball.pos.clone()); if (ball.trail.length > 12) ball.trail.shift();
+  const arr = ball.trailLine.geometry.attributes.position.array;
+  for (let i = 0; i < 12; i++) { const p = ball.trail[Math.min(i, ball.trail.length - 1)]; arr[i * 3] = p.x; arr[i * 3 + 1] = p.y; arr[i * 3 + 2] = p.z; }
+  ball.trailLine.geometry.attributes.position.needsUpdate = true;
+  for (let i = marks.length - 1; i >= 0; i--) {
+    const mk = marks[i]; mk.t += dt; mk.m.scale.setScalar(1 + mk.t * 1.6); mk.m.material.opacity = Math.max(0, .95 - mk.t * 1.1);
+    if (mk.t > .9) { scene.remove(mk.m); mk.m.geometry.dispose(); mk.m.material.dispose(); marks.splice(i, 1); }
+  }
+  updateCamera(dt, time);
+  layoutChoices();
+  renderer.render(scene, camera);
+  requestAnimationFrame(frame);
+}
+
+// ---------- Start: wait for the fonts for the lettering, then build the arena ----------
+async function boot() {
+  try { await Promise.race([Promise.all([document.fonts.load('700 40px "Barlow Condensed"'), document.fonts.load('800 40px Barlow')]), new Promise(r => setTimeout(r, 1500))]); } catch (e) { /* fallback font */ }
+  applyLang(); buildArena(); buildBall(); buildMenu();
+  // two mannequins on court behind the menu as well
+  const ids = Object.keys(MODEL.players);
+  G = { me: MODEL.players[sel.me], op: MODEL.players[sel.op], sc: newScore() };
+  const idle = () => { setupPlayers(); men.A.place(1.1, 12.3); men.B.place(-3.2, -12.8); ball.pos.set(1.1, 1.2, 12.1); };
+  idle(); requestAnimationFrame(frame);
+  const sb = $('startBtn'); sb.disabled = true; sb.textContent = tr('loading');
+  humanSrc = await loadRig('rig', { proc: true });
+  if (humanSrc && !$('menu').hidden) idle();
+  sb.disabled = false; sb.textContent = tr('play');
+}
+setExtreme(MODEL.xErr ?? .92, MODEL.xWin ?? .92); setShotMod(MODEL.shotMod || {}); setKfe(MODEL.kfe || 0);
+window.__sim = { solveShot, bounce, V3, human: () => !!humanSrc, ball: () => ball.pos.toArray().map(v => +v.toFixed(2)), men: () => ['A', 'B'].map(k => men[k] && [+men[k].x.toFixed(2), +men[k].z.toFixed(2)]), state: () => G && { sc: G.sc, tweens: tweens.size, choosing, sim: G.simulating, feed: [...document.querySelectorAll('#feed div')].map(d => d.textContent), cap: !document.getElementById('caption').hidden && document.getElementById('capBig').textContent } }; // hook for tests
+boot();
+})();
+</script>
