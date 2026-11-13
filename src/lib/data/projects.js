@@ -30,6 +30,33 @@ import { routes } from "./routes.js";
 
 export const projects = [
   {
+    id: "finals-simulator",
+    year: 2026,
+    category: "tennis",
+    external: true,
+    image: "/previews/finals-simulator.png",
+    video: null,
+    poster: null,
+    en: {
+      tag: "GAME",
+      title: "ATP Finals Simulator",
+      description:
+        "Pick one of 8 players and choose every shot. A tennis game built on real match data, playable in the browser.",
+      href: "/finals-simulator/",
+      alt: "Preview — the game's court in TV view, with the title ATP Finals Simulator",
+      cta: "Play the game",
+    },
+    it: {
+      tag: "GIOCO",
+      title: "ATP Finals Simulator",
+      description:
+        "Scegli uno degli 8 giocatori e gioca una partita. Un gioco di tennis costruito su dati reali delle partite che si gioca nel browser.",
+      href: "/it/finals-simulator/",
+      alt: "Anteprima — il campo del gioco in vista TV, con il titolo ATP Finals Simulator",
+      cta: "Gioca",
+    },
+  },
+  {
     id: "tennis-cv",
     year: 2026,
     category: "tennis",
