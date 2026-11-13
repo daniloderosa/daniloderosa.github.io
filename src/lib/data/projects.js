@@ -61,16 +61,16 @@ export const projects = [
     year: 2026,
     category: "tennis",
     external: false,
-    image: null,
-    video: "/previews/tennis-cv.mp4",
-    poster: "/previews/tennis-cv.png",
+    image: "/previews/tennis-cv.jpg",
+    video: null,
+    poster: null,
     en: {
       tag: "COMPUTER VISION",
       title: "Alcaraz and Shelton, tracked frame by frame",
       description:
         "Court, ball and players tracked from the broadcast of the Paris 2026 final: shots, bounces and movement, on an ordinary processor.",
       href: routes.tennisCv.en,
-      alt: "Preview — broadcast video of a rally with court lines, ball trail and player skeletons drawn on top",
+      alt: "Preview — frame from the broadcast of a rally, with court lines, ball trail, bounce marks and player skeletons drawn on top",
       cta: "Read the article",
     },
     it: {
@@ -79,7 +79,7 @@ export const projects = [
       description:
         "Campo, palla e giocatori tracciati dal video della finale di Parigi 2026: colpi, rimbalzi e spostamenti, con un normale processore.",
       href: routes.tennisCv.it,
-      alt: "Anteprima — video televisivo di uno scambio con righe del campo, scia della palla e scheletri dei giocatori disegnati sopra",
+      alt: "Anteprima — fotogramma del video televisivo di uno scambio, con righe del campo, scia della palla, rimbalzi e scheletri dei giocatori disegnati sopra",
       cta: "Leggi l'articolo",
     },
   },
