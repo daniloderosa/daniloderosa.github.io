@@ -1,6 +1,6 @@
 # ATP Finals Simulator: how it works
 
-The playable game is in `static/finals-simulator/`. This folder holds the engine, the tools that build and calibrate the player models, and the source of the 3D version. The game is bilingual (English and Italian): it follows the browser language, like the rest of the website, and the language can be changed in the start menu before the first match.
+The playable game is in `static/finals-simulator/` (English page) and `static/it/finals-simulator/` (Italian page). This folder holds the engine, the tools that build and calibrate the player models, and the source of the 3D version. The game is bilingual: like the rest of the website, the English page sends visitors whose browser prefers Italian to the Italian page, and the language can be changed in the start menu before the first match. Each page has its own link preview image (`static/og-finals-simulator-en.png`, `static/og-finals-simulator-it.png`), because chat apps read one image per address.
 
 ---
 
@@ -218,7 +218,7 @@ How points end by shot number matches almost cell by cell, on first and second s
 | `oos.mjs`, `oossum.cjs` | Out-of-sample validation of match statistics |
 | `sim3d/template.html` | The 3D game: three.js, scene, animations, interface, Italian and English texts |
 | `sim3d/build3d.mjs` | Injects model and engine into the game |
-| `sim3d/build_site.mjs` | Builds the website page in `static/finals-simulator/` |
+| `sim3d/build_site.mjs` | Builds the two website pages (English and Italian) with their link previews |
 | `sim3d/rig.json` | Bone hierarchy and idle/run clips used by the players (the bodies themselves are built by code) |
 
 Rebuild the game from the included model:
@@ -226,7 +226,7 @@ Rebuild the game from the included model:
 ```bash
 cd finals-simulator
 node sim3d/build3d.mjs
-node sim3d/build_site.mjs ../static/finals-simulator
+node sim3d/build_site.mjs ../static
 ```
 
 Rebuilding and recalibrating the model requires the raw data in `data/raw/`, which are not included:

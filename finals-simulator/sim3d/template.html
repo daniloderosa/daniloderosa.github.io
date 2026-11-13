@@ -249,7 +249,11 @@ const G_ACC = 4.905; // half of gravity (m/s²)
 // ---------- Language ----------
 // Same rule as the website: a language chosen by hand (saved as "ddr-lang") wins; otherwise Italian if the browser's
 // first language is Italian, English in every other case. It can be changed only in the menu, before the first match.
+// On the website each language has its own page: the page sets data-game-lang on <html> and that wins
+// (the English page has already sent Italian visitors to the Italian one).
 let lang = (() => {
+  const page = document.documentElement.getAttribute('data-game-lang');
+  if (page === 'it' || page === 'en') return page;
   let saved = null;
   try { saved = localStorage.getItem('ddr-lang'); } catch (e) { /* storage blocked */ }
   if (saved === 'it' || saved === 'en') return saved;
@@ -1704,7 +1708,8 @@ async function boot() {
   const idle = () => { setupPlayers(); men.A.place(1.1, 12.3); men.B.place(-3.2, -12.8); ball.pos.set(1.1, 1.2, 12.1); };
   idle(); requestAnimationFrame(frame);
   const sb = $('startBtn'); sb.disabled = true; sb.textContent = tr('loading');
-  humanSrc = await loadRig('rig', { proc: true });
+  // the Italian website page shares the English page's rig file, named by data-rig-path
+  humanSrc = await loadRig(document.documentElement.getAttribute('data-rig-path') || 'rig', { proc: true });
   if (humanSrc && !$('menu').hidden) idle();
   sb.disabled = false; sb.textContent = tr('play');
 }

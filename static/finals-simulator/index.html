@@ -1,13 +1,42 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-game-lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow"><!-- not indexed yet: reachable only by link -->
+<script>
+(function () {
+  var saved = null;
+  try { saved = localStorage.getItem('ddr-lang'); } catch (e) {}
+  var first = (navigator.languages && navigator.languages[0]) || navigator.language || '';
+  var wantsItalian = saved ? saved === 'it' : /^it(-|$)/i.test(first);
+  if (wantsItalian) location.replace('/it/finals-simulator/' + location.search + location.hash);
+})();
+</script>
+<title>ATP Finals Simulator</title>
+<meta name="description" content="Pick one of 8 players and choose every shot. A free tennis game built on real match data, playable in the browser.">
+<link rel="alternate" hreflang="en" href="https://daniloderosa.github.io/finals-simulator/">
+<link rel="alternate" hreflang="it" href="https://daniloderosa.github.io/it/finals-simulator/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.png" type="image/png" sizes="48x48">
+<!-- link previews (WhatsApp, Telegram, social networks) -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="ATP Finals Simulator">
+<meta property="og:description" content="Pick one of 8 players and choose every shot. A free tennis game built on real match data, playable in the browser.">
+<meta property="og:url" content="https://daniloderosa.github.io/finals-simulator/">
+<meta property="og:image" content="https://daniloderosa.github.io/og-finals-simulator-en.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Play the ATP Finals: 8 players, real match data. Free, plays in your browser.">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ATP Finals Simulator">
+<meta name="twitter:description" content="Pick one of 8 players and choose every shot. A free tennis game built on real match data, playable in the browser.">
+<meta name="twitter:image" content="https://daniloderosa.github.io/og-finals-simulator-en.png">
+<meta name="twitter:image:alt" content="Play the ATP Finals: 8 players, real match data. Free, plays in your browser.">
 <style>html,body{margin:0;background:#050b18}[hidden]{display:none!important}</style>
 </head>
 <body>
-<title>ATP Finals Simulator</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,500;0,600;0,700;1,700&family=Barlow:wght@400;500;600;800&display=swap">
 <style>
@@ -498,7 +527,11 @@ const G_ACC = 4.905; // half of gravity (m/s²)
 // ---------- Language ----------
 // Same rule as the website: a language chosen by hand (saved as "ddr-lang") wins; otherwise Italian if the browser's
 // first language is Italian, English in every other case. It can be changed only in the menu, before the first match.
+// On the website each language has its own page: the page sets data-game-lang on <html> and that wins
+// (the English page has already sent Italian visitors to the Italian one).
 let lang = (() => {
+  const page = document.documentElement.getAttribute('data-game-lang');
+  if (page === 'it' || page === 'en') return page;
   let saved = null;
   try { saved = localStorage.getItem('ddr-lang'); } catch (e) { /* storage blocked */ }
   if (saved === 'it' || saved === 'en') return saved;
@@ -1953,7 +1986,8 @@ async function boot() {
   const idle = () => { setupPlayers(); men.A.place(1.1, 12.3); men.B.place(-3.2, -12.8); ball.pos.set(1.1, 1.2, 12.1); };
   idle(); requestAnimationFrame(frame);
   const sb = $('startBtn'); sb.disabled = true; sb.textContent = tr('loading');
-  humanSrc = await loadRig('rig', { proc: true });
+  // the Italian website page shares the English page's rig file, named by data-rig-path
+  humanSrc = await loadRig(document.documentElement.getAttribute('data-rig-path') || 'rig', { proc: true });
   if (humanSrc && !$('menu').hidden) idle();
   sb.disabled = false; sb.textContent = tr('play');
 }
