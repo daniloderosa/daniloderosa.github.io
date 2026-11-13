@@ -47,8 +47,8 @@
     return () => watcher.disconnect();
   });
 
-  const target = $derived(external ? '_blank' : undefined);
-  const rel = $derived(external ? 'noopener' : undefined);
+  const target = $derived(external ? '_blank' : undefined);  
+  const rel = $derived(external ? 'external noopener' : undefined);
 </script>
 
 <article class="card">
